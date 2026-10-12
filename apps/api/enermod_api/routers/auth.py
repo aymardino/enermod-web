@@ -118,6 +118,12 @@ def me(user: models.User = Depends(current_user)):
     return user_out(user)
 
 
+@router.get("/session")
+def session(user: models.User | None = Depends(optional_user)):
+    """Who is signed in, if anyone: a 200 for visitors too, so pages can ask without an error."""
+    return {"user": user_out(user) if user else None}
+
+
 @router.patch("/me", response_model=schemas.UserOut)
 def update_me(body: schemas.UserUpdate, user: models.User = Depends(current_user), db: DBSession = Depends(get_db)):
     if body.name is not None:

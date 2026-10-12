@@ -9,8 +9,10 @@ def test_register_login_me_logout():
         assert r.status_code == 201 and r.json()["role"] == "contributor"
         assert c.get("/auth/me").json()["email"] == "someone@example.org"
         assert c.post("/auth/register", json={"email": "someone@example.org", "password": "long-enough-pw"}).status_code == 409
+        assert c.get("/auth/session").json()["user"]["email"] == "someone@example.org"
         c.post("/auth/logout")
         assert c.get("/auth/me").status_code == 401
+        assert c.get("/auth/session").json() == {"user": None}
         assert c.post("/auth/login", json={"email": "someone@example.org", "password": "wrong-password"}).status_code == 401
         r = c.post("/auth/login", json={"email": "someone@example.org", "password": "long-enough-pw"})
         assert r.status_code == 200

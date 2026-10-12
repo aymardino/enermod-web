@@ -6,9 +6,11 @@ import { api, ApiError, type User } from "@/lib/api";
 export function useMe() {
   return useQuery<User | null>({
     queryKey: ["me"],
+    // /auth/session answers 200 for visitors too (no console noise); /auth/me stays for scripts.
     queryFn: async () => {
       try {
-        return await api.get<User>("/auth/me");
+        const r = await api.get<{ user: User | null }>("/auth/session");
+        return r.user;
       } catch (e) {
         if (e instanceof ApiError && e.status === 401) return null;
         throw e;

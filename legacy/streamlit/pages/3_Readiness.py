@@ -1,0 +1,184 @@
+"""Readiness Indicators page."""
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+import streamlit as st
+import plotly.express as px
+import pandas as pd
+from utils.data import load_countries, load_studies, enrich_countries, db_cache_token
+from utils.ui import SIDEBAR_CSS, render_logo, render_partner_logos
+
+st.set_page_config(page_title="Readiness | AISESA", layout="wide", page_icon="assets/aisesa_logo.png")
+st.html(SIDEBAR_CSS)
+render_logo()
+
+REGION_COLORS = {"north":"#1565C0","west":"#2E7D32","east":"#6A1B9A","central":"#E65100","southern":"#37474F"}
+
+@st.cache_data(ttl=3600)
+def get_data(db_token):
+    c = load_countries()
+    s = load_studies()
+    return enrich_countries(c, s), s
+
+countries, studies = get_data(db_cache_token())
+
+with st.sidebar:
+    st.markdown("---")
+    st.markdown(
+        "<p style='font-size:0.78rem; color:var(--text-color); text-transform:uppercase; letter-spacing:0.08em; font-weight:700;'>Readiness score</p>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<p style='font-size:0.79rem; line-height:1.8;'>"
+        "Score 0–10:<br>"
+        "• Energy governance: 0/1.5/3<br>"
+        "• Data availability: 0/1.5/3<br>"
+        "• NDC commitment: +1<br>"
+        "• Long-term strategy: +1<br>"
+        "• Electrification rate: 0–2</p>",
+        unsafe_allow_html=True,
+    )
+    st.markdown("---")
+    st.markdown(
+        "<p style='font-size:0.78rem; color:var(--text-color); text-transform:uppercase; letter-spacing:0.08em; font-weight:700;'>Filters</p>",
+        unsafe_allow_html=True,
+    )
+    region_filter = st.multiselect("Region", sorted(countries["region"].unique()), default=[], placeholder="All regions", label_visibility="visible")
+    cap_filter = st.multiselect("Energy governance", ["strong","moderate","weak"], default=[], placeholder="All", label_visibility="visible")
+    dat_filter = st.multiselect("Data availability", ["good","limited","none"], default=[], placeholder="All", label_visibility="visible")
+    st.markdown("---")
+
+    render_partner_logos()
+    st.markdown(
+        "<p style='font-size:0.69rem; color:var(--text-color); font-style:italic; line-height:1.5;'>AISESA · MINES Paris-PSL<br/>Research Platform · 2026</p>",
+        unsafe_allow_html=True,
+    )
+
+st.title("Which countries are best prepared to use models?")
+st.markdown(
+    "<p style='font-size:1rem; color:var(--text-color); font-family:Georgia,serif; line-height:1.7; max-width:1100px;text-align:justify; hyphens:auto;'>"
+    "A model is only as useful as a country's ability to run, maintain and trust it. Readiness combines "
+    "institutional capacity, data availability, climate commitments and electrification. These are the conditions "
+    "that let modelling translate into policy. The score (0–10) is documented on the Methodology page.</p>",
+    unsafe_allow_html=True)
+
+n_weak = int((countries["readiness_score"] < 4).sum())
+st.markdown(
+    f"<p style='font-family:Georgia,serif; font-style:italic; color:#4A5650; font-size:0.95rem; "
+    f"margin-top:-4px;'>{n_weak} countries score below 4/10 — readiness gaps concentrate less around "
+    f"electrification and more around governance frameworks and data transparency.</p>",
+    unsafe_allow_html=True)
+
+nc = len(countries)
+n_ranked = countries["readiness_score"].notna().sum()
+avg_score = countries["readiness_score"].mean()
+
+st.markdown(
+    f"<div style='max-width:900px; margin:18px 0 24px 0;'>"
+    f"<div style='font-size:0.95rem; line-height:1.5; color:var(--text-color);'>"
+    f"<b style='font-size:1.35rem; color:#1E5631;'>{avg_score:.1f}/10</b> average readiness score "
+    f"across {n_ranked} ranked countries</div>"
+    f"<div style='font-size:0.85rem; line-height:1.7; opacity:0.75; margin-top:8px;'>"
+    f"{int(countries['data_availability'].eq('good').sum())} of {nc} countries have good data "
+    f"availability &nbsp;·&nbsp; "
+    f"{int(countries['energy_governance'].eq('strong').sum())} have strong energy governance "
+    f"&nbsp;·&nbsp; "
+    f"{int(countries['has_lts'].eq('yes').sum())} have a long-term strategy</div>"
+    f"</div>", unsafe_allow_html=True)
+
+st.divider()
+
+fig_map = px.choropleth(
+    countries, locations="iso3", color="readiness_score",
+    color_continuous_scale=["#B71C1C","#FDD835","#1B5E20"],
+    hover_name="country_name",
+    hover_data={"readiness_score":True,"electrification_rate":True,"data_availability":True,
+                "energy_governance":True,"iso3":False},
+    scope="africa", labels={"readiness_score":"Readiness"}, title="Readiness Score Map",
+)
+fig_map.update_geos(showframe=False, showcoastlines=True, coastlinecolor="#ccc",
+                    showland=True, landcolor="#F0F4F0", showocean=True, oceancolor="#E3EEF9",
+                    showcountries=True, countrycolor="#ccc")
+fig_map.update_layout(margin={"r":0,"t":40,"l":0,"b":0}, height=400,
+                      coloraxis_colorbar=dict(title="Score", len=0.8))
+st.plotly_chart(fig_map, use_container_width=True)
+
+st.divider()
+
+col1, col2 = st.columns(2)
+with col1:
+    scatter_df = countries.copy()
+    scatter_df["Region"] = scatter_df["region"].str.capitalize()
+    fig_sc = px.scatter(
+        scatter_df, x="readiness_score", y="gap_score",
+        color="Region",
+        color_discrete_map={r.capitalize():c for r,c in REGION_COLORS.items()},
+        hover_name="country_name",
+        hover_data={"readiness_score":True,"gap_score":True,"nb_models_applied":True,"Region":False},
+        labels={"readiness_score":"Readiness score (0–10)","gap_score":"Gap score (0–100)"},
+        title="Where modelling gaps meet institutional readiness",
+    )
+    fig_sc.update_traces(marker=dict(size=10, opacity=0.85))
+    fig_sc.update_layout(height=320, margin={"t":40,"b":0,"l":0,"r":0})
+    st.plotly_chart(fig_sc, use_container_width=True)
+
+with col2:
+    bins = [0,2,4,6,8,10.1]
+    labels = ["0–2","2–4","4–6","6–8","8–10"]
+    countries["readiness_bin"] = pd.cut(countries["readiness_score"], bins=bins, labels=labels, right=False)
+    dist = countries["readiness_bin"].value_counts().reindex(labels).reset_index()
+    dist.columns = ["Range","Count"]
+    fig_dist = px.bar(dist, x="Range", y="Count",
+                      color_discrete_sequence=["#2E7D32"], text="Count",
+                      title="Readiness Score Distribution",
+                      labels={"Range":"Score Range","Count":"Countries"})
+    fig_dist.update_traces(textposition="outside")
+    fig_dist.update_layout(height=320, margin={"t":40,"b":0,"l":0,"r":0}, yaxis=dict(range=[0, dist["Count"].max() + 1.15]))
+    st.plotly_chart(fig_dist, use_container_width=True)
+
+st.divider()
+
+st.subheader("Country comparison table")
+col_f1, col_f2, col_f3, col_f4 = st.columns([2,1,1,1])
+with col_f1:
+    search = st.text_input("Search country", placeholder="Type country name...")
+with col_f2:
+    region_opts = ["All"] + sorted(countries["region"].str.capitalize().unique().tolist())
+    region_sel = st.selectbox("Region", region_opts)
+with col_f3:
+    sort_by = st.selectbox("Sort by", ["readiness_score","gap_score","nb_models_applied","electrification_rate"])
+with col_f4:
+    cap_sel = st.selectbox("Governance", ["All","strong","moderate","weak"])
+
+filtered = countries.copy()
+if search:
+    filtered = filtered[filtered["country_name"].str.lower().str.contains(search.lower())]
+if region_sel != "All":
+    filtered = filtered[filtered["region"].str.capitalize() == region_sel]
+if cap_sel != "All":
+    filtered = filtered[filtered["energy_governance"] == cap_sel]
+if region_filter:
+    filtered = filtered[filtered["region"].isin(region_filter)]
+if cap_filter:
+    filtered = filtered[filtered["energy_governance"].isin(cap_filter)]
+if dat_filter:
+    filtered = filtered[filtered["data_availability"].isin(dat_filter)]
+filtered = filtered.sort_values(sort_by, ascending=False)
+
+display = filtered[["country_name","region","power_pool","nb_models_applied",
+                     "readiness_score","gap_score","electrification_rate",
+                     "data_availability","energy_governance","has_ndc","has_lts"]].copy()
+display.columns = ["Country","Region","Pool","Studies","Readiness","Gap","Electrification %","Data","Governance","NDC","LTS"]
+display["Region"] = display["Region"].str.capitalize()
+
+st.dataframe(
+    display.reset_index(drop=True), use_container_width=True, hide_index=True,
+    column_config={
+        "Readiness": st.column_config.ProgressColumn("Readiness", min_value=0, max_value=10, format="%.1f"),
+        "Gap": st.column_config.ProgressColumn("Gap", min_value=0, max_value=100, format="%d"),
+        "Electrification %": st.column_config.NumberColumn(format="%.0f%%"),
+    },
+)
+st.caption(f"Showing {len(display)} of {len(countries)} countries")

@@ -1,0 +1,129 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/source-serif-4";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── EnerMod Africa design tokens ──────────────────────────────────────────────
+   Deep green primary (the AISESA mark), sand neutrals, coral accent for gaps and
+   warnings, amber for "beta" notes. Light and dark themes share the same tokens. */
+:root {
+  --brand-50: #f1f8f3;  --brand-100: #dcefe1; --brand-200: #b9dfc5; --brand-300: #8cc8a1;
+  --brand-400: #5aa877; --brand-500: #3e9b47; --brand-600: #2f7d4f; --brand-700: #256641;
+  --brand-800: #1e5631; --brand-900: #17432a; --brand-950: #0c2518;
+  --coral-500: #d8642f; --coral-100: #fbe4d6; --coral-700: #a9471c;
+  --amber-500: #c9a227; --amber-100: #fbe4c9; --amber-700: #8a5a0b;
+  --sand-50: #fbfaf6; --sand-100: #f7f5ef; --sand-200: #ebe7dc;
+
+  --background: #fbfaf6; --foreground: #1f2a24;
+  --card: #ffffff; --card-foreground: #1f2a24;
+  --muted: #f1efe7; --muted-foreground: #5f6b64;
+  --border: #e3e0d5; --input: #e3e0d5; --ring: var(--brand-500);
+  --primary: var(--brand-600); --primary-foreground: #ffffff;
+  --accent: var(--brand-50); --accent-foreground: var(--brand-900);
+  --destructive: #b91c1c; --destructive-foreground: #ffffff;
+
+  --africa: var(--brand-700); --outside: #a9471c;
+  --full: var(--brand-600); --light: #b8860b;
+  --gap-low: #e5f0e8; --gap-mid: #e8a24a; --gap-high: #b71c1c;
+
+  --radius: 10px;
+}
+
+.dark {
+  --background: #0f1714; --foreground: #e7ece8;
+  --card: #151f1a; --card-foreground: #e7ece8;
+  --muted: #1c2823; --muted-foreground: #9aa8a0;
+  --border: #27352e; --input: #27352e; --ring: var(--brand-400);
+  --primary: var(--brand-400); --primary-foreground: #0c2518;
+  --accent: #15302a; --accent-foreground: var(--brand-200);
+  --destructive: #ef4444; --destructive-foreground: #ffffff;
+  --sand-100: #1c2823; --sand-200: #27352e;
+  --gap-low: #1c2823;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-brand-50: var(--brand-50); --color-brand-100: var(--brand-100); --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300); --color-brand-400: var(--brand-400); --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600); --color-brand-700: var(--brand-700); --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900); --color-brand-950: var(--brand-950);
+  --color-coral-500: var(--coral-500); --color-coral-100: var(--coral-100); --color-coral-700: var(--coral-700);
+  --color-amber-500: var(--amber-500); --color-amber-100: var(--amber-100); --color-amber-700: var(--amber-700);
+  --color-sand-50: var(--sand-50); --color-sand-100: var(--sand-100); --color-sand-200: var(--sand-200);
+  --color-africa: var(--africa); --color-outside: var(--outside);
+  --color-full: var(--full); --color-light: var(--light);
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Source Serif 4 Variable", Georgia, "Times New Roman", serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --shadow-card: 0 1px 2px rgb(31 42 36 / 0.04), 0 1px 3px rgb(31 42 36 / 0.06);
+  --shadow-pop: 0 10px 30px -10px rgb(31 42 36 / 0.25);
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  body { @apply bg-background text-foreground font-sans antialiased; font-feature-settings: "cv02", "cv03", "cv04", "cv11"; }
+  h1, h2, h3 { @apply tracking-tight; }
+  ::selection { background: var(--brand-200); color: var(--brand-950); }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+  .mesh-bg { position: relative; isolation: isolate; }
+  .mesh-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgb(47 125 79 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(47 125 79 / 0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(120% 90% at 40% 0%, #000 35%, transparent 100%);
+  }
+  .text-balance { text-wrap: balance; }
+  .scrollbar-thin { scrollbar-width: thin; }
+  .tabular { font-variant-numeric: tabular-nums; }
+}
+
+/* ── Reading pages (about, methodology, research, legal) ─────────────────────── */
+.prose-enermod { @apply text-[15.5px] leading-7 text-foreground; }
+.prose-enermod > :first-child { @apply mt-0; }
+.prose-enermod h2 { @apply font-display mt-10 text-2xl font-semibold tracking-tight; }
+.prose-enermod h3 { @apply mt-7 text-lg font-semibold; }
+.prose-enermod h4 { @apply mt-5 text-base font-semibold; }
+.prose-enermod p { @apply mt-4; }
+.prose-enermod ul { @apply mt-4 list-disc space-y-1.5 pl-6; }
+.prose-enermod ol { @apply mt-4 list-decimal space-y-1.5 pl-6; }
+.prose-enermod li > p { @apply mt-1; }
+.prose-enermod a { @apply font-medium text-primary underline underline-offset-4; }
+.prose-enermod strong { @apply font-semibold; }
+.prose-enermod blockquote { @apply mt-4 border-l-4 border-brand-300 bg-brand-50 px-4 py-3 text-foreground dark:bg-brand-950; }
+.prose-enermod hr { @apply my-8 border-border; }
+.prose-enermod code { @apply rounded bg-muted px-1.5 py-0.5 font-mono text-[13px]; }
+.prose-enermod pre { @apply mt-4 overflow-x-auto rounded-lg bg-muted p-4 text-[13px]; }
+.prose-enermod pre code { @apply bg-transparent p-0; }
+.prose-enermod table { @apply mt-4 w-full border-collapse text-sm; }
+.prose-enermod th { @apply border-b border-border py-2 pr-4 text-left font-semibold; }
+.prose-enermod td { @apply border-b border-border py-2 pr-4 align-top; }
+.prose-enermod h2 + p, .prose-enermod h3 + p { @apply mt-3; }
+.prose-enermod img { @apply mt-6 rounded-xl border border-border; }

@@ -1,0 +1,79 @@
+# EnerMod Africa hub: full stack on one machine.
+#   cp .env.example .env && docker compose up --build      ->  http://localhost:3000
+# To use Supabase instead of the bundled PostgreSQL, set DATABASE_URL in .env to the Supabase
+# connection string and remove the `db` service (see docs/supabase.md).
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: enermod
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-enermod}
+      POSTGRES_DB: enermod
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U enermod"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: { context: ., dockerfile: apps/api/Dockerfile }
+    depends_on: { db: { condition: service_healthy } }
+    environment: &api_env
+      ENERMOD_ENV: production
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://enermod:${POSTGRES_PASSWORD:-enermod}@db:5432/enermod}
+      SEED_SQLITE: /app/data/enermod.db
+      BASE_URL: ${BASE_URL:-http://localhost:3000}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      INLINE_JOBS: "0"
+      ADMIN_EMAILS: ${ADMIN_EMAILS:-}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-console}
+      EMAIL_FROM: ${EMAIL_FROM:-EnerMod Africa <no-reply@enermod.africa>}
+      NOTIFY_EMAIL: ${NOTIFY_EMAIL:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      AI_PROVIDER: ${AI_PROVIDER:-auto}
+      AI_MODEL: ${AI_MODEL:-}
+      AI_EFFORT: ${AI_EFFORT:-low}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      OPENALEX_MAILTO: ${OPENALEX_MAILTO:-}
+      DISCOVERY_AUTO: ${DISCOVERY_AUTO:-false}
+      DISCOVERY_INTERVAL_DAYS: ${DISCOVERY_INTERVAL_DAYS:-7}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      METRICS_AUTO: ${METRICS_AUTO:-false}
+      SURVEY_CSV_URL: ${SURVEY_CSV_URL:-}
+      SURVEY_FIELD_MAP: ${SURVEY_FIELD_MAP:-}
+    ports:
+      - "8000:8000"
+
+  worker:
+    build: { context: ., dockerfile: apps/api/Dockerfile }
+    command: python -m enermod_api.worker
+    depends_on: { db: { condition: service_healthy } }
+    environment: *api_env
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://enermod.africa}
+        NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-}
+    depends_on: [api]
+    environment:
+      API_URL: http://api:8000                       # the web app proxies /api/* to it
+      PROXY_KEY: ${SECRET_KEY:-change-me-in-production}
+    ports:
+      - "3000:3000"
+
+  # The original Streamlit edition is still available:
+  #   docker build -f legacy/streamlit/Dockerfile -t enermod-streamlit . && docker run -p 8501:8501 enermod-streamlit
+
+volumes:
+  pgdata:

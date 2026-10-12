@@ -240,7 +240,9 @@ def seed_if_empty() -> None:
             elif s.seed_workbook.exists():
                 seed(db, "workbook", s.seed_workbook)
             else:
-                log.warning("no seed data found (SEED_SQLITE=%s)", s.seed_sqlite)
+                log.error("database is empty and no seed data was found: SEED_SQLITE=%s, SEED_WORKBOOK=%s. "
+                          "Set SEED_SQLITE to the path of data/enermod.db or run `python -m enermod_api.seed`.",
+                          s.seed_sqlite, s.seed_workbook)
     finally:
         db.close()
 

@@ -1,25 +1,26 @@
-# Render blueprint for the EnerMod Africa hub: PostgreSQL, API, worker, web.
+# Render blueprint for the EnerMod Africa hub: API, worker and web app, with Supabase as the
+# database (docs/supabase.md). Dashboard: New -> Blueprint -> this repository -> branch main.
+#
+# DATABASE_URL is asked for when the Blueprint is created (sync: false): paste the Supabase
+# connection string (Connect -> URI -> "Session pooler", port 5432) on BOTH enermod-api and
+# enermod-worker. The first start of the API creates the tables and loads the 1,053 studies.
 #
 # Browsers only talk to `enermod-web`, which proxies `/api/*` to the API over Render's private
 # network, so the deployment works on the default *.onrender.com address with no domain.
-# Custom domain: add it to `enermod-web` (Settings → Custom domains) and set BASE_URL on
+# Custom domain: add it to `enermod-web` (Settings -> Custom domains) and set BASE_URL on
 # `enermod-api` to that https URL. `fromService` values are filled in when the Blueprint syncs;
 # if a service failed to build during the first sync, run "Manual sync" once everything is green.
 #
-# Supabase instead of Render PostgreSQL: delete the `databases` block, replace the two
-# DATABASE_URL entries by `- key: DATABASE_URL` / `sync: false` and paste the Supabase
-# connection string in the dashboard (docs/supabase.md).
+# Render PostgreSQL instead of Supabase: add
+#   databases:
+#     - { name: enermod-db, plan: basic-256mb, databaseName: enermod, user: enermod, region: frankfurt }
+# and replace the two DATABASE_URL entries by
+#   - key: DATABASE_URL
+#     fromDatabase: { name: enermod-db, property: connectionString }
 #
 # Cheaper test setup: `plan: free` on enermod-web and enermod-api, INLINE_JOBS=1 on the API and
 # no worker. Free instances cannot use the private network, so then set API_URL on enermod-web
 # by hand to the API's public https URL, and expect cold starts of about a minute.
-databases:
-  - name: enermod-db
-    plan: basic-256mb
-    databaseName: enermod
-    user: enermod
-    region: frankfurt
-
 services:
   - type: web
     name: enermod-api
@@ -32,8 +33,8 @@ services:
     envVars:
       - key: ENERMOD_ENV
         value: production
-      - key: DATABASE_URL
-        fromDatabase: { name: enermod-db, property: connectionString }
+      - key: DATABASE_URL          # Supabase connection string, pasted in the dashboard
+        sync: false
       - key: SECRET_KEY
         generateValue: true
       - key: COOKIE_SECURE
@@ -91,8 +92,8 @@ services:
     envVars:
       - key: ENERMOD_ENV
         value: production
-      - key: DATABASE_URL
-        fromDatabase: { name: enermod-db, property: connectionString }
+      - key: DATABASE_URL          # Supabase connection string, pasted in the dashboard
+        sync: false
       - key: SECRET_KEY
         fromService: { type: web, name: enermod-api, envVarKey: SECRET_KEY }
       - key: SEED_ON_STARTUP

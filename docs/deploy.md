@@ -5,16 +5,22 @@ notes below cover Render first, then docker compose, then a generic host.
 
 ## Render (blueprint)
 
-`render.yaml` at the repository root describes the four pieces: a PostgreSQL database, the API
-(Docker, health check on `/health`), the worker (same image, `python -m enermod_api.worker`)
-and the web app (Docker). Browsers only reach the web app; it proxies `/api/*` to the API over
-Render's private network, so no domain is needed to start.
+`render.yaml` at the repository root describes three services: the API (Docker, health check
+on `/health`), the worker (same image, `python -m enermod_api.worker`) and the web app (Docker).
+The database is Supabase (`docs/supabase.md`); Render asks for its connection string. Browsers
+only reach the web app; it proxies `/api/*` to the API over Render's private network, so no
+domain is needed to start.
 
 1. Push the repository to GitHub (done) and connect Render to it.
 2. In the Render dashboard: **New → Blueprint**, pick `aymardino/enermod-web`, branch `main`.
-   Render reads `render.yaml` and creates `enermod-db`, `enermod-api`, `enermod-worker` and
-   `enermod-web`. The API's `SECRET_KEY` is generated; the web app receives `API_URL` and
-   `PROXY_KEY` from the API service.
+   Render reads `render.yaml`, creates `enermod-api`, `enermod-worker` and `enermod-web`, and
+   asks for `DATABASE_URL`: paste the Supabase connection string (Connect → URI → *Session
+   pooler*, port 5432) for the API and again for the worker. The API's `SECRET_KEY` is
+   generated; the web app receives `API_URL` and `PROXY_KEY` from the API service.
+   **Already deployed?** Open `enermod-api` → **Environment**, edit `DATABASE_URL`, paste the
+   Supabase string, **Save changes** (Render redeploys), then do the same on `enermod-worker`.
+   A database created by an earlier version of the blueprint (`enermod-db`) can be deleted
+   from the dashboard once the switch is done.
 3. On `enermod-api`, set the environment variables marked `sync: false` that you need:
    `ADMIN_EMAILS` (your address, to reach `/admin`), an assistant key (`ANTHROPIC_API_KEY`,
    `GEMINI_API_KEY` or `DEEPSEEK_API_KEY`), `OPENALEX_MAILTO`, and an e-mail provider
@@ -22,8 +28,9 @@ Render's private network, so no domain is needed to start.
    the magic-link sign-in is unavailable; the password sign-in still works.
 4. On the worker, set the same `OPENALEX_MAILTO` and keys; the blueprint turns on the weekly
    discovery run and the monthly metrics refresh.
-5. First start: the API creates the tables and loads `data/enermod.db` (bundled in the image)
-   because the database is empty; a minute later the site is live at
+5. First start: the API creates the tables and loads `data/enermod.db` (bundled in the image
+   at `/app/data`, see `SEED_SQLITE` in `apps/api/Dockerfile`) because the database is empty;
+   the API log shows `seeded from /app/data/enermod.db`. A minute later the site is live at
    `https://enermod-web.onrender.com` (the exact name is shown in the dashboard).
 6. Custom domain: add it to `enermod-web` (Settings → Custom domains), then set `BASE_URL` on
    `enermod-api` to `https://your.domain`. For the canonical URLs and sitemap, rebuild the web
@@ -34,14 +41,14 @@ Render's private network, so no domain is needed to start.
 
 Variants:
 
-- **Supabase as the database**: remove the `databases` block, replace the two `DATABASE_URL`
-  entries by `sync: false` and paste the Supabase connection string in the dashboard
-  (`docs/supabase.md`). Prefer the session pooler URL on Render (IPv4).
+- **Render PostgreSQL instead of Supabase**: add a `databases` block (`enermod-db`,
+  `basic-256mb`) and replace the two `DATABASE_URL` entries by
+  `fromDatabase: { name: enermod-db, property: connectionString }`; the comment at the top
+  of `render.yaml` has the exact lines.
 - **Free tier for a test**: `plan: free` on `enermod-web` and `enermod-api`, `INLINE_JOBS=1` on
   the API, delete the worker. Free instances cannot use the private network: set `API_URL` on
   `enermod-web` by hand to the API's public `https://enermod-api.onrender.com`. Expect cold
-  starts of about a minute. Render's free PostgreSQL expires after 30 days, so for a free test
-  use Supabase's free tier as the database instead (previous variant).
+  starts of about a minute. The database stays on Supabase's free tier.
 - Other regions: change `region` (Frankfurt was chosen for Africa-to-Europe latency and EU hosting).
 
 ## Docker compose on one machine

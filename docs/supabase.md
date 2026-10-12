@@ -44,10 +44,10 @@ cd apps/api && uvicorn enermod_api.main:app --port 8000
 
 - **docker compose**: put `DATABASE_URL=...` in `.env`; the bundled `db` service and the
   `depends_on: db` lines in `docker-compose.yml` can then be removed.
-- **Render**: in `render.yaml` delete the `databases` block, replace the two
-  `DATABASE_URL ... fromDatabase` entries by `- key: DATABASE_URL` / `sync: false`, and paste
-  the connection string on both `enermod-api` and `enermod-worker` in the dashboard
-  (`docs/deploy.md`).
+- **Render**: `render.yaml` already expects Supabase and asks for `DATABASE_URL` when the
+  Blueprint is created. On a deployment that already exists: `enermod-api` → **Environment** →
+  `DATABASE_URL` → Edit → paste → **Save changes**; Render redeploys the service. Repeat on
+  `enermod-worker`. Nothing is stored in the repository (`docs/deploy.md`).
 - The worker takes the same `DATABASE_URL` and `SECRET_KEY` as the API.
 
 **First start.** The API creates the 18 tables (`Base.metadata.create_all`) and, because the

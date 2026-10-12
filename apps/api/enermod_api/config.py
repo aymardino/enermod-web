@@ -13,6 +13,20 @@ load_dotenv()
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
+def _find_data(name: str) -> Path:
+    """Seed files live in data/ at the repository root when the API runs from a checkout. When
+    the package is installed instead (Docker image: pip install, WORKDIR /app), REPO_ROOT points
+    inside site-packages, so DATA_DIR, the working directory and /app/data are tried as well."""
+    candidates = []
+    if os.environ.get("DATA_DIR"):
+        candidates.append(Path(os.environ["DATA_DIR"]) / name)
+    candidates += [REPO_ROOT / "data" / name, Path.cwd() / "data" / name, Path("/app/data") / name]
+    for c in candidates:
+        if c.exists():
+            return c
+    return candidates[0]
+
+
 def _bool(v: str | None, default: bool = False) -> bool:
     return default if v is None else v.strip().lower() in ("1", "true", "yes", "on")
 
@@ -34,8 +48,8 @@ class Settings:
         self.database_url = _normalise_db_url(os.environ.get("DATABASE_URL", "sqlite:///./enermod_hub.db"))
         # Seed data: the SQLite database built from the master workbook (data/enermod.db at the
         # repository root) and the workbook itself. Loaded automatically when the studies table is empty.
-        self.seed_sqlite = Path(os.environ.get("SEED_SQLITE", str(REPO_ROOT / "data" / "enermod.db")))
-        self.seed_workbook = Path(os.environ.get("SEED_WORKBOOK", str(REPO_ROOT / "data" / "Models_Africa_v2.xlsm")))
+        self.seed_sqlite = Path(os.environ.get("SEED_SQLITE") or _find_data("enermod.db"))
+        self.seed_workbook = Path(os.environ.get("SEED_WORKBOOK") or _find_data("Models_Africa_v2.xlsm"))
         self.seed_on_startup = _bool(os.environ.get("SEED_ON_STARTUP"), True)
         # Public URLs. Browsers reach the API through the web app's /api proxy.
         self.base_url = os.environ.get("BASE_URL", "http://localhost:3000").rstrip("/")

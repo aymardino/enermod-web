@@ -21,13 +21,15 @@ Three forms are offered:
 
 - **Session pooler**, port 5432, user `postgres.<ref>`: the one to use. It is reachable over
   IPv4 (Render and most PaaS have no IPv6) and serves the API and the worker at the same time.
-  `postgresql://postgres.<ref>:<password>@aws-0-<region>.pooler.supabase.com:5432/postgres`
+  `postgresql://postgres.<ref>:<password>@aws-<n>-<region>.pooler.supabase.com:5432/postgres`
 - **Direct connection**, `db.<ref>.supabase.co:5432`: IPv6 only unless you buy the IPv4 add-on;
   fine from a machine with IPv6.
 - **Transaction pooler**, port 6543: do not use it; SQLAlchemy's connection pool expects
   session semantics.
 
-Two details: URL-encode special characters in the password (`@` → `%40`, `#` → `%23`,
+The string shown by Supabase contains the placeholder `[YOUR-PASSWORD]`: replace it, brackets
+included, by the database password chosen when the project was created. Two more details:
+URL-encode special characters in the password (`@` → `%40`, `#` → `%23`,
 `/` → `%2F`, `:` → `%3A`), and append `?sslmode=require` if you want a TLS failure to be
 explicit (psycopg uses TLS whenever the server offers it, which Supabase does).
 
@@ -38,7 +40,7 @@ explicit (psycopg uses TLS whenever the server offers it, which Supabase does).
 
 ```bash
 # locally
-export DATABASE_URL='postgresql://postgres.<ref>:<password>@aws-0-eu-central-1.pooler.supabase.com:5432/postgres'
+export DATABASE_URL='postgresql://postgres.<ref>:<password>@aws-1-eu-central-1.pooler.supabase.com:5432/postgres'
 cd apps/api && uvicorn enermod_api.main:app --port 8000
 ```
 

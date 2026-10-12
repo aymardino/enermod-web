@@ -95,6 +95,8 @@ path of the shared seed database. `docker build -f legacy/streamlit/Dockerfile -
 
 ## Checks before going live
 
-- `cd apps/api && python -m pytest -q` (33 tests) and `cd apps/web && pnpm build`.
+- `cd apps/api && python -m pytest -q` (33 tests) and `cd apps/web && pnpm build`. Before a
+  release, run the suite once against PostgreSQL too: `TEST_DATABASE_URL=postgresql://... python -m pytest -q`
+  on a throwaway database (`docs/supabase.md`, section 6).
 - Sign in with an `ADMIN_EMAILS` address, open `/admin`, run a discovery and a metrics refresh.
 - Set `NEXT_PUBLIC_SITE_URL` (canonical URLs, sitemap) and `NEXT_PUBLIC_CONTACT_EMAIL`.

@@ -1,4 +1,3 @@
-import json
 
 import httpx
 
@@ -68,7 +67,7 @@ def test_run_discovery_matches_corpus(client, admin):
     r = admin.post(f"/admin/discovery/candidates/{cid}/to-contribution")
     assert r.status_code == 201 and r.json()["source"] == "discovery"
     assert r.json()["payload"]["link_doi"] == "https://doi.org/10.9999/new.work"
-    assert admin.get(f"/admin/discovery/candidates?status=imported").json()["total"] == 1
+    assert admin.get("/admin/discovery/candidates?status=imported").json()["total"] == 1
     assert "queries" in admin.get("/admin/discovery/queries").json()
     r = admin.post("/admin/discovery/run", json={"mode": "nope"})
     assert r.status_code == 400

@@ -46,7 +46,7 @@ def origin_map(studies: list[dict], corpus: Corpus) -> list[dict]:
         name = corpus.countries_by_iso.get(code, {}).get("country_name") or _WORLD_NAMES.get(code, code)
         rows.append({"iso2": code, "iso3": iso3, "n": n, "name": name,
                      "group": "africa" if code in AFRICAN_ISO2 else "outside"})
-    rows.sort(key=lambda r: -r["n"])
+    rows.sort(key=lambda r: (-r["n"], r["name"]))  # tie-break so SQLite and PostgreSQL agree
     return rows
 
 
@@ -132,7 +132,7 @@ def gaps(corpus: Corpus, level: str = "full", regions: list[str] | None = None) 
     mechanisms = sum(1 for d in studies if s(d.get("financing_mechanism")).lower() not in ("", "none", "no"))
     fin = coverage(studies, "financing_modelling")
 
-    top_gap = sorted(countries, key=lambda c: -c["gap_score"])[:15]
+    top_gap = sorted(countries, key=lambda c: (-c["gap_score"], c["country_name"]))[:15]
     return {
         "level": level, "n_studies": len(studies),
         "features": features, "feature_median": median,
@@ -167,7 +167,7 @@ def readiness(corpus: Corpus) -> dict:
         "n_strong_gov": sum(1 for c in countries if c["energy_governance"] == "strong"),
         "n_lts": sum(1 for c in countries if c["has_lts"] == "yes"),
         "distribution": dist,
-        "countries": [country_summary(c) for c in sorted(countries, key=lambda c: -(c["readiness_score"] or -1))],
+        "countries": [country_summary(c) for c in sorted(countries, key=lambda c: (-(c["readiness_score"] or -1), c["country_name"]))],
     }
 
 
@@ -196,7 +196,7 @@ def country_detail(corpus: Corpus, iso: str) -> dict | None:
         "features": [{"key": f, **coverage(cs, f)} for f in FEATURE_FIELDS],
         "national_studies": sum(1 for d in cs if s(d.get("scale")) in ("national", "subnational")),
         "pool": pool,
-        "studies": [study_card(d) for d in sorted(cs, key=lambda d: -(d["year"] or 0))[:200]],
+        "studies": [study_card(d) for d in sorted(cs, key=lambda d: (-(d["year"] or 0), d["study_id"]))[:200]],
     }
 
 
@@ -224,7 +224,7 @@ def tool_detail(corpus: Corpus, name: str) -> dict | None:
         "levels": dict(Counter(d["level"] for d in ts)),
         "origin": origin_shares(ts),
         "co_used": [{"tool": x, "studies": n} for x, n in co_used.most_common(8)],
-        "studies": [study_card(d) for d in sorted(ts, key=lambda d: -(d["year"] or 0))[:300]],
+        "studies": [study_card(d) for d in sorted(ts, key=lambda d: (-(d["year"] or 0), d["study_id"]))[:300]],
     }
 
 

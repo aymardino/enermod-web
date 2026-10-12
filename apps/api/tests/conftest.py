@@ -10,7 +10,8 @@ import pytest
 _TMP = tempfile.mkdtemp(prefix="enermod-tests-")
 os.environ.update({
     "ENERMOD_ENV": "test",
-    "DATABASE_URL": f"sqlite:///{_TMP}/test.db",
+    # TEST_DATABASE_URL=postgresql://... runs the suite against an empty PostgreSQL database.
+    "DATABASE_URL": os.environ.get("TEST_DATABASE_URL") or f"sqlite:///{_TMP}/test.db",
     "SECRET_KEY": "test-secret",
     "ADMIN_EMAILS": "admin@example.org",
     "INLINE_JOBS": "1",

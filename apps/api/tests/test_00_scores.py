@@ -1,6 +1,5 @@
 """The ported scores reproduce the figures published in the thesis and on the Methodology page."""
 from enermod_api.db import session_factory
-from enermod_api.services import stats
 from enermod_api.services.data import get_corpus
 
 

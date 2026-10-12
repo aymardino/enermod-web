@@ -162,6 +162,21 @@ PRISMA diagram CC BY 4.0.
 **Why.** Continuity with the original repository; CC BY for data is what the thesis implies for
 a public observatory.
 
+## D-12 · 2026-10-12 · decided · One code path for SQLite and PostgreSQL
+
+**Decision.** The API must behave identically on SQLite (development, tests) and PostgreSQL
+(Supabase, Render, docker compose). Portable SQL only (`func.date` rather than `substr` on a
+timestamp), explicit tie-breakers in every ranking, and after a seed on PostgreSQL the id
+sequences are aligned with the seeded ids (`seed.sync_sequences`). The test suite runs on
+PostgreSQL when `TEST_DATABASE_URL` is set.
+
+**Why.** The first run of the suite on PostgreSQL 16 failed on the analytics query and showed
+that seeded ids left the `studies` sequence at 1. Checked afterwards: 33 tests pass on both
+engines and the public endpoints return the same figures (`docs/supabase.md`, section 6).
+
+**Consequences.** Any new query must be written with both engines in mind; running the suite
+once against PostgreSQL before a release is part of the checks in `docs/deploy.md`.
+
 ## Proposed (waiting for the owner)
 
 - **P-01** Scopus re-query through an institutional API key, as a second discovery arm.

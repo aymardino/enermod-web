@@ -39,9 +39,9 @@ def summary(db: Session, days: int = 30) -> dict:
                               .group_by(models.Event.kind)).all())
     pages = db.execute(select(models.Event.path, func.count()).where(models.Event.kind == "page_view", models.Event.created_at >= since)
                        .group_by(models.Event.path).order_by(func.count().desc()).limit(30)).all()
-    daily = db.execute(select(func.substr(models.Event.created_at, 1, 10), func.count())
-                       .where(models.Event.created_at >= since).group_by(func.substr(models.Event.created_at, 1, 10))
-                       .order_by(func.substr(models.Event.created_at, 1, 10))).all()
+    # func.date works on SQLite (text) and PostgreSQL (date); substr on a timestamp does not.
+    day = func.date(models.Event.created_at)
+    daily = db.execute(select(day, func.count()).where(models.Event.created_at >= since).group_by(day).order_by(day)).all()
     locales = dict(db.execute(select(models.Event.locale, func.count()).where(models.Event.created_at >= since)
                               .group_by(models.Event.locale)).all())
     chats = db.scalars(select(models.ChatLog).where(models.ChatLog.created_at >= since)

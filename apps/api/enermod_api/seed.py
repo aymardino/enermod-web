@@ -17,7 +17,7 @@ import re
 import sqlite3
 from pathlib import Path
 
-from sqlalchemy import delete, func, select
+from sqlalchemy import Integer, delete, func, select, text
 from sqlalchemy.orm import Session
 
 from enermod_api import models
@@ -126,6 +126,21 @@ def insert_tables(db: Session, data: dict[str, list[dict]]) -> dict[str, int]:
     return counts
 
 
+def sync_sequences(db: Session) -> None:
+    """PostgreSQL only. The seed inserts rows with their original ids, which leaves the SERIAL
+    sequences untouched; without this the next study created through the hub would get id 1
+    and fail on the primary key. SQLite derives the next id from the table itself."""
+    if db.get_bind().dialect.name != "postgresql":
+        return
+    for model in OBSERVATORY_TABLES:
+        cols = list(model.__table__.primary_key.columns)
+        if len(cols) == 1 and isinstance(cols[0].type, Integer):
+            table, col = model.__table__.name, cols[0].name
+            db.execute(text(f"SELECT setval(pg_get_serial_sequence('{table}', '{col}'), "
+                            f"COALESCE((SELECT MAX({col}) FROM {table}), 0) + 1, false)"))
+    db.commit()
+
+
 # ── Source 1: the SQLite database ────────────────────────────────────────────────
 def read_sqlite(path: Path) -> dict[str, list[dict]]:
     con = sqlite3.connect(str(path))
@@ -205,6 +220,7 @@ def seed(db: Session, source: str = "sqlite", path: Path | None = None, force: b
         path = path or s.seed_sqlite
         data = read_sqlite(path)
     counts = insert_tables(db, data)
+    sync_sequences(db)
     counts["tool_repos"] = apply_tool_repos(db)
     invalidate()
     log.info("seeded from %s: %s", path, counts)

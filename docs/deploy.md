@@ -40,7 +40,8 @@ Variants:
 - **Free tier for a test**: `plan: free` on `enermod-web` and `enermod-api`, `INLINE_JOBS=1` on
   the API, delete the worker. Free instances cannot use the private network: set `API_URL` on
   `enermod-web` by hand to the API's public `https://enermod-api.onrender.com`. Expect cold
-  starts of about a minute and a 90-day database limit on the free PostgreSQL plan.
+  starts of about a minute. Render's free PostgreSQL expires after 30 days, so for a free test
+  use Supabase's free tier as the database instead (previous variant).
 - Other regions: change `region` (Frankfurt was chosen for Africa-to-Europe latency and EU hosting).
 
 ## Docker compose on one machine

@@ -24,14 +24,17 @@ supabase/       PostgreSQL schema generated from the models
 ## Run it
 
 ```bash
-# API (SQLite by default; the database is seeded from data/enermod.db on first start)
-cd apps/api && pip install -e ".[ai,dev]" && uvicorn enermod_api.main:app --reload   # :8000/docs
-# Web
+# terminal 1: the API (Python 3.11+; SQLite by default, seeded from data/enermod.db on first start)
+cd apps/api && pip install -e ".[ai,dev]" && uvicorn enermod_api.main:app --reload --port 8000
+# terminal 2: the web app (every figure comes from the API, so start it first)
 cd apps/web && pnpm install && pnpm dev                                              # :3000
 ```
 
+If the pages show no figures, open http://localhost:3000/api/health: the proxy must answer
+`{"ok":true}`; otherwise the API is not running where `API_URL` points (`apps/web/README.md`).
+
 Full stack with Docker: `cp .env.example .env && docker compose up --build`. Supabase as the
-database: `docs/supabase.md`. Deployment notes: `docs/deploy.md`.
+database: `docs/supabase.md`. Render, Docker hosts and troubleshooting: `docs/deploy.md`.
 
 Sign in with an e-mail listed in `ADMIN_EMAILS` to reach the curation area at `/admin`.
 

@@ -1,0 +1,133 @@
+# Render blueprint for the EnerMod Africa hub: PostgreSQL, API, worker, web.
+#
+# Browsers only talk to `enermod-web`, which proxies `/api/*` to the API over Render's private
+# network, so the deployment works on the default *.onrender.com address with no domain.
+# Custom domain: add it to `enermod-web` (Settings → Custom domains) and set BASE_URL on
+# `enermod-api` to that https URL. `fromService` values are filled in when the Blueprint syncs;
+# if a service failed to build during the first sync, run "Manual sync" once everything is green.
+#
+# Supabase instead of Render PostgreSQL: delete the `databases` block, replace the two
+# DATABASE_URL entries by `- key: DATABASE_URL` / `sync: false` and paste the Supabase
+# connection string in the dashboard (docs/supabase.md).
+#
+# Cheaper test setup: `plan: free` on enermod-web and enermod-api, INLINE_JOBS=1 on the API and
+# no worker. Free instances cannot use the private network, so then set API_URL on enermod-web
+# by hand to the API's public https URL, and expect cold starts of about a minute.
+databases:
+  - name: enermod-db
+    plan: basic-256mb
+    databaseName: enermod
+    user: enermod
+    region: frankfurt
+
+services:
+  - type: web
+    name: enermod-api
+    runtime: docker
+    dockerfilePath: apps/api/Dockerfile
+    dockerContext: .
+    plan: starter
+    region: frankfurt
+    healthCheckPath: /health
+    envVars:
+      - key: ENERMOD_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase: { name: enermod-db, property: connectionString }
+      - key: SECRET_KEY
+        generateValue: true
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: INLINE_JOBS
+        value: "0"
+      # Set in the dashboard, never overwritten by a sync:
+      - key: ADMIN_EMAILS
+        sync: false
+      - key: BASE_URL
+        sync: false
+      - key: EMAIL_PROVIDER
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: NOTIFY_EMAIL
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: AI_PROVIDER
+        sync: false
+      - key: AI_MODEL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: OPENALEX_MAILTO
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: SURVEY_CSV_URL
+        sync: false
+      - key: SURVEY_FIELD_MAP
+        sync: false
+
+  - type: worker
+    name: enermod-worker
+    runtime: docker
+    dockerfilePath: apps/api/Dockerfile
+    dockerContext: .
+    dockerCommand: python -m enermod_api.worker
+    plan: starter
+    region: frankfurt
+    envVars:
+      - key: ENERMOD_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase: { name: enermod-db, property: connectionString }
+      - key: SECRET_KEY
+        fromService: { type: web, name: enermod-api, envVarKey: SECRET_KEY }
+      - key: SEED_ON_STARTUP
+        value: "false"
+      - key: DISCOVERY_AUTO
+        value: "true"
+      - key: DISCOVERY_INTERVAL_DAYS
+        value: "7"
+      - key: METRICS_AUTO
+        value: "true"
+      - key: OPENALEX_MAILTO
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: SURVEY_CSV_URL
+        sync: false
+      - key: SURVEY_FIELD_MAP
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DEEPSEEK_API_KEY
+        sync: false
+
+  - type: web
+    name: enermod-web
+    runtime: docker
+    dockerfilePath: apps/web/Dockerfile
+    dockerContext: .
+    plan: starter
+    region: frankfurt
+    envVars:
+      # Internal address of the API on Render's private network (host:port, plain http).
+      - key: API_URL
+        fromService: { type: web, name: enermod-api, property: hostport }
+      - key: PROXY_KEY
+        fromService: { type: web, name: enermod-api, envVarKey: SECRET_KEY }

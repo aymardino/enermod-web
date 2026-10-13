@@ -1,6 +1,8 @@
 Chaque chiffre de cette plateforme est reproductible. Cette page documente comment les études ont été sélectionnées et extraites, comment les données vides sont traitées, d'où vient chaque indicateur national, et comment exactement chaque score composite est calculé, afin que les indicateurs puissent être examinés et répliqués.
 
-## La revue systématique (PRISMA 2020)
+## L'étape initiale : une revue systématique (PRISMA 2020) {#systematic-review}
+
+L'observatoire a commencé par une revue systématique conduite selon les recommandations PRISMA 2020. Cette revue a constitué l'inventaire initial de 1 053 études. Depuis, l'inventaire s'enrichit grâce aux contributions et au pipeline de découverte, et chaque nouvelle étude est vérifiée par un curateur avant d'être ajoutée.
 
 Une étude est incluse lorsqu'elle applique un outil de modélisation énergétique à représentation technologique explicite, ou l'une de deux familles méthodologiques ciblées (analyse spatiale SIG ad hoc, dynamique des systèmes), à un système énergétique communautaire ou territorial dont tous les pays modélisés sont africains. Les installations privées isolées modélisant leur propre approvisionnement et les modèles macroéconomiques purement descendants sans représentation technologique sont exclus. L'unité d'analyse est le cadre logiciel, pas ses instanciations nationales : une étude TIAM-ECN compte comme une application TIMES, une étude PyPSA-Earth comme une application PyPSA.
 

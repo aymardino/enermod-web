@@ -1,4 +1,4 @@
-EnerMod Africa est conçu comme un hub de recherche plutôt que comme un rapport : l'inventaire, le pipeline qui l'alimente et les personnes qui l'entretiennent sont faits pour survivre à la mission qui les a créés.
+Cette page présente les publications et les données ouvertes d'EnerMod Africa, et explique comment l'inventaire est tenu à jour après la revue initiale.
 
 ## Publications et productions
 
@@ -17,12 +17,12 @@ Toutes les données de l'inventaire sont ouvertes (CC BY 4.0) :
 
 ## Comment l'inventaire reste vivant
 
-Une revue est un instantané daté par sa recherche. Quatre mécanismes font avancer celle-ci :
+La revue initiale couvre la littérature jusqu'à la date de sa recherche, le 5 mai 2026. Quatre mécanismes tiennent l'inventaire à jour :
 
 1. **Contributions.** Chacun peut [proposer une étude, une correction ou un outil](/contribute). Les propositions sont confrontées aux doublons (DOI, titre) et attendent dans une file de curation ; rien n'est publié sans vérification par un curateur.
 2. **Découverte.** Le hub relance la stratégie de recherche OpenAlex de la revue (les mêmes quatre blocs booléens) à une cadence configurable, depuis la date de la dernière exécution ou depuis 2000 pour un balayage complet qui rattrape les études oubliées. Les travaux déjà dans le corpus sont reconnus par DOI ou titre ; les autres deviennent des candidats que les curateurs trient. Les candidats pertinents sont exportés en RIS et passés dans Krinea pour le tri sur texte intégral et l'extraction en 51 champs, puis réimportés comme contributions en attente.
 3. **Sondage.** Le sondage de validation envoyé aux équipes de modélisation (membres du Cluster 1 d'abord) est connecté par un flux CSV ; chaque réponse devient une contribution en attente avec les coordonnées de son auteur.
-4. **Suivi des outils.** Pour les outils ouverts dont le dépôt est connu, le hub enregistre chaque mois étoiles, forks, tickets ouverts, contributeurs et dernier commit, à côté de l'usage de chaque outil dans la littérature africaine, dans l'esprit de l'openmod tracker.
+4. **Suivi des outils.** Pour les outils ouverts dont le dépôt est connu, le hub relève chaque mois les étoiles, les forks, les tickets ouverts, les contributeurs et le dernier commit, à côté de l'usage de chaque outil dans la littérature africaine.
 
 Une couche d'usage enregistre quelles pages, outils, pays et études les visiteurs consultent et combien de fois le recommandeur et l'assistant sont utilisés, sans stocker aucune donnée personnelle.
 
@@ -30,8 +30,7 @@ Une couche d'usage enregistre quelles pages, outils, pays et études les visiteu
 
 - Intégrer le corpus de politiques publiques (CDN, CCDR, stratégies nationales) comme un flux documenté avec son propre protocole de provenance.
 - Publier un indice de capacité nationale de modélisation fondé sur le corpus (part d'études d'échelle nationale menées par des institutions africaines).
-- Relancer tout le protocole de revue chaque année ou tous les deux ans, pour transformer l'instantané 2026 en revue vivante.
-- Approfondir l'intégration avec les trackers d'outils communautaires, pour que le corpus africain appliqué et l'écosystème mondial des outils s'informent mutuellement.
+- Relancer le protocole complet de la revue (recherches OpenAlex et Scopus, tri sur texte intégral) tous les ans ou tous les deux ans, en plus des recherches régulières du pipeline de découverte.
 
 ## Gouvernance
 

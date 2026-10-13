@@ -1,6 +1,8 @@
 Every figure on this platform is reproducible. This page documents how studies were selected and extracted, how empty data is treated, where every country-level indicator comes from, and exactly how each composite score is computed, so that the indicators can be scrutinised and replicated.
 
-## The systematic review (PRISMA 2020)
+## The initial step: a systematic review (PRISMA 2020) {#systematic-review}
+
+The observatory started with a systematic review conducted according to the PRISMA 2020 guidelines. The review built the initial inventory of 1,053 studies. Since then, the inventory has grown through contributions and the discovery pipeline, and every new study is checked by a curator before it is added.
 
 A study is included when it applies a technology-explicit energy modelling tool, or one of two systematically targeted methodological families (ad hoc GIS-based spatial analysis, system dynamics), to a community or territorial energy system whose modelled countries are all African. Single private facilities modelling their own supply and purely top-down macroeconomic models without technological representation are excluded. The unit of analysis is the software framework, not its national instantiations: a TIAM-ECN study counts as a TIMES application, a PyPSA-Earth study as a PyPSA application.
 

@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "EnerMod Africa : l'observatoire africain de la modélisation énergétique",
-    "description": "Un inventaire vivant des études et des outils de modélisation énergétique appliqués aux 54 pays africains, issu d'une revue systématique PRISMA : cartes, lacunes, scores de préparation, recommandeur d'outils et données ouvertes."
+    "description": "Un observatoire ouvert des études et des outils de modélisation énergétique appliqués aux pays africains, tenu à jour grâce aux contributions et à des recherches bibliographiques régulières. Chaque ajout est vérifié par un curateur."
   },
   "common": {
     "appName": "EnerMod Africa",
@@ -83,7 +83,7 @@
     "utilities": "Utilitaires",
     "main": "Principal",
     "home": "EnerMod Africa, accueil",
-    "partner": "Une activité du Cluster 1 d’AISESA · MINES Paris-PSL · The Transition Institute 1.5",
+    "partner": "Une activité du Cluster 1 d’AISESA accueillie à MINES Paris-PSL",
     "sourceCode": "Code source",
     "sections": "Sections de l’observatoire",
     "search": "Rechercher dans les études",
@@ -94,9 +94,8 @@
     "betaTitle": "La plateforme est en version bêta : les données et les fonctionnalités évoluent encore."
   },
   "home": {
-    "eyebrow": "Revue systématique PRISMA · 54 pays · données ouvertes",
-    "title": "L'avenir énergétique de l'Afrique se modélise. Par qui, avec quels outils, et avec quels angles morts ?",
-    "lede": "Les études individuelles abondent ; une synthèse de ce qu’elles montrent, et de ce qu’elles manquent, collectivement n’existait pas. EnerMod Africa cartographie chaque étude de modélisation énergétique appliquée à un pays africain, les outils qui les sous-tendent et les conditions dans lesquelles les modèles peuvent éclairer les politiques.",
+    "title": "Qui modélise l’avenir énergétique de l’Afrique ?",
+    "lede": "Un observatoire ouvert des études de modélisation énergétique sur les pays africains, des outils qu’elles utilisent et des institutions qui les mènent. Il a démarré par une revue systématique et il est tenu à jour par des curateurs et des contributeurs.",
     "ctaPrimary": "Explorer l’observatoire",
     "ctaSecondary": "Trouver le bon outil",
     "trust": "Chaque étude vérifiée individuellement · chaque score documenté · chaque chiffre mis à jour avec l’inventaire.",
@@ -176,11 +175,9 @@
         "cta": "Données et API"
       }
     },
-    "partnersTitle": "AISESA · MINES Paris-PSL · The Transition Institute 1.5",
+    "partnersTitle": "AISESA, MINES Paris-PSL et The Transition Institute 1.5",
     "partnersText": "EnerMod Africa livre l’Activité 1 du Cluster 1 d’AISESA (trajectoires d’énergie propre pour le développement durable) : cartographier les outils de modélisation énergétique et les capacités d’analyse qui existent déjà sur le continent.",
     "krineaText": "L'outil d'extraction construit pour la revue est devenu un atelier open source de revue systématique,",
-    "titleStatement": "L’avenir énergétique de l’Afrique se modélise.",
-    "titleQuestion": "Par qui, avec quels outils, et avec quels angles morts ?",
     "ctaText": "ou trouver le bon outil pour votre étude",
     "live": "calculé en direct",
     "figs": {
@@ -245,12 +242,11 @@
       "africanLedHint": "des études pilotées par des institutions africaines"
     },
     "who": {
-      "title": "Qui modélise l’avenir énergétique de l’Afrique ?",
+      "title": "Où sont basés les auteurs",
       "text": "Institutions des auteurs par pays, comptées une fois par étude. Les institutions africaines pilotent désormais la majorité des travaux, mais une grande partie de la modélisation se fait encore depuis l’Europe, l’Amérique du Nord et l’Asie.",
       "cta": "Voir l’analyse des lacunes"
     },
     "exploreTitle": "Explorer l’observatoire",
-    "exploreLede": "Six portes d’entrée dans l’inventaire, de la carte des pays modélisés à l’outil adapté à votre étude.",
     "cards": {
       "map": "Où l’Afrique est modélisée, pays par pays, par périmètre et par période.",
       "gaps": "Ce que les modèles négligent : économie informelle, biomasse, coupures.",
@@ -261,7 +257,7 @@
     },
     "trend": {
       "lastYear": "études publiées en {year}",
-      "growth": "de plus qu’en {year}"
+      "growth": "fois plus qu’en {year}"
     }
   },
   "observatory": {
@@ -366,7 +362,7 @@
     },
     "gaps": {
       "title": "Que laissent de côté les modèles ?",
-      "lede": "Les systèmes énergétiques africains ont des traits que beaucoup de modèles globaux n’ont pas été conçus pour saisir : économie informelle, charbon de bois et biomasse, alimentation peu fiable, urbanisation rapide. Cette page quantifie ces silences.",
+      "lede": "Les systèmes énergétiques africains ont des traits que beaucoup de modèles globaux n’ont pas été conçus pour saisir : économie informelle, charbon de bois et biomasse, alimentation peu fiable, urbanisation rapide. Cette page montre à quelle fréquence les études en tiennent compte.",
       "scope": "Périmètre du modèle",
       "scopeHelp": "Les modèles ciblés laissent vides les champs méthodologiques parce que ceux-ci ne s’appliquent pas, non par moindre effort d’extraction.",
       "scopeAllHelp": "Les statistiques agrègent modèles système complet et modèles ciblés, ce qui peut tromper.",
@@ -417,7 +413,7 @@
     },
     "readiness": {
       "title": "Quels pays sont les mieux préparés à utiliser les modèles ?",
-      "lede": "Un modèle ne vaut que par la capacité d’un pays à l’exécuter, l’entretenir et lui faire confiance. La préparation combine capacité institutionnelle, disponibilité des données, engagements climatiques et électrification : les conditions qui permettent à la modélisation de se traduire en politiques.",
+      "lede": "La préparation combine capacité institutionnelle, disponibilité des données, engagements climatiques et électrification : les conditions dont un pays a besoin pour faire tourner, entretenir et utiliser des modèles au service des politiques publiques.",
       "headline": "{n} pays obtiennent moins de 4/10. Les écarts de préparation tiennent moins à l’électrification qu’aux cadres de gouvernance et à la transparence des données.",
       "average": "Préparation moyenne",
       "averageHint": "sur {n} pays classés",
@@ -456,8 +452,8 @@
       "mapLede": "Préparation de 0 à 10 en cinq classes fixes. Choisissez un pays pour ouvrir sa page."
     },
     "studies": {
-      "title": "Explorer la preuve",
-      "lede": "L'inventaire complet, ouvert à l'examen. Filtrez par périmètre, outil, pays, technologie ou alignement politique, puis ouvrez une étude pour voir tout ce qui en a été extrait.",
+      "title": "Les études de l’inventaire",
+      "lede": "Filtrez l’inventaire par périmètre, outil, pays, technologie ou alignement politique, puis ouvrez une étude pour voir les données qui en ont été extraites.",
       "download": "Télécharger en CSV",
       "filters": "Filtres",
       "year": "Année de publication",
@@ -530,7 +526,7 @@
     },
     "tools": {
       "title": "Les outils derrière les études",
-      "lede": "101 outils de modélisation profilés par licence, coût, courbe d'apprentissage, documentation, communauté et usages types, avec leur expérience dans la littérature africaine et, pour les outils ouverts, l'activité de leur dépôt de code.",
+      "lede": "Chaque outil de modélisation de l’inventaire est décrit par sa licence, son coût, sa courbe d’apprentissage, sa documentation, sa communauté et ses usages types. La fiche indique aussi combien d’études sur des pays africains l’utilisent et, pour les outils ouverts, l’activité de son dépôt de code.",
       "download": "Télécharger en CSV",
       "inventory": "Outils dans l'inventaire",
       "inventoryHint": "{n} utilisés dans au moins une étude",
@@ -540,7 +536,7 @@
       "trackedHint": "étoiles, forks, tickets, contributeurs, dernier commit",
       "popular": "Les plus consultés ici (30 jours)",
       "popularEmpty": "Aucune visite enregistrée pour l'instant.",
-      "trackerNote": "Les métriques de dépôt sont rafraîchies chaque mois pour les outils ouverts dont le dépôt est connu. Pour l'écosystème mondial de la modélisation ouverte, voir l'",
+      "trackerNote": "Les métriques des dépôts sont actualisées chaque mois pour les outils ouverts dont le dépôt est connu.",
       "licence": "Licence",
       "type": "Type",
       "tool": "Outil",
@@ -609,7 +605,6 @@
       "fetched": "Relevé",
       "noMetricsYet": "Dépôt connu, métriques pas encore relevées.",
       "noRepo": "Aucun dépôt public enregistré. Vous en connaissez un ? Suggérez une correction.",
-      "trackerEntry": "Fiche dans un tracker d'outils externe",
       "sources": "Sources de ce profil",
       "sourcesInventory": "Caractéristiques déduites des {n} études de l'inventaire.",
       "checked": "Information vérifiée"
@@ -655,7 +650,7 @@
     },
     "recommender": {
       "title": "Quel outil convient à votre contexte ?",
-      "lede": "Il n'existe pas de meilleur modèle énergétique en soi, seulement celui qui convient le mieux à votre question, votre équipe et vos données. Répondez à six questions, ajoutez des exigences optionnelles, et le recommandeur classe les outils publiquement disponibles de l'inventaire.",
+      "lede": "Répondez à six questions sur votre objectif, l’échelle d’analyse, votre budget, votre équipe, l’horizon temporel et vos données, et ajoutez d’autres exigences si besoin. Le recommandeur classe ensuite les outils de l’inventaire qui sont publiquement disponibles.",
       "run": "Obtenir des recommandations",
       "weightsHint": "Une heuristique transparente pour présélectionner, pas un verdict.",
       "methodLink": "Poids de la notation",
@@ -781,7 +776,7 @@
   },
   "contribute": {
     "title": "Contribuer à l’inventaire",
-    "lede": "L’observatoire est une revue vivante. Proposez une étude que la revue a manquée, corrigez une fiche ou décrivez un outil. Un curateur vérifie chaque proposition avant publication.",
+    "lede": "Proposez une étude manquante, corrigez une fiche ou décrivez un outil. Un curateur vérifie chaque proposition avant publication.",
     "kinds": {
       "study": "Proposer une étude",
       "correction": "Suggérer une correction",
@@ -888,7 +883,7 @@
   "pages": {
     "about": {
       "title": "À propos d’EnerMod Africa",
-      "description": "Un observatoire né d’une revue systématique PRISMA, livré pour le Cluster 1 d’AISESA à MINES Paris-PSL, et conçu pour être entretenu par sa communauté."
+      "description": "EnerMod Africa est une activité du Cluster 1 d’AISESA accueillie à MINES Paris-PSL. L’observatoire est parti d’une revue systématique de la littérature et il est désormais tenu à jour par des curateurs et des contributeurs."
     },
     "methodology": {
       "title": "Méthodologie et scores",
@@ -1428,22 +1423,29 @@
     },
     "prisma": {
       "aria": "Diagramme de flux PRISMA 2020 de la revue systématique",
-      "identified": "Identifiées dans OpenAlex et Scopus",
-      "sources": "OpenAlex {openalex} · Scopus {scopus}",
-      "duplicates": "doublons supprimés",
-      "screened": "Triées sur titre et résumé",
-      "screenedExcluded": "exclues",
+      "headDatabases": "Identification des études via les bases de données",
+      "headOther": "Identification via d’autres méthodes",
+      "phaseIdentification": "Identification",
+      "phaseScreening": "Sélection",
+      "phaseIncluded": "Inclusion",
+      "n": "(n = {n})",
+      "identified": "Notices identifiées dans les bases de données",
+      "sources": "OpenAlex {openalex} · Scopus {scopus}",
+      "duplicates": "Doublons supprimés",
+      "screened": "Notices triées (titre et résumé)",
+      "screenedExcluded": "Notices exclues",
       "sought": "Textes intégraux recherchés",
-      "notRetrieved": "non obtenus",
-      "assessed": "Textes intégraux évalués",
-      "assessedExcluded": "exclus, avec motifs",
-      "showReasons": "Voir les {n} motifs",
-      "hideReasons": "Masquer les motifs",
-      "other": "issues d’autres méthodes",
-      "otherDetail": "{n} notices de l’inventaire pilote ({inventory}) et de la recherche par citations ({citations}) ; {excluded} exclues",
-      "included": "Incluses dans l’inventaire",
-      "includedDetail": "{databases} issues des bases · {other} d’autres méthodes",
-      "caption": "Le flux PRISMA 2020 de la revue, dessiné comme un schéma unifilaire : le départ principal descend depuis les recherches en bases de données, chaque exclusion bifurque vers une borne, et les études trouvées par d’autres méthodes le rejoignent avant l’inclusion.",
+      "notRetrieved": "Textes intégraux non obtenus",
+      "assessed": "Textes intégraux évalués pour l’éligibilité",
+      "assessedExcluded": "Textes exclus, avec motifs",
+      "other": "Notices identifiées par d’autres sources",
+      "otherSources": "Inventaire initial {inventory} · Recherche par citations {citations}",
+      "otherAssessed": "Textes évalués pour l’éligibilité",
+      "otherExcluded": "Textes exclus",
+      "included": "Études incluses dans la revue et dans l’Observatoire EnerMod Africa",
+      "includedDetail": "{databases} issues des bases · {other} d’autres méthodes",
+      "caption": "Diagramme de flux PRISMA 2020 de la revue systématique, étape initiale de l’observatoire.",
+      "download": "Télécharger la figure (PNG, en anglais)",
       "reasons": {
         "scope": "Hors sujet énergétique, hors périmètre",
         "private": "Dimensionnement d’une installation privée isolée",

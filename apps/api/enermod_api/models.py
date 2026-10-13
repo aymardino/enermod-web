@@ -83,10 +83,10 @@ class Tool(Base):
     weaknesses: Mapped[str] = mapped_column(Text, default="")
     typical_results: Mapped[str] = mapped_column(Text, default="")
     often_linked: Mapped[str] = mapped_column(Text, default="")
-    # Hub additions (tool tracker, in the spirit of the openmod tracker)
+    # Hub additions (tool tracker)
     repo_url: Mapped[str] = mapped_column(Text, default="")
     website_url: Mapped[str] = mapped_column(Text, default="")
-    tracker_url: Mapped[str] = mapped_column(Text, default="")        # entry in an external tool tracker
+    tracker_url: Mapped[str] = mapped_column(Text, default="")        # optional external profile of the tool, not shown on the site
     updated_at: Mapped[dt.datetime] = mapped_column(DateTime, default=now, onupdate=now)
 
 

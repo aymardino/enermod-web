@@ -1,12 +1,12 @@
-# EnerMod Africa · the African Energy Modelling Observatory, as a research hub
+# EnerMod Africa: the African Energy Modelling Observatory
 
-Who models Africa's energy future, with which tools, for which countries, and with what blind
-spots? EnerMod Africa inventories every energy modelling study applied to an African country
-(a PRISMA 2020 systematic review: 1,053 studies, 101 tools, 54 countries), the tools behind
-them and the conditions under which models can inform policy. This repository is the second
-edition of the observatory: a bilingual web platform (English and French) with an API, open
-data, community contributions, an automated discovery pipeline, a tool tracker and a grounded
-assistant. The first edition (Streamlit) is kept under `legacy/streamlit/`.
+EnerMod Africa is an open observatory of energy modelling studies applied to African countries,
+the tools they use and the institutions that lead them. Its initial step was a PRISMA 2020
+systematic review (searches run on 5 May 2026: 1,053 studies, 101 tools); since then the
+inventory is kept up to date through community contributions, an automated literature search
+and curator review. This repository holds the second edition: a bilingual web platform
+(English and French) with an API and open data. The first edition (Streamlit) is kept under
+`legacy/streamlit/`.
 
 *Version française en bas de page.*
 
@@ -52,8 +52,7 @@ Sign in with an e-mail listed in `ADMIN_EMAILS` to reach the curation area at `/
   to [Krinea](https://krinea.org) as RIS for screening and 51-field extraction, and come back as
   contributions through an import. Survey responses (CSV URL) feed the same queue.
 - **Tool tracker.** Studies per year per tool, co-use, countries, and monthly GitHub metrics
-  (stars, forks, issues, contributors, last commit) for open tools, in the spirit of the openmod
-  tracker.
+  (stars, forks, issues, contributors, last commit) for open tools.
 - **Assistant.** Answers only from the inventory, cites studies, tools and countries with links;
   Anthropic, Gemini or DeepSeek, whichever key is configured.
 - **Usage.** Privacy-friendly events (no cookies, no IP) and a curators' dashboard.
@@ -75,13 +74,13 @@ Appliquées of MINES Paris-PSL (The Transition Institute 1.5).
 
 ## Version française
 
-EnerMod Africa inventorie chaque étude de modélisation énergétique appliquée à un pays africain
-(revue systématique PRISMA 2020 : 1 053 études, 101 outils, 54 pays), les outils qui les
-sous-tendent et les conditions dans lesquelles les modèles peuvent éclairer les politiques. Ce
-dépôt est la seconde édition de l'observatoire : une plateforme web bilingue (français, anglais)
-avec une API, des données ouvertes, des contributions communautaires, un pipeline de découverte
-automatisé, un suivi des outils et un assistant ancré dans les données. La première édition
-(Streamlit) est conservée dans `legacy/streamlit/`.
+EnerMod Africa est un observatoire ouvert des études de modélisation énergétique appliquées aux
+pays africains, des outils qu'elles utilisent et des institutions qui les mènent. Son étape
+initiale a été une revue systématique PRISMA 2020 (recherches du 5 mai 2026 : 1 053 études,
+101 outils) ; depuis, l'inventaire est tenu à jour grâce aux contributions de la communauté, à
+une recherche bibliographique automatisée et à la vérification des curateurs. Ce dépôt contient
+la seconde édition : une plateforme web bilingue (français, anglais) avec une API et des données
+ouvertes. La première édition (Streamlit) est conservée dans `legacy/streamlit/`.
 
 - **Observatoire** : cartes interactives, analyse des lacunes, préparation des pays, inventaire
   complet filtrable avec une page par étude, outil et pays, recommandeur d'outils, exports.

@@ -103,12 +103,12 @@ could not reach api.openalex.org, so the live query shapes should be checked on 
 tools and leadership; for open tools with a `repo_url` it stores a snapshot of GitHub stars,
 forks, open issues, contributors and last commit (`tool_metrics`), refreshed monthly by the
 worker when `METRICS_AUTO` is on. Twenty-seven repositories are pre-filled in
-`enermod_api/data/tool_repos.json`; curators edit the rest. A `tracker_url` field links to an
-external tracker entry.
+`enermod_api/data/tool_repos.json`; curators edit the rest. The `tracker_url` column is kept
+but is not shown on the site.
 
-**Why.** The owner asked to "follow tool usage like the openmod tracker" (Open Energy
-Transition's tracker aggregates repository and community data of ~200 open tools). The hub's
-distinctive contribution is the applied record in Africa; repository metrics complete it.
+**Why.** The owner asked to follow how each tool is used in the literature and how actively its
+code is maintained. The hub's distinctive contribution is the applied record in Africa;
+repository metrics complete it. The site does not cite other trackers (2026-10-13).
 
 **Consequences.** GitHub only (GitLab repositories return an error and no snapshot). Site usage
 (tool views, recommender runs, assistant questions) is recorded separately as events.

@@ -378,27 +378,70 @@
   .sld-steps > li:not(:last-child)::after { content: ""; position: absolute; left: 5px; top: 10px; bottom: -6px; width: 3px; background: var(--brand-600); }
   .sld-steps .sc { display: block; color: var(--rubric); }
 
-  /* PRISMA flow (§7.18, §8.6): vertical feeder, exclusions branch off to square terminals */
-  .prisma { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(--font-sans); }
-  .prisma ol { position: relative; margin: 0 0 0 6px; padding: 0; list-style: none; }
-  .prisma ol::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 22px; width: 3px; background: var(--brand-600); }
-  .prisma li { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 26px; padding: 0 0 22px 30px; }
-  .prisma li::before { content: ""; position: absolute; left: 0; top: 4px; width: 13px; height: 13px; border-radius: 50%; background: var(--background);
-                       border: 2px solid var(--brand-600); box-sizing: border-box; }
-  .prisma li:last-child::before { border-radius: 0; background: var(--brand-600); }
-  .prisma .st { font-size: 11px; font-weight: 600; line-height: 1.35; letter-spacing: .1em; text-transform: uppercase; color: var(--muted-foreground); }
-  .prisma .n { display: block; font-size: 26px; font-weight: 600; letter-spacing: -.02em; line-height: 1.15; color: var(--foreground); font-variant-numeric: tabular-nums; }
-  .prisma .ex { position: relative; align-self: start; margin-top: 53px; padding-left: 28px; font-size: 13px; color: var(--muted-foreground); line-height: 1.4; }
-  .prisma li.x::after { content: ""; position: absolute; left: 7px; top: 66px; width: calc(50% + 39px); height: 1.5px; background: var(--brand-600); }
-  .prisma .ex::after { content: ""; position: absolute; left: 18px; top: 9px; width: 7px; height: 7px; background: var(--brand-600); }
-  .prisma .ex b { display: block; font-size: 17px; font-weight: 600; color: var(--foreground); font-variant-numeric: tabular-nums; }
-  @media (max-width: 767.98px) {
-    .prisma li { grid-template-columns: minmax(0, 1fr); padding-bottom: 18px; }
-    .prisma .ex { margin-top: 8px; margin-left: 0; }
-    .prisma .ex::after { top: 4px; }
-    .prisma li.x::after { display: none; }
-    .prisma .ex::before { content: ""; position: absolute; left: -23px; top: 7px; width: 41px; height: 1.5px; background: var(--brand-600); }
+  /* PRISMA 2020 flow diagram (methodology): the standard box-and-arrow template. The figure is a
+     size container: from 900px of its own width the boxes sit on the template grid, below that
+     they stack. Connectors are spans drawn in CSS (a 1.5px line and an 8px head). */
+  .pf { container-type: inline-size; --pf-ink: var(--ink-2); --pf-gap: 28px; --pf-a1: 40px; --pf-a2: 30px; margin: 0; font-family: var(--font-sans); }
+  .pf-grid { display: none; }
+  .pf-stack { display: flex; flex-direction: column; }
+  @container (min-width: 900px) {
+    /* the identification row is at least as tall as its vertical phase label */
+    .pf-grid { display: grid; row-gap: var(--pf-gap); grid-template-rows: auto minmax(116px, auto);
+               grid-template-columns: 34px 16px minmax(0, 1.05fr) var(--pf-a1) minmax(0, 1.1fr) 36px minmax(0, .85fr) var(--pf-a2) minmax(0, .5fr); }
+    .pf-stack { display: none; }
   }
+  @container (min-width: 1240px) { .pf-grid { font-size: 15px; } }
+  .pf-box { position: relative; display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 12px 16px;
+            border: 1.25px solid var(--pf-ink); border-radius: 6px; background: var(--card); text-align: center;
+            font-size: 14.5px; line-height: 1.45; color: var(--foreground); }
+  .pf-grid .pf-box { font-size: inherit; }
+  .pf-grid { font-size: 14.5px; }
+  .pf-t { font-weight: 650; text-wrap: balance; }
+  .pf-n { font-variant-numeric: tabular-nums; }
+  .pf-d { margin-top: 3px; font-size: .93em; color: var(--ink-2); text-wrap: balance; }
+  .pf-box.pf-in { background: var(--brand-50); border-color: var(--brand-700); }
+  .pf-list { text-align: left; justify-content: flex-start; }
+  .pf-reasons { margin-top: 8px; font-size: .93em; line-height: 1.4; }
+  .pf-reasons > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 3px 0; border-top: 1px solid var(--border); }
+  .pf-reasons dt { color: var(--ink-2); }
+  .pf-reasons dd { font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+  .pf-head { padding: 9px 14px; border-radius: 10px; background: var(--brand-700); color: #fff; font-weight: 650; line-height: 1.35; text-align: center; align-self: end; }
+  .pf-phase { display: flex; align-items: center; justify-content: center; border-radius: 6px; background: var(--brand-100); color: var(--brand-900); font-size: 13.5px; font-weight: 600; }
+  .pf-phase > span { writing-mode: vertical-rl; transform: rotate(180deg); }
+  .pf-cell { position: relative; display: flex; flex-direction: column; min-width: 0; }
+  .pf-fill { position: relative; flex: 1; min-height: 0; }
+  .pf-fill::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.5px; margin-left: -.75px; background: var(--pf-ink); }
+  .pf-span { position: relative; margin-block: calc(-1 * var(--pf-gap)); }
+  /* down: from the bottom of a cell through the row gap, head on the next box */
+  .pf-down, .pf-line { position: absolute; left: 50%; top: 100%; width: 12px; height: var(--pf-gap); margin-left: -6px; }
+  .pf-down.pf-full { top: 0; height: 100%; }
+  .pf-down::before, .pf-line::before { content: ""; position: absolute; left: 5.25px; top: 0; bottom: 7px; width: 1.5px; background: var(--pf-ink); }
+  .pf-line::before { bottom: 0; }
+  .pf-down::after { content: ""; position: absolute; left: 0; bottom: 0; border-inline: 6px solid transparent; border-top: 8px solid var(--pf-ink); }
+  /* right: from the middle of a box to its exclusion */
+  .pf-right { position: absolute; left: 100%; top: 50%; width: calc(var(--pf-a1) + 1.25px); height: 12px; margin-top: -6px; }
+  .pf-right.pf-short { width: calc(var(--pf-a2) + 1.25px); }
+  .pf-right::before { content: ""; position: absolute; left: 0; right: 7px; top: 5.25px; height: 1.5px; background: var(--pf-ink); }
+  .pf-right::after { content: ""; position: absolute; right: 0; top: 0; border-block: 6px solid transparent; border-left: 8px solid var(--pf-ink); }
+  /* the other methods join the included box: down to its middle, then left */
+  .pf-join { position: relative; }
+  .pf-join::before { content: ""; position: absolute; left: 50%; top: 0; height: calc(50% + .75px); width: 1.5px; margin-left: -.75px; background: var(--pf-ink); }
+  .pf-join::after { content: ""; position: absolute; left: 0; right: 50%; top: 50%; height: 1.5px; margin-top: -.75px; background: var(--pf-ink); }
+  .pf-left { position: relative; }
+  .pf-left::before { content: ""; position: absolute; left: 7px; right: 0; top: 50%; height: 1.5px; margin-top: -.75px; background: var(--pf-ink); }
+  .pf-left::after { content: ""; position: absolute; left: 0; top: 50%; margin-top: -6px; border-block: 6px solid transparent; border-right: 8px solid var(--pf-ink); }
+  /* stacked */
+  .pf-stack .pf-head { align-self: stretch; }
+  .pf-stack .pf-head + * { margin-top: 12px; }
+  .pf-sphase { margin: 4px 0 8px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brand-800); }
+  .pf-sub { position: relative; margin: 12px -16px -12px; padding: 10px 16px 12px 36px; border-top: 1px dashed var(--border); border-radius: 0 0 6px 6px;
+            background: var(--muted); text-align: left; font-size: .93em; }
+  .pf-sub::before { content: ""; position: absolute; left: 14px; top: 19px; width: 10px; height: 1.5px; background: var(--pf-ink); }
+  .pf-sub::after { content: ""; position: absolute; left: 22px; top: 15px; border-block: 5px solid transparent; border-left: 7px solid var(--pf-ink); }
+  .pf-sub .pf-t { font-weight: 600; }
+  .pf-sdown { position: relative; align-self: center; width: 12px; height: 26px; }
+  .pf-sdown::before { content: ""; position: absolute; left: 5.25px; top: 0; bottom: 7px; width: 1.5px; background: var(--pf-ink); }
+  .pf-sdown::after { content: ""; position: absolute; left: 0; bottom: 0; border-inline: 6px solid transparent; border-top: 8px solid var(--pf-ink); }
 }
 
 /* ── Reading pages (about, methodology, research, privacy, legal), §8.6 ─────────── */

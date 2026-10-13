@@ -128,7 +128,6 @@ export default function ToolPage() {
                 <p className="mt-1 text-[11px] text-muted-foreground">{t("fetched")}: {formatDate(m.fetched_at, locale)}</p>
               </>
             ) : <p className="mt-2 text-sm text-muted-foreground">{d.repo_url ? t("noMetricsYet") : t("noRepo")}</p>}
-            {d.tracker_url && <a href={d.tracker_url} target="_blank" rel="noreferrer" className="mt-2 inline-block text-xs text-primary underline">{t("trackerEntry")}</a>}
           </div>
           <div className="rounded-xl border border-border bg-card p-4 shadow-card">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("sources")}</p>

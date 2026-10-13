@@ -74,8 +74,7 @@ export function SiteFooter({ wide = false }: { wide?: boolean }) {
         {/* the bottom padding clears the fixed "Ask the observatory" button */}
         <div className={cn(wrap, "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-10 gap-y-6 pb-24 pt-10 max-lg:grid-cols-1 max-md:pt-8")}>
           <div className="min-w-0">
-            <p className="text-[17px] font-bold text-white">AISESA · MINES Paris-PSL · The Transition Institute 1.5</p>
-            <p className="mt-2 max-w-[44em] text-[14.5px] leading-[1.55] text-white/75">{t("footer.institutions")}</p>
+            <p className="max-w-[44em] text-[16px] leading-[1.55] text-white">{t("footer.institutions")}</p>
             <p className="mt-4 text-[13.5px] leading-[1.6] text-white/60">
               {t("footer.copyright", { year })} · {t("footer.licence")}
               <br />

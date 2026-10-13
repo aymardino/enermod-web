@@ -3,6 +3,8 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://enermod.af
 export const REPO_URL = "https://github.com/aymardino/enermod-web";
 export const LEGACY_REPO_URL = "https://github.com/aymardino/Enermod_Africa";
 export const KRINEA_URL = "https://krinea.org";
+export const AISESA_URL = "https://aisesa.org";
+export const TTI_URL = "https://the-transition-institute.minesparis.psl.eu/";
 export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "";
 /** Public routes (path without locale prefix), for the sitemap. */
 export const PUBLIC_ROUTES = ["", "/about", "/methodology", "/research", "/contribute", "/contact", "/privacy", "/legal",

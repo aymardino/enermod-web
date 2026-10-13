@@ -15,7 +15,7 @@ import { Skeleton } from "@/components/ui/misc";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { Sparkline } from "@/components/observatory/charts";
 import { ChipGroup } from "@/components/observatory/filters";
-import { Callout, Kpi } from "@/components/observatory/kpi";
+import { Kpi } from "@/components/observatory/kpi";
 import { PageHead } from "@/components/observatory/page-head";
 
 type Sort = "n_studies" | "recent" | "views" | "stars" | "name";
@@ -59,7 +59,7 @@ export default function ToolsPage() {
           </div>
         </div>
       )}
-      <Callout tone="brand" className="mt-6">{t("trackerNote")} <a href="https://openmod-tracker.org" target="_blank" rel="noreferrer" className="underline">openmod tracker</a>.</Callout>
+      <p className="mt-6 text-[14px] leading-[1.5] text-muted-foreground">{t("trackerNote")}</p>
       <div className="mt-6 grid gap-4 rounded-2xl border border-border bg-card p-4 shadow-card lg:grid-cols-[1fr_auto]">
         <div className="grid gap-4 sm:grid-cols-2">
           <ChipGroup label={t("licence")} value={lics} onChange={setLics} options={licences.map((x) => ({ value: x, label: label("license", x) }))} />

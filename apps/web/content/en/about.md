@@ -1,4 +1,4 @@
-## An observatory born from a systematic review
+## Background
 
 EnerMod Africa is the public face of a mission carried out within the **African Institute for Sustainable Energy and Systems Analysis (AISESA)**, an initiative designed to build, within Africa, the knowledge and analytical capacity needed for evidence-based energy decisions. AISESA organises its research agenda in thematic clusters; the first cluster is devoted to clean energy pathways for sustainable development, and its opening activity (Activity 1) consists of mapping the energy modelling tools and analytical capacities that already exist across the continent. This observatory delivers that activity.
 
@@ -10,7 +10,7 @@ The work was hosted at the **Centre de Mathématiques Appliquées (CMA) of MINES
 
 Answering it took three deliverables:
 
-1. a **PRISMA 2020 systematic review** of the published record: searches in OpenAlex and Scopus, almost ten thousand records, 7,759 unique records screened, 1,452 full texts assessed, and a final corpus of 1,053 studies spanning 2001 to 2026 and 101 distinct tools;
+1. a **PRISMA 2020 systematic review** of the published record, the initial step, with searches in OpenAlex and Scopus on 5 May 2026: 7,759 unique records screened, 1,452 full texts assessed, and an initial corpus of 1,053 studies (2001 to 2026) using 101 distinct tools;
 2. an **AI-assisted extraction tool** that converts each document into a structured record of 51 fields, with every record verified by hand against the source text. That tool has since grown into [Krinea](https://krinea.org), an open-source systematic review workbench;
 3. **this observatory**, through which planners, researchers and funders explore geographic coverage, thematic gaps, institutional readiness and the tools best suited to their context.
 
@@ -21,7 +21,7 @@ The first version of the observatory was a Streamlit application fed by a master
 - every figure is served by an API from a relational database (PostgreSQL on Supabase, or SQLite), so the site, the data exports and the assistant read the same source of truth;
 - **anyone can contribute**: propose a missing study, a correction or a tool profile. A curator verifies each proposal before it enters the inventory;
 - a **discovery pipeline** re-runs the review's search strategy on OpenAlex to find new or missed studies, matches them against the corpus and hands the candidates to curators (and to Krinea for screening and extraction);
-- a **tool tracker** reads each open tool's repository activity next to its use in the literature, in the spirit of the openmod tracker;
+- a **tool tracker** shows each open tool's repository activity next to its use in the literature;
 - a **grounded assistant** answers questions from the inventory only and cites the records it used;
 - the whole site is available in **English and French**.
 

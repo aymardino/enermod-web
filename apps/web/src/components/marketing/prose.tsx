@@ -2,9 +2,8 @@ import { PageBanner } from "@/components/marketing/page-banner";
 import type { PhotoId } from "@/data/photos";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Caption } from "@/components/observatory/kpi";
+import { PrismaDiagram, parsePrisma } from "@/components/marketing/prisma-diagram";
 import { cn } from "@/lib/utils";
 
 /* ── Reading pages (about, methodology, research, privacy, legal), ──────────────────────
@@ -96,13 +95,7 @@ function plainText(n: MdNode): string {
 }
 
 function remarkReading({ locale }: { locale: string }) {
-  let figures = 0;
   const walk = (node: MdNode) => {
-    // figures are numbered in reading order: "Fig. 1", "Fig. 2"…
-    if (node.type === "code" && node.lang === "prisma") {
-      figures += 1;
-      node.data = { ...node.data, hProperties: { ...node.data?.hProperties, dataFig: figures } };
-    }
     if (SKIP.has(node.type)) return;
     if (node.type === "heading" && node.children?.length) {
       const last = node.children[node.children.length - 1];
@@ -121,126 +114,7 @@ function remarkReading({ locale }: { locale: string }) {
     if (node.type === "text" && typeof node.value === "string") node.value = typeset(node.value, locale);
     node.children?.forEach(walk);
   };
-  return (tree: MdNode) => {
-    figures = 0;
-    walk(tree);
-  };
-}
-
-/* ── PRISMA 2020 flow, drawn as a vertical single-line diagram ──────────────────
-   In the Markdown, a fenced block with the language `prisma` holds the figures as `key: number`
-   lines; the labels come from the messages (reading.prisma). */
-
-type PrismaData = Record<string, number>;
-
-function parsePrisma(text: string): PrismaData {
-  const out: PrismaData = {};
-  for (const line of text.split("\n")) {
-    const m = line.match(/^\s*([A-Za-z_.]+)\s*:\s*(\d+)\s*$/);
-    if (m) out[m[1]] = Number(m[2]);
-  }
-  return out;
-}
-
-const REASON_KEYS = ["scope", "private", "custom", "telecom", "duplicate", "etap", "notAfrica", "platform", "global", "sdNoSoftware", "language", "sdOneMarket", "deprecated"] as const;
-
-function PrismaFigure({ d, fig }: { d: PrismaData; fig: number }) {
-  const t = useTranslations("reading.prisma");
-  const format = useFormatter();
-  const n = (k: string) => (d[k] === undefined ? "–" : format.number(d[k]));
-  const reasons = REASON_KEYS.filter((k) => d[`reason.${k}`] !== undefined);
-  return (
-    <figure className="!mt-8">
-      <div className="prisma text-[15px] leading-[1.45]" role="group" aria-label={t("aria")}>
-        {/* the prose list rules are unlayered, so the list overrides below must be important; the
-            exclusions are divs so that `.prose-enermod li > p` leaves their offset alone */}
-        <ol className="!list-none !pl-0">
-          <li className="x">
-            <div>
-              <span className="st">{t("identified")}</span>
-              <span className="n">
-                {n("identified")}
-                {d["identified.openalex"] !== undefined && (
-                  <small className="ml-2.5 text-[12.5px] font-normal tracking-normal text-muted-foreground">
-                    {t("sources", { openalex: n("identified.openalex"), scopus: n("identified.scopus") })}
-                  </small>
-                )}
-              </span>
-            </div>
-            <div className="ex"><b>{n("duplicates")}</b>{t("duplicates")}</div>
-          </li>
-          <li className="x !mt-0">
-            <div>
-              <span className="st">{t("screened")}</span>
-              <span className="n">{n("screened")}</span>
-            </div>
-            <div className="ex"><b>{n("screened.excluded")}</b>{t("screenedExcluded")}</div>
-          </li>
-          <li className="x !mt-0">
-            <div>
-              <span className="st">{t("sought")}</span>
-              <span className="n">{n("sought")}</span>
-            </div>
-            <div className="ex"><b>{n("sought.notRetrieved")}</b>{t("notRetrieved")}</div>
-          </li>
-          <li className="x !mt-0">
-            <div>
-              <span className="st">{t("assessed")}</span>
-              <span className="n">{n("assessed")}</span>
-            </div>
-            <div className="ex">
-              <b>{n("assessed.excluded")}</b>
-              {t("assessedExcluded")}
-              {reasons.length > 0 && (
-                <details className="group mt-1.5">
-                  <summary className="link inline-flex min-h-6 cursor-pointer list-none items-center text-[12.5px] [&::-webkit-details-marker]:hidden">
-                    <span className="group-open:hidden">{t("showReasons", { n: reasons.length })}</span>
-                    <span className="hidden group-open:inline">{t("hideReasons")}</span>
-                  </summary>
-                  <dl className="mt-1.5 border-t border-rule text-[12.5px] leading-[1.35]">
-                    {reasons.map((k) => (
-                      <div key={k} className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 border-b border-border py-[5px]">
-                        <dt className="text-ink-2">{t(`reasons.${k}`)}</dt>
-                        <dd className="text-right font-semibold tabular-nums text-foreground">{n(`reason.${k}`)}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </details>
-              )}
-            </div>
-          </li>
-          {/* junction: the studies found by other methods join the feeder before inclusion; the
-              branch starts at a source (open circle) instead of ending at a terminal */}
-          {d["included.other"] !== undefined && (
-            <li className="x !mt-0 before:hidden after:top-[10px] after:w-[calc(50%+34px)] max-md:pb-2">
-              <div aria-hidden="true" />
-              <div className="ex mt-0 after:left-[13px] after:top-[5px] after:size-[11px] after:rounded-full after:border-[1.5px] after:border-rule after:bg-background max-md:mt-0 max-md:after:top-[2px]">
-                <b>{n("included.other")}</b>
-                {t("other")}
-                {d.other !== undefined && (
-                  <span className="mt-0.5 block text-[12px]">
-                    {t("otherDetail", { n: n("other"), inventory: n("other.inventory"), citations: n("other.citations"), excluded: n("other.excluded") })}
-                  </span>
-                )}
-              </div>
-            </li>
-          )}
-          <li className="!mt-0">
-            <div>
-              <span className="st">{t("included")}</span>
-              <span className="n">{n("included")}</span>
-              {d["included.databases"] !== undefined && (
-                <span className="mt-0.5 block text-[12.5px] leading-[1.4] text-muted-foreground tabular-nums">
-                  {t("includedDetail", { databases: n("included.databases"), other: n("included.other") })}
-                </span>
-              )}
-            </div>
-          </li>
-        </ol>
-      </div>
-      <Caption fig={fig}>{t("caption")}</Caption>
-    </figure>
-  );
+  return (tree: MdNode) => walk(tree);
 }
 
 /* ── Markdown ──────────────────────────────────────────────────────────────────────────────── */
@@ -259,7 +133,7 @@ export function Markdown({ source, locale }: { source: string; locale: string })
         const cls = code.properties?.className;
         if (Array.isArray(cls) && cls.includes("language-prisma")) {
           const text = code.children.map((c) => (c.type === "text" ? c.value : "")).join("");
-          return <PrismaFigure d={parsePrisma(text)} fig={Number(code.properties?.dataFig ?? 1)} />;
+          return <PrismaDiagram d={parsePrisma(text)} />;
         }
       }
       return <pre>{children}</pre>;
@@ -299,10 +173,11 @@ function Contents({ items, label }: { items: TocItem[]; label: string }) {
   );
 }
 
-/** Shared reading layout for the Markdown pages. The contents sit in the 176px margin from
- *  1024px. `aside` (the live figures) takes the spare width right of the 680px measure from 1280px
- *  (sticky), and follows the article below that. */
-export function ProseLayout({ kicker, title, lede, meta, toc, tocLabel, aside, photo, children }: {
+/** Shared reading layout for the Markdown pages. The contents sit in the 220px margin from
+ *  1024px. `aside` (the live figures) takes the spare width right of the 760px measure from 1280px
+ *  (sticky), and follows the article below that. With `figure`, the article is cut in two around a
+ *  figure that spans the measure and the rail (the PRISMA diagram); `after` is the second part. */
+export function ProseLayout({ kicker, title, lede, meta, toc, tocLabel, aside, photo, figure, after, children }: {
   kicker: React.ReactNode;
   numeral?: string;
   title: React.ReactNode;
@@ -312,10 +187,15 @@ export function ProseLayout({ kicker, title, lede, meta, toc, tocLabel, aside, p
   tocLabel: string;
   aside?: React.ReactNode;
   photo?: PhotoId;
+  figure?: React.ReactNode;
+  after?: React.ReactNode;
   children: React.ReactNode;
 }) {
   const hasToc = toc.length > 0;
   const rail = hasToc && !!aside;
+  const split = !!figure;
+  const prose = "prose-enermod [&_blockquote_em]:not-italic [&_h2]:scroll-mt-28 [&_h3]:scroll-mt-28";
+  const card = aside && <div className={cn("mt-14 max-w-[380px] rounded-lg border border-border bg-card p-5 shadow-card", rail && "xl:hidden")}>{aside}</div>;
   return (
     <>
     <PageBanner crumbs={[{ label: kicker }]} title={title} lede={lede} photo={photo}>
@@ -325,25 +205,34 @@ export function ProseLayout({ kicker, title, lede, meta, toc, tocLabel, aside, p
       <div
         className={cn(
           "grid grid-cols-[minmax(0,1fr)] gap-x-12",
-          hasToc && "lg:grid-cols-[220px_minmax(0,760px)]",
+          hasToc && (split ? "lg:grid-cols-[220px_minmax(0,760px)_minmax(0,1fr)]" : "lg:grid-cols-[220px_minmax(0,760px)]"),
           rail && "xl:grid-cols-[220px_minmax(0,760px)_320px] xl:justify-between",
         )}
       >
         {hasToc && (
-          <aside className="max-lg:hidden">
+          <aside className={cn("max-lg:hidden", split && "lg:col-start-1 lg:row-span-3 lg:row-start-1")}>
             <div className="sticky top-24">
               <Contents items={toc} label={tocLabel} />
             </div>
           </aside>
         )}
-        <article className="min-w-0 max-w-[720px]">
-          <div className="prose-enermod [&_blockquote_em]:not-italic [&_h2]:scroll-mt-28 [&_h3]:scroll-mt-28">{children}</div>
-          {aside && <div className={cn("mt-14 max-w-[380px] rounded-lg border border-border bg-card p-5 shadow-card", rail && "xl:hidden")}>{aside}</div>}
+        <article className={cn("min-w-0 max-w-[720px]", split && hasToc && "lg:col-start-2 lg:row-start-1")}>
+          <div className={prose}>{children}</div>
+          {!split && card}
         </article>
         {rail && (
-          <aside className="min-w-0 max-xl:hidden">
+          <aside className={cn("min-w-0 max-xl:hidden", split && "xl:col-start-3 xl:row-start-1")}>
             <div className="sticky top-28 rounded-lg border border-border bg-card p-5 shadow-card">{aside}</div>
           </aside>
+        )}
+        {split && (
+          <>
+            <div className={cn("mt-10 min-w-0", hasToc && "lg:col-span-2 lg:col-start-2 lg:row-start-2")}>{figure}</div>
+            <div className={cn("mt-10 min-w-0 max-w-[720px]", hasToc && "lg:col-start-2 lg:row-start-3")}>
+              {after && <div className={prose}>{after}</div>}
+              {card}
+            </div>
+          </>
         )}
       </div>
     </div>

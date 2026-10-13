@@ -1,6 +1,6 @@
 import type * as React from "react";
 import Image from "next/image";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -10,33 +10,42 @@ import { PartnerLogos } from "@/components/brand/logo";
 import { HeroStats, HomeOrigin, HomeTrend, LatestEntries } from "@/components/observatory/home-live";
 import { SECTION_PHOTO } from "@/components/observatory/page-head";
 import { PHOTOS, photoAlt, photoCredit } from "@/data/photos";
-import { REPO_URL, SITE_URL } from "@/lib/site";
-
-const JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "Dataset",
-  name: "EnerMod Africa Observatory",
-  description: "A living inventory of energy modelling studies and tools applied across the 54 African countries, built from a PRISMA systematic review.",
-  url: SITE_URL,
-  license: "https://creativecommons.org/licenses/by/4.0/",
-  creator: { "@type": "Organization", name: "AISESA · MINES Paris-PSL" },
-  sameAs: [REPO_URL],
-};
+import { AISESA_URL, REPO_URL, SITE_URL, TTI_URL, localePath } from "@/lib/site";
 
 const WRAP = "mx-auto w-full max-w-[1800px] px-6 lg:px-12 max-md:px-4";
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <Home />;
+  const seo = await getTranslations({ locale, namespace: "seo" });
+  // structured data for search engines, in the page's language
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "EnerMod Africa Observatory",
+    description: seo("description"),
+    inLanguage: locale,
+    url: SITE_URL + localePath(locale, ""),
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    creator: [
+      { "@type": "Organization", name: "AISESA", url: AISESA_URL },
+      { "@type": "Organization", name: "MINES Paris-PSL", url: TTI_URL },
+    ],
+    sameAs: [REPO_URL],
+  };
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <Home />
+    </>
+  );
 }
 
-function Title({ children, lede }: { children: React.ReactNode; lede?: React.ReactNode }) {
+function Title({ children }: { children: React.ReactNode }) {
   return (
     <div className="mb-10 max-md:mb-7">
       <h2 className="text-balance text-[30px] font-bold leading-[1.2] md:text-[36px]">{children}</h2>
       <span aria-hidden="true" className="mt-4 block h-1 w-14 rounded-full bg-primary" />
-      {lede && <p className="mt-5 max-w-[46em] text-[17px] leading-[1.6] text-ink-2">{lede}</p>}
     </div>
   );
 }
@@ -55,17 +64,14 @@ function Home() {
   }));
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
-
       {/* Hero: full-width photo, message and actions on the left */}
       <section className="relative isolate overflow-hidden bg-brand-950 text-white">
         <Image src={PHOTOS[hero].src} alt={photoAlt(hero, locale)} fill priority sizes="100vw" className="-z-20 object-cover" style={{ objectPosition: PHOTOS[hero].position }} />
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(8_33_19/0.92)_0%,rgb(12_47_27/0.78)_42%,rgb(12_47_27/0.15)_100%)] max-md:bg-[rgb(8_33_19/0.8)]" />
         <div className={cn(WRAP, "flex min-h-[600px] items-center py-20 max-md:min-h-0 max-md:py-14")}>
           <div className="max-w-[720px]">
-            <p className="text-[14px] font-bold uppercase tracking-[0.08em] text-brand-200">{t("eyebrow")}</p>
-            <h1 className="mt-5 text-balance text-[40px] font-bold leading-[1.08] md:text-[60px]">{t("titleStatement")}</h1>
-            <p className="mt-4 text-balance text-[24px] font-medium leading-[1.3] text-brand-100 md:text-[30px]">{t("titleQuestion")}</p>
+            <h1 className="text-balance text-[40px] font-bold leading-[1.08] md:text-[60px]">{t("title")}</h1>
+            <p className="mt-5 max-w-[36em] text-[19px] leading-[1.5] text-brand-50 md:text-[21px]">{t("lede")}</p>
             <div className="mt-9 flex flex-wrap gap-3 max-md:flex-col">
               <Button size="lg" className="bg-white text-brand-800 hover:bg-brand-50" asChild>
                 <Link href="/observatory">
@@ -101,7 +107,7 @@ function Home() {
       {/* Explore: photo cards */}
       <section className="bg-muted py-20 max-md:py-12">
         <div className={WRAP}>
-          <Title lede={t("exploreLede")}>{t("exploreTitle")}</Title>
+          <Title>{t("exploreTitle")}</Title>
           <ul className="grid grid-cols-3 gap-7 max-lg:grid-cols-2 max-md:grid-cols-1">
             {cards.map((c) => (
               <li key={c.key}>

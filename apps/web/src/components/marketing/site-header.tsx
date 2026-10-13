@@ -10,7 +10,7 @@ import { OBSERVATORY_SECTIONS } from "@/components/observatory/page-head";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, SheetContent, SheetHeader } from "@/components/ui/dialog";
 import { isCurator, useMe } from "@/lib/auth";
-import { REPO_URL } from "@/lib/site";
+import { AISESA_URL, REPO_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 /** Kept so existing imports (`@/components/marketing/site-header`) still compile. */
@@ -61,7 +61,7 @@ export function SiteHeader({ wide = false }: { wide?: boolean }) {
       <div className="border-b border-border bg-white text-[13px] text-ink-2">
         <div className={cn(wrap, "flex h-9 items-center justify-between gap-4")}>
           <p className="flex min-w-0 items-center gap-2.5">
-            <AisesaLogo height={20} priority />
+            <AisesaLogo height={20} priority href={AISESA_URL} />
             <span className="truncate max-md:hidden">{t("partner")}</span>
             <span className="ml-1 inline-flex shrink-0 items-center rounded-full border border-amber-500/40 bg-amber-100 px-2 py-px text-[11.5px] font-semibold uppercase tracking-[0.04em] text-amber-700" title={t("betaTitle")}>
               {t("beta")}

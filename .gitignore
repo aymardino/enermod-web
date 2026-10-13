@@ -9,6 +9,7 @@ __pycache__/
 *.pyc
 .venv/
 *.egg-info/
+apps/api/build/
 .pytest_cache/
 enermod_hub.db*
 krinea.db*

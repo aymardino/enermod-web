@@ -1,7 +1,6 @@
-"""Tool tracker: repository activity of the open tools, in the spirit of the openmod tracker
-(which aggregates repository and community data for open energy modelling tools). Here the
-hub stores a monthly snapshot per tool so usage in the literature (the corpus) and activity
-of the code base can be read side by side."""
+"""Tool tracker: repository activity of the open tools. The hub stores a monthly snapshot per
+tool so usage in the literature (the corpus) and activity of the code base can be read side
+by side."""
 from __future__ import annotations
 
 import datetime as dt

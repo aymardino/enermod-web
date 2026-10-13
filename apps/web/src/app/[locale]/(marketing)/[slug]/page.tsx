@@ -7,6 +7,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { Markdown, ProseLayout, extractHeadings, splitIntro } from "@/components/marketing/prose";
 import { LiveFigures } from "@/components/observatory/live-figures";
+import { PrismaDiagram, splitPrisma } from "@/components/marketing/prisma-diagram";
 
 /** Markdown pages, one file per language under content/<locale>/<slug>.md. */
 const SLUGS = ["about", "methodology", "research", "privacy", "legal"] as const;
@@ -65,6 +66,8 @@ export default async function ContentPage({ params }: { params: Promise<{ locale
   const meta = versionLine ? <Markdown source={intro.replace(/^\*|\*$/g, "")} locale={lang} /> : undefined;
   const headline = r.has(`headline.${slug}`) ? r(`headline.${slug}`) : t(`${slug}.title`);
   const live = slug === "methodology" || slug === "about" || slug === "research";
+  // the PRISMA diagram is laid out wider than the text, so the article is cut around it
+  const { before, data: prisma, after } = splitPrisma(body);
 
   return (
     <ProseLayout
@@ -77,8 +80,10 @@ export default async function ContentPage({ params }: { params: Promise<{ locale
       tocLabel={r("toc")}
       aside={live ? <LiveFigures /> : undefined}
       photo={slug === "about" ? "aisesa-congress-talk" : slug === "research" ? "aisesa-congress-group" : slug === "methodology" ? "inga-dam" : undefined}
+      figure={prisma ? <PrismaDiagram d={prisma} /> : undefined}
+      after={prisma && after.trim() ? <Markdown source={after} locale={lang} /> : undefined}
     >
-      <Markdown source={body} locale={lang} />
+      <Markdown source={before} locale={lang} />
       {slug === "legal" && <PhotoCredits title={r("photoCredits")} locale={locale} />}
     </ProseLayout>
   );

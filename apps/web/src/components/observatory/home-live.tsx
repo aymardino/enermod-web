@@ -378,7 +378,7 @@ export function HomeTrend({ className }: { className?: string }) {
             </div>
             {ratio && (
               <div>
-                <dd className="text-[40px] font-light leading-none text-brand-800">×{f.number(ratio, { maximumFractionDigits: 0 })}</dd>
+                <dd className="text-[40px] font-light leading-none text-brand-800">{f.number(ratio, { maximumFractionDigits: 0 })}</dd>
                 <dt className="mt-2 text-[14.5px] text-muted-foreground">{t("trend.growth", { year: String(tenBefore!.year) })}</dt>
               </div>
             )}

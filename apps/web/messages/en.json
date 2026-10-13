@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "EnerMod Africa: the African Energy Modelling Observatory",
-    "description": "A living inventory of energy modelling studies and tools applied across the 54 African countries, built from a PRISMA systematic review: maps, gaps, readiness scores, a tool recommender and open data."
+    "description": "An open observatory of energy modelling studies and tools applied to African countries, kept up to date by contributions and regular literature searches. Curators check every addition."
   },
   "common": {
     "appName": "EnerMod Africa",
@@ -83,7 +83,7 @@
     "utilities": "Utilities",
     "main": "Main",
     "home": "EnerMod Africa, home",
-    "partner": "An AISESA Cluster 1 activity · MINES Paris-PSL · The Transition Institute 1.5",
+    "partner": "An AISESA Cluster 1 activity hosted at MINES Paris-PSL",
     "sourceCode": "Source code",
     "sections": "Observatory sections",
     "search": "Search the studies",
@@ -94,9 +94,8 @@
     "betaTitle": "The platform is in beta: data and features are still evolving."
   },
   "home": {
-    "eyebrow": "PRISMA systematic review · 54 countries · open data",
-    "title": "Africa's energy future is being modelled. By whom, with which tools, and with what blind spots?",
-    "lede": "Individual studies exist in abundance; a synthesis of what they collectively show, and collectively miss, did not. EnerMod Africa maps every energy modelling study applied to an African country, the tools behind them and the conditions under which models can inform policy.",
+    "title": "Who models Africa’s energy future?",
+    "lede": "An open observatory of energy modelling studies on African countries, the tools they use and the institutions that lead them. It started with a systematic review and is kept up to date by curators and contributors.",
     "ctaPrimary": "Explore the observatory",
     "ctaSecondary": "Find the right tool",
     "trust": "Every study individually verified · every score documented · every figure updates as the inventory grows.",
@@ -176,11 +175,9 @@
         "cta": "Data and API"
       }
     },
-    "partnersTitle": "AISESA · MINES Paris-PSL · The Transition Institute 1.5",
+    "partnersTitle": "AISESA, MINES Paris-PSL and The Transition Institute 1.5",
     "partnersText": "EnerMod Africa delivers Activity 1 of AISESA Cluster 1 (clean energy pathways for sustainable development): mapping the energy modelling tools and analytical capacities that already exist across the continent.",
     "krineaText": "The extraction tool built for the review has grown into an open-source systematic review workbench,",
-    "titleStatement": "Africa’s energy future is being modelled.",
-    "titleQuestion": "By whom, with which tools, and with what blind spots?",
     "ctaText": "or find the right tool for your study",
     "live": "computed live",
     "figs": {
@@ -245,12 +242,11 @@
       "africanLedHint": "of studies led by African institutions"
     },
     "who": {
-      "title": "Who models Africa’s energy future?",
+      "title": "Where the authors are based",
       "text": "Author institutions by country, counted once per study. African institutions now lead most of the record, but much of the modelling is still done from Europe, North America and Asia.",
       "cta": "Explore the gap analysis"
     },
     "exploreTitle": "Explore the observatory",
-    "exploreLede": "Six entry points into the inventory, from the map of where Africa is modelled to the tool that fits your study.",
     "cards": {
       "map": "Where Africa is modelled, country by country, by scope and period.",
       "gaps": "What the models leave out: informal economies, biomass, unreliable supply.",
@@ -261,7 +257,7 @@
     },
     "trend": {
       "lastYear": "studies published in {year}",
-      "growth": "more than in {year}"
+      "growth": "times as many as in {year}"
     }
   },
   "observatory": {
@@ -366,7 +362,7 @@
     },
     "gaps": {
       "title": "What do the models leave out?",
-      "lede": "African energy systems have features that many global models were not built to capture: large informal economies, charcoal and biomass, unreliable supply, rapid urbanisation. This page quantifies those silences.",
+      "lede": "African energy systems have features that many global models were not built to capture: large informal economies, charcoal and biomass, unreliable supply, rapid urbanisation. This page shows how often the studies take them into account.",
       "scope": "Model scope",
       "scopeHelp": "Focused models leave methodological fields empty because those fields do not apply to them, not because less effort went into extraction.",
       "scopeAllHelp": "Statistics aggregate whole energy-system and focused models together, which can be misleading.",
@@ -417,7 +413,7 @@
     },
     "readiness": {
       "title": "Which countries are best prepared to use models?",
-      "lede": "A model is only as useful as a country's ability to run, maintain and trust it. Readiness combines institutional capacity, data availability, climate commitments and electrification, the conditions that let modelling translate into policy.",
+      "lede": "Readiness combines institutional capacity, data availability, climate commitments and electrification: the conditions a country needs to run, maintain and use models for policy.",
       "headline": "{n} countries score below 4/10. Readiness gaps concentrate less around electrification and more around governance frameworks and data transparency.",
       "average": "Average readiness",
       "averageHint": "across {n} ranked countries",
@@ -456,8 +452,8 @@
       "mapLede": "Readiness 0–10 in five fixed classes. Select a country to open its page."
     },
     "studies": {
-      "title": "Explore the evidence",
-      "lede": "The full inventory, open for inspection. Filter by scope, tool, country, technology or policy alignment, then open any study to see everything that was extracted from it.",
+      "title": "Studies in the inventory",
+      "lede": "Filter the inventory by scope, tool, country, technology or policy alignment, then open a study to see the data extracted from it.",
       "download": "Download CSV",
       "filters": "Filters",
       "year": "Publication year",
@@ -530,7 +526,7 @@
     },
     "tools": {
       "title": "The tools behind the studies",
-      "lede": "101 modelling tools profiled across licence, cost, learning curve, documentation, community and typical uses, with their track record in the African literature and, for open tools, the activity of their code repository.",
+      "lede": "Each modelling tool in the inventory is profiled by licence, cost, learning curve, documentation, community and typical uses. The profile also shows how many studies on African countries use it and, for open tools, the activity of its code repository.",
       "download": "Download CSV",
       "inventory": "Tools in the inventory",
       "inventoryHint": "{n} used in at least one study",
@@ -540,7 +536,7 @@
       "trackedHint": "stars, forks, issues, contributors, last commit",
       "popular": "Most consulted here (30 days)",
       "popularEmpty": "No visits recorded yet.",
-      "trackerNote": "Repository metrics are refreshed monthly for the open tools with a known repository. For the global open modelling ecosystem see the",
+      "trackerNote": "Repository metrics are refreshed every month for open tools with a known repository.",
       "licence": "Licence",
       "type": "Type",
       "tool": "Tool",
@@ -609,7 +605,6 @@
       "fetched": "Fetched",
       "noMetricsYet": "Repository known, metrics not fetched yet.",
       "noRepo": "No public repository recorded. Know one? Suggest a correction.",
-      "trackerEntry": "Entry in an external tool tracker",
       "sources": "Sources of this profile",
       "sourcesInventory": "Characteristics derived from the {n} inventory studies.",
       "checked": "Information checked"
@@ -655,7 +650,7 @@
     },
     "recommender": {
       "title": "Which tool fits your context?",
-      "lede": "There is no single best energy model, only the one best suited to your question, your team and your data. Answer six questions, add optional requirements, and the recommender ranks the publicly available tools of the inventory.",
+      "lede": "Answer six questions on your objective, scale, budget, team, time horizon and data, and add other requirements if needed. The recommender then ranks the publicly available tools in the inventory.",
       "run": "Get recommendations",
       "weightsHint": "A transparent heuristic to shortlist candidates, not a verdict.",
       "methodLink": "Scoring weights",
@@ -781,7 +776,7 @@
   },
   "contribute": {
     "title": "Contribute to the inventory",
-    "lede": "The observatory is a living review. Propose a study the review missed, correct a record, or describe a tool. A curator verifies every proposal before it is published.",
+    "lede": "Propose a missing study, correct a record or describe a tool. A curator verifies every proposal before it is published.",
     "kinds": {
       "study": "Propose a study",
       "correction": "Suggest a correction",
@@ -888,7 +883,7 @@
   "pages": {
     "about": {
       "title": "About EnerMod Africa",
-      "description": "An observatory born from a PRISMA systematic review, delivered for AISESA Cluster 1 at MINES Paris-PSL, and designed to be maintained by its community."
+      "description": "EnerMod Africa is an AISESA Cluster 1 activity hosted at MINES Paris-PSL. It began with a systematic review of the literature and is now kept up to date by curators and contributors."
     },
     "methodology": {
       "title": "Methodology and scores",
@@ -1427,23 +1422,30 @@
       "research": "Publications, open data and a living inventory"
     },
     "prisma": {
-      "aria": "PRISMA 2020 flow of the systematic review",
-      "identified": "Identified in OpenAlex and Scopus",
-      "sources": "OpenAlex {openalex} · Scopus {scopus}",
-      "duplicates": "duplicates removed",
-      "screened": "Screened on title and abstract",
-      "screenedExcluded": "excluded",
-      "sought": "Sought for full text",
-      "notRetrieved": "not retrieved",
-      "assessed": "Full texts assessed for eligibility",
-      "assessedExcluded": "excluded, with reasons",
-      "showReasons": "Show the {n} reasons",
-      "hideReasons": "Hide the reasons",
-      "other": "from other methods",
-      "otherDetail": "{n} records from the pilot inventory ({inventory}) and citation searching ({citations}); {excluded} excluded",
-      "included": "Included in the inventory",
-      "includedDetail": "{databases} from databases · {other} from other methods",
-      "caption": "The PRISMA 2020 flow of the review, drawn as a single-line diagram: the main feeder runs down from the database searches, each exclusion branches off to a terminal, and the studies found by other methods join it before inclusion.",
+      "aria": "PRISMA 2020 flow diagram of the systematic review",
+      "headDatabases": "Identification of studies via databases",
+      "headOther": "Identification via other methods",
+      "phaseIdentification": "Identification",
+      "phaseScreening": "Screening",
+      "phaseIncluded": "Included",
+      "n": "(n = {n})",
+      "identified": "Records identified from databases",
+      "sources": "OpenAlex {openalex} · Scopus {scopus}",
+      "duplicates": "Duplicate records removed",
+      "screened": "Records screened (title and abstract)",
+      "screenedExcluded": "Records excluded",
+      "sought": "Reports sought for retrieval",
+      "notRetrieved": "Reports not retrieved",
+      "assessed": "Reports assessed for eligibility",
+      "assessedExcluded": "Reports excluded, with reasons",
+      "other": "Records identified from other sources",
+      "otherSources": "Initial inventory {inventory} · Citation searching {citations}",
+      "otherAssessed": "Reports assessed for eligibility",
+      "otherExcluded": "Reports excluded",
+      "included": "Studies included in the review and the EnerMod Africa Observatory",
+      "includedDetail": "{databases} from databases · {other} from other methods",
+      "caption": "PRISMA 2020 flow diagram of the systematic review, the initial step of the observatory.",
+      "download": "Download the figure (PNG)",
       "reasons": {
         "scope": "Not energy focus, out of scope",
         "private": "Single private facility sizing study",

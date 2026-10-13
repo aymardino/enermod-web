@@ -1,4 +1,4 @@
-## Un observatoire né d'une revue systématique
+## Contexte
 
 EnerMod Africa est la face publique d'une mission menée au sein de l'**African Institute for Sustainable Energy and Systems Analysis (AISESA)**, une initiative conçue pour construire, en Afrique, les connaissances et la capacité d'analyse nécessaires à des décisions énergétiques fondées sur les faits. AISESA organise son agenda de recherche en grappes thématiques ; la première est consacrée aux trajectoires d'énergie propre pour le développement durable, et son activité d'ouverture (Activité 1) consiste à cartographier les outils de modélisation énergétique et les capacités d'analyse qui existent déjà sur le continent. Cet observatoire livre cette activité.
 
@@ -10,7 +10,7 @@ Le travail a été accueilli au **Centre de Mathématiques Appliquées (CMA) de 
 
 Y répondre a demandé trois livrables :
 
-1. une **revue systématique PRISMA 2020** de la littérature publiée : recherches dans OpenAlex et Scopus, près de dix mille notices, 7 759 notices uniques triées, 1 452 textes intégraux évalués, et un corpus final de 1 053 études couvrant 2001 à 2026 et 101 outils distincts ;
+1. une **revue systématique PRISMA 2020** de la littérature publiée, étape initiale, avec des recherches dans OpenAlex et Scopus le 5 mai 2026 : 7 759 notices uniques triées, 1 452 textes intégraux évalués, et un corpus initial de 1 053 études (2001 à 2026) mobilisant 101 outils distincts ;
 2. un **outil d'extraction assisté par IA** qui convertit chaque document en un enregistrement structuré de 51 champs, chaque enregistrement étant vérifié à la main contre le texte source. Cet outil est devenu [Krinea](https://krinea.org), un atelier open source de revue systématique ;
 3. **cet observatoire**, grâce auquel planificateurs, chercheurs et bailleurs explorent la couverture géographique, les lacunes thématiques, la préparation institutionnelle et les outils les mieux adaptés à leur contexte.
 
@@ -21,7 +21,7 @@ La première version de l'observatoire était une application Streamlit aliment�
 - chaque chiffre est servi par une API depuis une base relationnelle (PostgreSQL sur Supabase, ou SQLite) ; le site, les exports de données et l'assistant lisent la même source de vérité ;
 - **chacun peut contribuer** : proposer une étude manquante, une correction ou un profil d'outil. Un curateur vérifie chaque proposition avant son entrée dans l'inventaire ;
 - un **pipeline de découverte** relance la stratégie de recherche de la revue sur OpenAlex pour trouver les études nouvelles ou oubliées, les confronte au corpus et transmet les candidats aux curateurs (et à Krinea pour le tri et l'extraction) ;
-- un **suivi des outils** lit l'activité du dépôt de code de chaque outil ouvert à côté de son usage dans la littérature, dans l'esprit de l'openmod tracker ;
+- un **suivi des outils** montre l'activité du dépôt de code de chaque outil ouvert à côté de son usage dans la littérature ;
 - un **assistant ancré dans les données** répond aux questions à partir du seul inventaire et cite les enregistrements utilisés ;
 - l'ensemble du site est disponible en **français et en anglais**.
 

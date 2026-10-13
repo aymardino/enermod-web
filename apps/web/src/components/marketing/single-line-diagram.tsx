@@ -52,36 +52,6 @@ export function SingleLineDiagram({ feeders, bus, outputs, ariaLabel, headingLev
   );
 }
 
-/** PRISMA flow drawn as a vertical single-line diagram: the main feeder runs down,
- *  each stage is an open circle (the last a filled square) with its small-caps label and a 26px
- *  figure; an exclusion branches off at a right angle to a square terminal. Pass formatted numbers. */
-export function PrismaFlow({ stages, ariaLabel, className }: {
-  stages: { label: React.ReactNode; value: React.ReactNode; exclusion?: { value: React.ReactNode; label: React.ReactNode } }[];
-  ariaLabel?: string;
-  className?: string;
-}) {
-  return (
-    <div role="group" aria-label={ariaLabel} className={cn("prisma", className)}>
-      <ol>
-        {stages.map((s, i) => (
-          <li key={i} className={s.exclusion ? "x" : undefined}>
-            <div>
-              <span className="st">{s.label}</span>
-              <span className="n">{s.value}</span>
-            </div>
-            {s.exclusion && (
-              <p className="ex">
-                <b>{s.exclusion.value}</b>
-                {s.exclusion.label}
-              </p>
-            )}
-          </li>
-        ))}
-      </ol>
-    </div>
-  );
-}
-
 /** Vertical process steps (recommender questions, contribution steps): a 3px ink feeder down the
  *  left, an open circle per stage and a filled square for the last. Children are `SldStep`s. */
 export function SldSteps({ children, className, ariaLabel }: { children: React.ReactNode; className?: string; ariaLabel?: string }) {

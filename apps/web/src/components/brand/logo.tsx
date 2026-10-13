@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { AISESA_URL, TTI_URL } from "@/lib/site";
 
 /** The EnerMod mark: the African continent in white on a deep-blue rounded square.
  *  40-unit viewBox. With `title` it is an image with that name; without, it is decorative (the
@@ -63,22 +64,28 @@ export function EnermodWordmark({ className, size, compact = false, inverse = fa
 const AISESA = { src: "/brand/aisesa_logo.png", w: 600, h: 254 };
 const MINES = { src: "/brand/mines_psl_tti5.png", w: 800, h: 170 };
 
-/** AISESA logo in its true colours, multiplied onto paper or sand. 20px in the utility strip. */
-export function AisesaLogo({ height = 20, className, alt = "AISESA", priority = false }: { height?: number; className?: string; alt?: string; priority?: boolean }) {
+/** AISESA logo in its true colours, multiplied onto paper or sand. 20px in the utility strip.
+ *  With `href` it links to that address in a new tab, the logo's alt text naming the link. */
+export function AisesaLogo({ height = 20, className, alt = "AISESA", priority = false, href }: { height?: number; className?: string; alt?: string; priority?: boolean; href?: string }) {
   const width = Math.round((height * AISESA.w) / AISESA.h);
-  return (
+  const img = (
     <Image src={AISESA.src} alt={alt} width={width} height={height} priority={priority}
       className={cn("shrink-0 mix-blend-multiply", className)} style={{ height, width }} />
   );
+  return href ? <a href={href} target="_blank" rel="noreferrer" className="inline-flex shrink-0 rounded-sm">{img}</a> : img;
 }
 
-/** AISESA and MINES Paris-PSL / TTI 1.5: 44px in the footer, 52px in the home colophon and About. */
+/** AISESA and MINES Paris-PSL / TTI 1.5, each linking to its own site: 44px in the footer, 52px
+ *  in the home colophon and About. */
 export function PartnerLogos({ className, height = 44 }: { className?: string; height?: number }) {
+  const minesWidth = Math.round((height * MINES.w) / MINES.h);
   return (
     <div className={cn("flex flex-wrap items-center gap-x-[22px] gap-y-4", className)}>
-      <AisesaLogo height={height} alt="AISESA, African Institute for Sustainable Energy and Systems Analysis" />
-      <Image src={MINES.src} alt="MINES Paris-PSL · The Transition Institute 1.5" width={Math.round((height * MINES.w) / MINES.h)} height={height}
-        className="shrink-0 mix-blend-multiply" style={{ height, width: Math.round((height * MINES.w) / MINES.h) }} />
+      <AisesaLogo height={height} href={AISESA_URL} alt="AISESA, African Institute for Sustainable Energy and Systems Analysis" />
+      <a href={TTI_URL} target="_blank" rel="noreferrer" className="inline-flex shrink-0 rounded-sm">
+        <Image src={MINES.src} alt="MINES Paris-PSL · The Transition Institute 1.5" width={minesWidth} height={height}
+          className="shrink-0 mix-blend-multiply" style={{ height, width: minesWidth }} />
+      </a>
     </div>
   );
 }

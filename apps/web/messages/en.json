@@ -89,7 +89,9 @@
     "search": "Search the studies",
     "searchPlaceholder": "Search studies, tools, countries",
     "breadcrumb": "Breadcrumb",
-    "crumbHome": "Home"
+    "crumbHome": "Home",
+    "beta": "Beta",
+    "betaTitle": "The platform is in beta: data and features are still evolving."
   },
   "home": {
     "eyebrow": "PRISMA systematic review · 54 countries · open data",
@@ -238,7 +240,29 @@
     "trendTitle": "Modelling activity is accelerating",
     "trendLede": "Studies per publication year since 2001. Whole energy-system studies form the base of each bar, focused studies sit above.",
     "partnersPhotoAlt": "Participants of the 3rd AISESA Congress in Kampala, September 2026",
-    "partnersPhotoCredit": "3rd AISESA Congress, Kampala, September 2026"
+    "partnersPhotoCredit": "3rd AISESA Congress, Kampala, September 2026",
+    "stats": {
+      "africanLedHint": "of studies led by African institutions"
+    },
+    "who": {
+      "title": "Who models Africa’s energy future?",
+      "text": "Author institutions by country, counted once per study. African institutions now lead most of the record, but much of the modelling is still done from Europe, North America and Asia.",
+      "cta": "Explore the gap analysis"
+    },
+    "exploreTitle": "Explore the observatory",
+    "exploreLede": "Six entry points into the inventory, from the map of where Africa is modelled to the tool that fits your study.",
+    "cards": {
+      "map": "Where Africa is modelled, country by country, by scope and period.",
+      "gaps": "What the models leave out: informal economies, biomass, unreliable supply.",
+      "readiness": "Which countries have the institutions and data to put models to work.",
+      "studies": "Search the inventory and open any study record and its source.",
+      "tools": "Which tools dominate, open or licensed, and how they are used.",
+      "recommender": "Find the tool that fits your question, your team and your data."
+    },
+    "trend": {
+      "lastYear": "studies published in {year}",
+      "growth": "more than in {year}"
+    }
   },
   "observatory": {
     "dashboard": {
@@ -1440,6 +1464,7 @@
       "credit": "Photo: AISESA, 3rd AISESA Congress, Kampala, September 2026",
       "talkAlt": "Presentation of the mapping of energy modelling tools at the 3rd AISESA Congress in Kampala",
       "groupAlt": "Participants of the 3rd AISESA Congress in Kampala"
-    }
+    },
+    "photoCredits": "Photo credits"
   }
 }

@@ -21,7 +21,7 @@ import { Block, PageHead } from "@/components/observatory/page-head";
 import { countryInfo } from "@/components/observatory/study-card";
 
 /** Page container of the observatory: 1248px, 1400px from 2xl, 32px gutters (16px on phones). */
-const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]";
+const WRAP = "mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4";
 const REGION_ORDER = ["north", "west", "central", "east", "southern"];
 type SortKey = "readiness_score" | "gap_score" | "n_studies" | "electrification_rate";
 type Facet = "region" | "gov" | "dat";

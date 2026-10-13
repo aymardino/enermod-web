@@ -6,12 +6,10 @@ from collections import Counter
 from enermod_api.services.data import AFRICAN_ISO2, FEATURE_FIELDS, ISO2_TO_ISO3, TECH_FIELDS, Corpus, s, tokens
 from enermod_api.services.scores import coverage
 
-try:
-    import pycountry
-    _WORLD_ISO3 = {c.alpha_2: c.alpha_3 for c in pycountry.countries}
-    _WORLD_NAMES = {c.alpha_2: getattr(c, "common_name", c.name) for c in pycountry.countries}
-except Exception:        # pragma: no cover - pycountry is optional
-    _WORLD_ISO3, _WORLD_NAMES = {}, {}
+import pycountry
+
+_WORLD_ISO3 = {c.alpha_2: c.alpha_3 for c in pycountry.countries}
+_WORLD_NAMES = {c.alpha_2: getattr(c, "common_name", c.name) for c in pycountry.countries}
 ISO2_TO_ISO3_WORLD = {**_WORLD_ISO3, **ISO2_TO_ISO3}
 
 

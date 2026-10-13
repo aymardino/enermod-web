@@ -1,16 +1,16 @@
 "use client";
 
-import { FileText, Globe2, Users, Wrench } from "lucide-react";
 import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@/i18n/navigation";
 import { api, qs, type CountrySummary, type Overview, type StudyPage } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { useLabel } from "@/lib/labels";
 import { Button } from "@/components/ui/button";
 import { Key } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/misc";
 import { Callout, Caption, Fig, Figs } from "@/components/observatory/kpi";
-import { AfricaMap } from "@/components/observatory/africa-map";
+import { AfricaMap, WorldOriginMap } from "@/components/observatory/africa-map";
 import { OriginBar, RowBars, ShareBar, YearBars, YearLegend } from "@/components/observatory/charts";
 import { AFRICA_COUNTRIES, StudyCard, StudyEntries, countryInfo } from "@/components/observatory/study-card";
 
@@ -278,7 +278,7 @@ export function RecordCount() {
   return d ? <>{t("records", { n: d.n_studies })}</> : null;
 }
 
-/** Key figures band of the home page: four large numbers in a white card. */
+/** Key figures band of the home page: four large numbers on white, thin dividers, no icons. */
 export function HeroStats({ className }: { className?: string }) {
   const t = useTranslations("home");
   const td = useTranslations("observatory.dashboard");
@@ -286,32 +286,108 @@ export function HeroStats({ className }: { className?: string }) {
   const d = useOverview();
   const items = d
     ? [
-        { icon: FileText, value: f.number(d.n_studies), label: t("kpis.studies"), hint: t("figs.studiesHint", { from: String(d.year_min), to: String(d.year_max), full: d.n_full, light: d.n_light }) },
-        { icon: Globe2, value: `${f.number(d.countries_covered)}/${f.number(d.n_countries)}`, label: t("kpis.countries"), hint: td("countriesHint", { n: d.n_countries }) },
-        { icon: Wrench, value: f.number(d.n_tools), label: t("kpis.tools"), hint: td("toolsUsed", { n: d.n_tools_used }) },
-        { icon: Users, value: f.number(d.origin.african_led_pct / 100, { style: "percent", maximumFractionDigits: 0 }), label: t("kpis.africanLed"), hint: t("kpis.africanLedHint", { full: d.african_led_full_pct, light: d.african_led_light_pct }) },
+        { value: f.number(d.n_studies), label: t("kpis.studies"), hint: `${d.year_min}–${d.year_max}` },
+        { value: `${f.number(d.countries_covered)}/${f.number(d.n_countries)}`, label: t("kpis.countries"), hint: td("countriesHint", { n: d.n_countries }) },
+        { value: f.number(d.n_tools), label: t("kpis.tools"), hint: td("toolsUsed", { n: d.n_tools_used }) },
+        { value: f.number(d.origin.african_led_pct / 100, { style: "percent", maximumFractionDigits: 0 }), label: t("kpis.africanLed"), hint: t("stats.africanLedHint") },
       ]
     : [];
   return (
-    <div className={cn("rounded-xl border border-border bg-card shadow-[0_12px_32px_-12px_rgb(16_24_40/0.25)]", className)}>
+    <div className={cn("min-w-0", className)}>
       {d ? (
-        <dl className="grid grid-cols-4 divide-x divide-border max-lg:grid-cols-2 max-lg:divide-x-0 max-md:grid-cols-1">
-          {items.map((it) => (
-            <div key={it.label} className="flex gap-4 p-6 max-lg:border-b max-lg:border-border max-md:p-5">
-              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700">
-                <it.icon className="size-5" />
-              </span>
-              <div className="min-w-0">
-                <dt className="text-[14px] font-medium text-muted-foreground">{it.label}</dt>
-                <dd className="mt-1 text-[34px] font-bold leading-none text-brand-800">{it.value}</dd>
-                <dd className="mt-2 text-[13px] leading-[1.45] text-muted-foreground">{it.hint}</dd>
-              </div>
+        <dl className="grid grid-cols-4 max-lg:grid-cols-2 max-lg:gap-y-8">
+          {items.map((it, i) => (
+            <div key={it.label} className={cn("px-6 text-center max-md:px-3", i > 0 && "lg:border-l lg:border-border", i % 2 === 1 && "max-lg:border-l max-lg:border-border")}>
+              <dd className="text-[44px] font-light leading-none text-brand-800 max-md:text-[34px]">{it.value}</dd>
+              <dt className="mt-3 text-[16px] font-semibold text-foreground">{it.label}</dt>
+              <dd className="mt-1 text-[14px] leading-[1.45] text-muted-foreground">{it.hint}</dd>
             </div>
           ))}
         </dl>
       ) : (
-        <Skeleton className="h-[132px] w-full" />
+        <Skeleton className="h-[120px] w-full" />
       )}
+    </div>
+  );
+}
+
+/** Home: who models Africa's energy future. World map of the authors' institutions (Africa in
+ *  green, elsewhere in violet) and the shares of African-led, mixed and non-African studies. */
+export function HomeOrigin({ className }: { className?: string }) {
+  const t = useTranslations("home");
+  const c = useTranslations("common");
+  const label = useLabel();
+  const locale = useLocale();
+  const d = useOverview();
+  const region = typeof Intl !== "undefined" && "DisplayNames" in Intl ? new Intl.DisplayNames([locale], { type: "region" }) : null;
+  const nameOf = (iso2: string, fallback: string) => (AFRICA_COUNTRIES[iso2] ? countryInfo(iso2, locale).name : region?.of(iso2) ?? fallback);
+  return (
+    <div className={cn("grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)] items-center gap-14 max-xl:grid-cols-1 max-xl:gap-8", className)}>
+      <div className="min-w-0">
+        <h2 className="text-balance text-[30px] font-bold leading-[1.2] md:text-[36px]">{t("who.title")}</h2>
+        <span aria-hidden="true" className="mt-4 block h-1 w-14 rounded-full bg-primary" />
+        <p className="mt-5 text-[17px] leading-[1.6] text-ink-2">{t("who.text")}</p>
+        {d && (
+          <OriginBar
+            className="mt-7"
+            origin={d.origin}
+            labels={{ african_led: label("origin", "african_led"), mixed: label("origin", "mixed"), non_african: label("origin", "non_african") }}
+          />
+        )}
+        <Button variant="outline" className="mt-7" asChild>
+          <Link href="/observatory/gaps">{t("who.cta")}</Link>
+        </Button>
+      </div>
+      <div className="min-w-0">
+        {d ? (
+          <WorldOriginMap
+            rows={d.origin_map.map((r) => ({ ...r, name: nameOf(r.iso2, r.name) }))}
+            labels={{ africa: t("mapAfrica"), outside: t("mapOutside"), studies: c("studies") }}
+            ariaLabel={t("who.title")}
+          />
+        ) : (
+          <Skeleton className="aspect-[2/1] w-full" />
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** Home: the publication trend, two highlighted numbers then the year chart. */
+export function HomeTrend({ className }: { className?: string }) {
+  const t = useTranslations("home");
+  const f = useFormatter();
+  const d = useOverview();
+  const rows = d?.by_year ?? [];
+  const complete = rows.filter((r) => r.year < CURRENT_YEAR).sort((a, b) => a.year - b.year);
+  const last = complete[complete.length - 1];
+  const tenBefore = last ? complete.find((r) => r.year === last.year - 10) : undefined;
+  const total = (r?: { full: number; light: number }) => (r ? r.full + r.light : 0);
+  const ratio = last && tenBefore && total(tenBefore) > 0 ? total(last) / total(tenBefore) : null;
+  return (
+    <div className={cn("grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)] items-center gap-14 max-xl:grid-cols-1 max-xl:gap-8", className)}>
+      <div className="min-w-0">
+        <h2 className="text-balance text-[30px] font-bold leading-[1.2] md:text-[36px]">{t("trendTitle")}</h2>
+        <span aria-hidden="true" className="mt-4 block h-1 w-14 rounded-full bg-primary" />
+        <p className="mt-5 text-[17px] leading-[1.6] text-ink-2">{t("trendLede")}</p>
+        {last && (
+          <dl className="mt-7 grid grid-cols-2 gap-6">
+            <div>
+              <dd className="text-[40px] font-light leading-none text-brand-800">{f.number(total(last))}</dd>
+              <dt className="mt-2 text-[14.5px] text-muted-foreground">{t("trend.lastYear", { year: String(last.year) })}</dt>
+            </div>
+            {ratio && (
+              <div>
+                <dd className="text-[40px] font-light leading-none text-brand-800">×{f.number(ratio, { maximumFractionDigits: 0 })}</dd>
+                <dt className="mt-2 text-[14.5px] text-muted-foreground">{t("trend.growth", { year: String(tenBefore!.year) })}</dt>
+              </div>
+            )}
+          </dl>
+        )}
+      </div>
+      <div className="min-w-0 rounded-xl border border-border bg-card p-6 shadow-card max-md:p-4">
+        <HeroHorizon bare />
+      </div>
     </div>
   );
 }

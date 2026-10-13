@@ -13,12 +13,12 @@ import { IsoCode, Meter, Table, TBody, TD, TH, THead, TR, countryLinkClass } fro
 import { AfricaMap, WorldOriginMap } from "@/components/observatory/africa-map";
 import { Columns, CoverageBars, OriginBar } from "@/components/observatory/charts";
 import { ChipGroup, LevelFilter } from "@/components/observatory/filters";
-import { Callout, Caption, Kpi, KpiStrip } from "@/components/observatory/kpi";
+import { Caption, Kpi, KpiStrip } from "@/components/observatory/kpi";
 import { Block, PageHead } from "@/components/observatory/page-head";
 import { countryInfo } from "@/components/observatory/study-card";
 
 /** Page container of the observatory: 1248px, 1400px from 2xl, 32px gutters (16px on phones). */
-const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]";
+const WRAP = "mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4";
 /** Two ruled blocks side by side, one column below 1024px. */
 const PAIR = "grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-12 max-lg:grid-cols-[minmax(0,1fr)]";
 
@@ -79,7 +79,6 @@ export default function GapsPage() {
               counts={{ full: ov.data?.n_full ?? 0, light: ov.data?.n_light ?? 0 }}
               labels={{ title: t("scope"), full: label("level", "full"), light: label("level", "light"), all: c("all") }}
             />
-            <p className="mt-3 max-w-[25rem] text-[12.5px] leading-[1.45] text-muted-foreground">{level === "all" ? t("scopeAllHelp") : t("scopeHelp")}</p>
           </div>
         }
       />
@@ -92,7 +91,6 @@ export default function GapsPage() {
           onChange={setRegions}
           options={(ov.data?.regions ?? []).map((r) => ({ value: r, label: label("region", r) }))}
         />
-        <p className="max-w-[30em] pb-1.5 text-[12.5px] leading-[1.45] text-muted-foreground">{t("regionHint")}</p>
       </div>
 
       {!d ? (
@@ -136,9 +134,6 @@ export default function GapsPage() {
                 <OriginBar origin={d.origin} labels={originLabels} />
                 <Caption fig={2}>{t("whoCaption", { n: d.origin.assessed })}</Caption>
               </figure>
-              <Callout tone="brand" className="mt-6">
-                {t("method")} <Link href="/methodology">{t("methodLink")}</Link>
-              </Callout>
             </Block>
             <Block title={t("whereTitle")}>
               <WorldOriginMap

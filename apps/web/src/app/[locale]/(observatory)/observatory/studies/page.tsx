@@ -16,7 +16,7 @@ import { StudyCard } from "@/components/observatory/study-card";
 import { PageHead } from "@/components/observatory/page-head";
 
 export default function StudiesPage() {
-  return <Suspense fallback={<div className="mx-auto max-w-6xl px-4 py-8"><Skeleton className="h-96" /></div>}><Studies /></Suspense>;
+  return <Suspense fallback={<div className="mx-auto max-w-[1800px] px-4 py-8 lg:px-12"><Skeleton className="h-96" /></div>}><Studies /></Suspense>;
 }
 
 function Studies() {
@@ -62,7 +62,7 @@ function Studies() {
   const f = facets.data;
   const reset = () => { setQ(""); setLevels([]); setScales([]); setApproaches([]); setMethods([]); setLics([]); setCats([]); setCountries([]); setTools([]); setFeatures([]); setTechs([]); setFlags({ sdg7: false, sdg13: false, ndc: false, local: false, grey: false }); setYears(null); };
   return (
-    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]">
+    <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4">
       <PageHead section="studies" title={t("title")} lede={t("lede")}>
         <Button variant="outline" className="mt-7 border-white bg-white text-brand-800 hover:bg-brand-50" asChild><a href={api.url("/export/studies.csv")} onClick={() => track("download", "studies.csv")}><Download />{t("download")}</a></Button>
       </PageHead>

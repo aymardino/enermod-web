@@ -1,6 +1,7 @@
 import * as React from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { PHOTOS, photoAlt, photoCredit, type PhotoId } from "@/data/photos";
 import { ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -12,23 +13,29 @@ export type Crumb = { label: React.ReactNode; href?: string };
 
 /** A banner photo: `src` under /public, `credit` printed small in the corner, `position` = CSS
  *  object-position (which part of the photo stays visible when cropped). */
-export type BannerImage = { src: string; alt?: string; credit?: string; position?: string };
+export type BannerImage = { src: string; alt?: string; credit?: string; creditHref?: string; position?: string };
 
 /** Full-width page banner, institutional style: deep green band, breadcrumb, eyebrow, white title,
  *  lede, optional extra content; the continent in watermark on the right. `bleed` stretches it to the
  *  viewport edges when it sits inside a centred page container. `wide` matches the 1400px container. */
-export function PageBanner({ crumbs, eyebrow, title, lede, children, image, bleed = false, wide = false, className }: {
+export function PageBanner({ crumbs, eyebrow, title, lede, children, image: imageProp, photo, bleed = false, wide = false, className }: {
   crumbs?: Crumb[];
   eyebrow?: React.ReactNode;
   title: React.ReactNode;
   lede?: React.ReactNode;
   children?: React.ReactNode;
   image?: BannerImage;
+  /** a photo of the registry (src/data/photos.ts), credited automatically */
+  photo?: PhotoId;
   bleed?: boolean;
   wide?: boolean;
   className?: string;
 }) {
   const t = useTranslations("nav");
+  const locale = useLocale();
+  const image: BannerImage | undefined = photo
+    ? { src: PHOTOS[photo].src, alt: photoAlt(photo, locale), credit: photoCredit(photo, locale), creditHref: "source" in PHOTOS[photo] ? (PHOTOS[photo] as { source?: string }).source : undefined, position: PHOTOS[photo].position }
+    : imageProp;
   return (
     <header className={cn("relative isolate overflow-hidden bg-brand-900 text-white", bleed && "page-banner", className)}>
       {image ? (
@@ -36,7 +43,12 @@ export function PageBanner({ crumbs, eyebrow, title, lede, children, image, blee
           <Image src={image.src} alt={image.alt ?? ""} fill priority sizes="100vw" className="-z-20 object-cover" style={{ objectPosition: image.position ?? "center" }} />
           {/* readable text: deep green on the left fading to a light tint on the right */}
           <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(10_39_22/0.94)_0%,rgb(18_63_37/0.82)_45%,rgb(18_63_37/0.35)_100%)] max-md:bg-[rgb(10_39_22/0.82)]" />
-          {image.credit && <p className="absolute bottom-2 right-3 z-10 text-[11.5px] text-white/70">{image.credit}</p>}
+          {image.credit &&
+            (image.creditHref ? (
+              <a href={image.creditHref} target="_blank" rel="noreferrer" title={image.alt} className="absolute bottom-2 right-3 z-10 text-[11.5px] text-white/70 no-underline hover:text-white hover:underline">{image.credit}</a>
+            ) : (
+              <p className="absolute bottom-2 right-3 z-10 text-[11.5px] text-white/70">{image.credit}</p>
+            ))}
         </>
       ) : (
         <>
@@ -46,7 +58,7 @@ export function PageBanner({ crumbs, eyebrow, title, lede, children, image, blee
           </svg>
         </>
       )}
-      <div className={cn("mx-auto w-full max-w-[1248px] px-8 py-12 max-md:px-4 max-md:py-9", image && "py-16 md:py-20", wide && "2xl:max-w-[1400px]")}>
+      <div className={cn("mx-auto w-full max-w-[1800px] px-6 lg:px-12 py-12 max-md:px-4 max-md:py-9", image && "py-16 md:py-20", wide && "2xl:max-w-[1800px]")}>
         {crumbs && crumbs.length > 0 && (
           <nav aria-label={t("breadcrumb")} className="mb-5">
             <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[14px] text-white/75">

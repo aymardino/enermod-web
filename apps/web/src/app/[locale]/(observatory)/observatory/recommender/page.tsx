@@ -61,7 +61,7 @@ export default function RecommenderPage() {
   };
   const top3 = res?.results.slice(0, 3) ?? [];
   return (
-    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]">
+    <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4">
       <PageHead section="recommender" title={t("title")} lede={t("lede")} />
       {!opts.data ? <Skeleton className="h-64" /> : (
         <form className="rounded-2xl border border-border bg-card p-5 shadow-card" onSubmit={(e) => { e.preventDefault(); run.mutate(); }}>

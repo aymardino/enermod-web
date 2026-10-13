@@ -23,6 +23,8 @@ dependencies = [
   "openpyxl>=3.1",
   "rapidfuzz>=3.9",
   "python-multipart>=0.0.9",
+  # ISO codes of every country: author institutions outside Africa on the "where the authors are based" map
+  "pycountry>=24.6",
 ]
 
 [project.optional-dependencies]

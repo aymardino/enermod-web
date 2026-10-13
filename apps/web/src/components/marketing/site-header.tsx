@@ -17,8 +17,8 @@ import { cn } from "@/lib/utils";
 export { LanguageSwitch };
 
 /** Page container: 1248px, 32px gutters, 16px on phones. Observatory pages widen to 1400px at 2xl. */
-const WRAP = "mx-auto w-full max-w-[1248px] px-8 max-md:px-4";
-const WRAP_WIDE = "mx-auto w-full max-w-[1248px] px-8 max-md:px-4 2xl:max-w-[1400px]";
+const WRAP = "mx-auto w-full max-w-[1800px] px-6 lg:px-12 max-md:px-4";
+const WRAP_WIDE = "mx-auto w-full max-w-[1800px] px-6 lg:px-12 max-md:px-4";
 
 const NAV: { key: "observatory" | "research" | "methodology" | "about" | "contribute"; href: string; numeral: string }[] = [
   { key: "observatory", href: "/observatory", numeral: "i" },
@@ -63,6 +63,9 @@ export function SiteHeader({ wide = false }: { wide?: boolean }) {
           <p className="flex min-w-0 items-center gap-2.5">
             <AisesaLogo height={20} priority />
             <span className="truncate max-md:hidden">{t("partner")}</span>
+            <span className="ml-1 inline-flex shrink-0 items-center rounded-full border border-amber-500/40 bg-amber-100 px-2 py-px text-[11.5px] font-semibold uppercase tracking-[0.04em] text-amber-700" title={t("betaTitle")}>
+              {t("beta")}
+            </span>
           </p>
           <nav aria-label={t("utilities")} className="flex flex-none items-center gap-2">
             <Link href="/contact" className={cn(stripLink, "max-md:hidden")}>{t("contact")}</Link>
@@ -167,7 +170,7 @@ function MobileMenu() {
         </Button>
       </DialogTrigger>
       <SheetContent side="top" aria-describedby={undefined}>
-        <div className="mx-auto w-full max-w-[1248px] px-4 pb-10 pt-4 md:px-8">
+        <div className="mx-auto w-full max-w-[1800px] px-4 pb-10 pt-4 md:px-8">
           <SheetHeader title={t("menu")} />
           <nav aria-label={t("main")}>
             <ol>

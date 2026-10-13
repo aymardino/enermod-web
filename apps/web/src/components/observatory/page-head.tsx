@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { BetaBanner } from "@/components/observatory/kpi";
 import { PageBanner, type Crumb } from "@/components/marketing/page-banner";
+import type { PhotoId } from "@/data/photos";
 import { cn } from "@/lib/utils";
 
 /** The observatory's pages, indexed by italic roman numerals. `key` is the message key
@@ -17,6 +17,17 @@ export const OBSERVATORY_SECTIONS = [
 ] as const;
 
 export type ObservatorySectionKey = (typeof OBSERVATORY_SECTIONS)[number]["key"];
+
+/** Banner photo of each observatory section (credits in src/data/photos.ts). */
+export const SECTION_PHOTO: Record<ObservatorySectionKey, PhotoId> = {
+  dashboard: "transmission-line",
+  map: "akosombo-dam",
+  gaps: "rural-electrification-nigeria",
+  readiness: "geothermal-kenya",
+  studies: "lake-turkana-wind",
+  tools: "solar-technicians",
+  recommender: "gouda-wind-farm",
+};
 
 /** Eyebrow label above a page title: small blue uppercase. (`numeral` is accepted for older call
  *  sites and no longer shown.) */
@@ -38,16 +49,18 @@ export function SectionKicker({ section, className }: { section: ObservatorySect
 /** Page head: the full-width green banner (breadcrumb, eyebrow, title, lede, Beta note), then
  *  `aside` (scope tabs, actions) at the top of the content. `section` builds the breadcrumb
  *  (Observatory › page); `crumbs` overrides it. Sits inside the page container (it bleeds out). */
-export function PageHead({ section, kicker, beta = false, title, lede, aside, children, crumbs, className }: {
+export function PageHead({ section, kicker, title, lede, aside, children, crumbs, photo, className }: {
   section?: ObservatorySectionKey;
   kicker?: React.ReactNode;
-  /** true for the shared Beta sentence, or a custom sentence */
+  /** accepted for older call sites; the Beta notice now lives in the header */
   beta?: boolean | string;
   title: React.ReactNode;
   lede?: React.ReactNode;
   aside?: React.ReactNode;
   children?: React.ReactNode;
   crumbs?: Crumb[];
+  /** banner photo; observatory sections have a default one */
+  photo?: PhotoId | null;
   className?: string;
 }) {
   const nav = useTranslations("nav");
@@ -61,8 +74,7 @@ export function PageHead({ section, kicker, beta = false, title, lede, aside, ch
       : undefined);
   return (
     <>
-      <PageBanner bleed wide crumbs={trail} eyebrow={kicker} title={title} lede={lede} className={className}>
-        {beta && <BetaBanner text={typeof beta === "string" ? beta : undefined} className="mt-5 text-amber-100 [&>span:first-child]:bg-amber-100 [&>span:first-child]:text-amber-700" />}
+      <PageBanner bleed wide crumbs={trail} eyebrow={kicker} title={title} lede={lede} photo={photo === null ? undefined : photo ?? (s ? SECTION_PHOTO[s.key] : undefined)} className={className}>
         {children}
       </PageBanner>
       {aside ? <div className="mt-8 min-w-0">{aside}</div> : null}

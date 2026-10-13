@@ -1,4 +1,5 @@
-import { PageBanner, type BannerImage } from "@/components/marketing/page-banner";
+import { PageBanner } from "@/components/marketing/page-banner";
+import type { PhotoId } from "@/data/photos";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useFormatter, useTranslations } from "next-intl";
@@ -301,7 +302,7 @@ function Contents({ items, label }: { items: TocItem[]; label: string }) {
 /** Shared reading layout for the Markdown pages. The contents sit in the 176px margin from
  *  1024px. `aside` (the live figures) takes the spare width right of the 680px measure from 1280px
  *  (sticky), and follows the article below that. */
-export function ProseLayout({ kicker, title, lede, meta, toc, tocLabel, aside, image, children }: {
+export function ProseLayout({ kicker, title, lede, meta, toc, tocLabel, aside, photo, children }: {
   kicker: React.ReactNode;
   numeral?: string;
   title: React.ReactNode;
@@ -310,22 +311,22 @@ export function ProseLayout({ kicker, title, lede, meta, toc, tocLabel, aside, i
   toc: TocItem[];
   tocLabel: string;
   aside?: React.ReactNode;
-  image?: BannerImage;
+  photo?: PhotoId;
   children: React.ReactNode;
 }) {
   const hasToc = toc.length > 0;
   const rail = hasToc && !!aside;
   return (
     <>
-    <PageBanner crumbs={[{ label: kicker }]} title={title} lede={lede} image={image}>
+    <PageBanner crumbs={[{ label: kicker }]} title={title} lede={lede} photo={photo}>
       {meta && <div className="mt-3 text-[14px] leading-[1.45] text-white/70">{meta}</div>}
     </PageBanner>
-    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] pt-12 max-md:px-4 max-md:pb-14 max-md:pt-9">
+    <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] pt-12 max-md:px-4 max-md:pb-14 max-md:pt-9">
       <div
         className={cn(
-          "grid grid-cols-[minmax(0,1fr)] gap-x-10",
-          hasToc && "lg:grid-cols-[190px_minmax(0,720px)]",
-          rail && "xl:grid-cols-[190px_minmax(0,680px)_minmax(270px,1fr)]",
+          "grid grid-cols-[minmax(0,1fr)] gap-x-12",
+          hasToc && "lg:grid-cols-[220px_minmax(0,760px)]",
+          rail && "xl:grid-cols-[220px_minmax(0,760px)_320px] xl:justify-between",
         )}
       >
         {hasToc && (

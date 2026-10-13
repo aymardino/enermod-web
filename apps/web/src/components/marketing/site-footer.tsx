@@ -37,8 +37,8 @@ export function SiteFooter({ wide = false }: { wide?: boolean }) {
   const c = useTranslations("common");
   const year = new Date().getFullYear();
   const wrap = wide
-    ? "mx-auto w-full max-w-[1248px] px-8 max-md:px-4 2xl:max-w-[1400px]"
-    : "mx-auto w-full max-w-[1248px] px-8 max-md:px-4";
+    ? "mx-auto w-full max-w-[1800px] px-6 lg:px-12 max-md:px-4"
+    : "mx-auto w-full max-w-[1800px] px-6 lg:px-12 max-md:px-4";
   return (
     <footer className="text-white">
       <div className="bg-brand-900">

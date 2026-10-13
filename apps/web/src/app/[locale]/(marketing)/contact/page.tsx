@@ -25,7 +25,7 @@ function Contact() {
   const nav = useTranslations("nav");
   const channels = ["institutions", "community", "code"] as const;
   return (
-    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 max-md:pb-14">
+    <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4 max-md:pb-14">
       <PageHead kicker={nav("footer.project")} title={t("title")} lede={t("lede")} />
       <div className="mt-11 grid grid-cols-[minmax(0,1fr)] gap-x-16 gap-y-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] max-md:mt-9">
         {/* the channels: a ruled list, small-caps labels in the margin, no icon tiles */}

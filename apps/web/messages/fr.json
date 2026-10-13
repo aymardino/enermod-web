@@ -89,7 +89,9 @@
     "search": "Rechercher dans les études",
     "searchPlaceholder": "Études, outils, pays…",
     "breadcrumb": "Fil d’Ariane",
-    "crumbHome": "Accueil"
+    "crumbHome": "Accueil",
+    "beta": "Bêta",
+    "betaTitle": "La plateforme est en version bêta : les données et les fonctionnalités évoluent encore."
   },
   "home": {
     "eyebrow": "Revue systématique PRISMA · 54 pays · données ouvertes",
@@ -238,7 +240,29 @@
     "trendTitle": "L’activité de modélisation s’accélère",
     "trendLede": "Études par année de publication depuis 2001. Les études du système énergétique complet forment la base de chaque barre, les études ciblées sont au-dessus.",
     "partnersPhotoAlt": "Participants du 3e Congrès AISESA à Kampala, septembre 2026",
-    "partnersPhotoCredit": "3e Congrès AISESA, Kampala, septembre 2026"
+    "partnersPhotoCredit": "3e Congrès AISESA, Kampala, septembre 2026",
+    "stats": {
+      "africanLedHint": "des études pilotées par des institutions africaines"
+    },
+    "who": {
+      "title": "Qui modélise l’avenir énergétique de l’Afrique ?",
+      "text": "Institutions des auteurs par pays, comptées une fois par étude. Les institutions africaines pilotent désormais la majorité des travaux, mais une grande partie de la modélisation se fait encore depuis l’Europe, l’Amérique du Nord et l’Asie.",
+      "cta": "Voir l’analyse des lacunes"
+    },
+    "exploreTitle": "Explorer l’observatoire",
+    "exploreLede": "Six portes d’entrée dans l’inventaire, de la carte des pays modélisés à l’outil adapté à votre étude.",
+    "cards": {
+      "map": "Où l’Afrique est modélisée, pays par pays, par périmètre et par période.",
+      "gaps": "Ce que les modèles négligent : économie informelle, biomasse, coupures.",
+      "readiness": "Quels pays ont les institutions et les données pour utiliser les modèles.",
+      "studies": "Cherchez dans l’inventaire et ouvrez chaque étude avec sa source.",
+      "tools": "Les outils dominants, ouverts ou sous licence, et leurs usages.",
+      "recommender": "Trouvez l’outil adapté à votre question, votre équipe et vos données."
+    },
+    "trend": {
+      "lastYear": "études publiées en {year}",
+      "growth": "de plus qu’en {year}"
+    }
   },
   "observatory": {
     "dashboard": {
@@ -1440,6 +1464,7 @@
       "credit": "Photo : AISESA, 3e Congrès AISESA, Kampala, septembre 2026",
       "talkAlt": "Présentation de la cartographie des outils de modélisation énergétique au 3e Congrès AISESA à Kampala",
       "groupAlt": "Participants du 3e Congrès AISESA à Kampala"
-    }
+    },
+    "photoCredits": "Crédits photographiques"
   }
 }

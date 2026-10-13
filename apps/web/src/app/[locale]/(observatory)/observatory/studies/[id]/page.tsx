@@ -30,15 +30,15 @@ export default function StudyPage() {
   const list = useListLabel();
   const { data: s, error, isLoading } = useQuery<Study>({ queryKey: ["study", id], queryFn: () => api.get(`/studies/${id}`), retry: false });
   useEffect(() => { if (s) track("study_view", String(s.study_id)); }, [s]);
-  if (isLoading) return <div className="mx-auto max-w-5xl px-4 py-8"><Skeleton className="h-10 w-2/3" /><Skeleton className="mt-6 h-64" /></div>;
-  if (error || !s) return <div className="mx-auto max-w-5xl px-4 py-8"><EmptyState title={error instanceof ApiError && error.status === 404 ? t("notFound") : c("error")} action={<Button asChild><Link href="/observatory/studies">{t("back")}</Link></Button>} /></div>;
+  if (isLoading) return <div className="mx-auto max-w-[1800px] px-4 py-8 lg:px-12"><Skeleton className="h-10 w-2/3" /><Skeleton className="mt-6 h-64" /></div>;
+  if (error || !s) return <div className="mx-auto max-w-[1800px] px-4 py-8 lg:px-12"><EmptyState title={error instanceof ApiError && error.status === 404 ? t("notFound") : c("error")} action={<Button asChild><Link href="/observatory/studies">{t("back")}</Link></Button>} /></div>;
   const str = (k: string) => (s[k] as string | null | undefined) ?? "";
   const na = <span className="text-muted-foreground">{t("notExtracted")}</span>;
   const show = (k: string) => (str(k) ? str(k) : na);
   const techs = TECH.filter((k) => str(k).toLowerCase() === "yes");
   const policy = [["sdg_7", "SDG 7"], ["sdg_13", "SDG 13"], ["ndc_mention", "NDC"], ["agenda_2063", "Agenda 2063"]].filter(([k]) => str(k).toLowerCase() === "yes").map(([, l]) => l);
   return (
-    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4">
+    <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4">
       <PageHead
         crumbs={[{ label: nav("observatory"), href: "/observatory" }, { label: nav("obs.studies"), href: "/observatory/studies" }, { label: `#${s.study_id}` }]}
         title={s.full_title || s.model_name}

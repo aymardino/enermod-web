@@ -22,7 +22,7 @@ const ITEMS = [
 ] as const;
 
 /** Admin container: content runs full width up to 1400px, 32px gutters, 16px on phones. */
-const WRAP = "mx-auto w-full max-w-[1400px] px-8 max-md:px-4";
+const WRAP = "mx-auto w-full max-w-[1800px] px-8 max-md:px-4";
 
 /** Page body under the admin masthead: the shared container with the observatory's vertical rhythm. */
 export function AdminPage({ children, className }: { children: React.ReactNode; className?: string }) {

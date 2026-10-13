@@ -47,12 +47,12 @@ export default function ToolPage() {
   const list = useListLabel();
   const { data: d, error, isLoading } = useQuery<ToolDetail>({ queryKey: ["tool", decoded], queryFn: () => api.get(`/tools/${encodeURIComponent(decoded)}`), retry: false });
   useEffect(() => { if (d) track("tool_view", d.tool_name); }, [d]);
-  if (isLoading) return <div className="mx-auto max-w-6xl px-4 py-8"><Skeleton className="h-10 w-1/2" /><Skeleton className="mt-6 h-64" /></div>;
-  if (error || !d) return <div className="mx-auto max-w-6xl px-4 py-8"><EmptyState title={error instanceof ApiError && error.status === 404 ? t("notFound") : c("error")} action={<Button asChild><Link href="/observatory/tools">{t("back")}</Link></Button>} /></div>;
+  if (isLoading) return <div className="mx-auto max-w-[1800px] px-4 py-8 lg:px-12"><Skeleton className="h-10 w-1/2" /><Skeleton className="mt-6 h-64" /></div>;
+  if (error || !d) return <div className="mx-auto max-w-[1800px] px-4 py-8 lg:px-12"><EmptyState title={error instanceof ApiError && error.status === 404 ? t("notFound") : c("error")} action={<Button asChild><Link href="/observatory/tools">{t("back")}</Link></Button>} /></div>;
   const src = sources(d.info_source);
   const m = d.metrics;
   return (
-    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]">
+    <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4">
       <PageHead
         crumbs={[{ label: nav("observatory"), href: "/observatory" }, { label: nav("obs.tools"), href: "/observatory/tools" }, { label: d.tool_name }]}
         title={d.tool_name}

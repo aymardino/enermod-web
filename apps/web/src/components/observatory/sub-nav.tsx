@@ -14,9 +14,9 @@ export function ObservatoryNav() {
   const isActive = (href: string) =>
     href === "/observatory" ? pathname === "/observatory" || pathname.startsWith("/observatory/countries") : pathname.startsWith(href);
   return (
-    <div className="border-b border-border bg-white lg:sticky lg:top-[76px] lg:z-30">
-      <div className="mx-auto w-full max-w-[1248px] px-8 max-md:px-4 2xl:max-w-[1400px]">
-        <nav aria-label={t("sections")} className="tabrow gap-[26px] bg-none">
+    <div className="border-b border-brand-100 bg-brand-50 lg:sticky lg:top-[76px] lg:z-30">
+      <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 max-md:px-4">
+        <nav aria-label={t("sections")} className="flex gap-1.5 overflow-x-auto [scrollbar-width:none]">
           {OBSERVATORY_SECTIONS.map((s) => {
             const active = isActive(s.href);
             return (
@@ -25,8 +25,8 @@ export function ObservatoryNav() {
                 href={s.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex shrink-0 items-baseline gap-[7px] whitespace-nowrap border-b-2 pb-[11px] pt-[13px] text-[15px] font-semibold no-underline",
-                  active ? "border-primary text-primary" : "border-transparent text-ink-2 hover:text-primary",
+                  "my-2 flex shrink-0 items-center whitespace-nowrap rounded-md px-4 py-2 text-[16px] font-semibold no-underline",
+                  active ? "bg-white text-brand-800 shadow-[0_1px_3px_rgb(16_24_40/0.15)] ring-1 ring-brand-200" : "text-brand-900 hover:bg-white/70",
                 )}
               >
                 {t(`obs.${s.key}`)}

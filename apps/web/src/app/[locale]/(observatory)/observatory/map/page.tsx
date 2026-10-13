@@ -18,7 +18,7 @@ import { AFRICA_COUNTRIES, countryInfo } from "@/components/observatory/study-ca
 
 type Metric = "studies" | "full" | "light" | "tools" | "gap" | "readiness";
 const METRICS: Metric[] = ["studies", "full", "light", "tools", "gap", "readiness"];
-const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]";
+const WRAP = "mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4";
 const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 export default function MapPage() {

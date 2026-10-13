@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Key } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/misc";
 import { IsoCode, Meter, Table, TBody, TD, TH, THead, TR, countryLinkClass } from "@/components/ui/table";
-import { Callout, Kpi, KpiStrip } from "@/components/observatory/kpi";
+import { Kpi, KpiStrip } from "@/components/observatory/kpi";
 import { Block, PageHead } from "@/components/observatory/page-head";
 import { LevelFilter } from "@/components/observatory/filters";
 import { AfricaMap } from "@/components/observatory/africa-map";
@@ -22,7 +22,7 @@ import { useRecentStudies } from "@/components/observatory/home-live";
 
 type Scope = "all" | "full" | "light";
 const CURRENT_YEAR = new Date().getFullYear();
-const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]";
+const WRAP = "mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4";
 const GRID = "grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-12 max-lg:grid-cols-[minmax(0,1fr)]";
 
 /** Studies of a country for the scope. */
@@ -171,11 +171,7 @@ export default function DashboardPage() {
 
         <Block title={t("whoLeads")} description={t("whoLeadsHint")}>
           {d ? (
-            <OriginBar origin={d.origin} labels={{ african_led: t("origin.africanLed"), mixed: t("origin.mixed"), non_african: t("origin.nonAfrican") }}>
-              <Callout tone="brand" className="mt-5">
-                {t.rich("methodNote", { link: (chunks) => <Link href="/methodology">{chunks}</Link> })}
-              </Callout>
-            </OriginBar>
+            <OriginBar origin={d.origin} labels={{ african_led: t("origin.africanLed"), mixed: t("origin.mixed"), non_african: t("origin.nonAfrican") }} />
           ) : (
             <Skeleton className="h-44 w-full" />
           )}

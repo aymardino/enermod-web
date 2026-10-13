@@ -15,7 +15,7 @@ export default function NotFound() {
     <>
       <SiteHeader />
       <main id="main" className="flex-1">
-        <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] pt-12 max-md:px-4 max-md:pb-14 max-md:pt-9">
+        <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] pt-12 max-md:px-4 max-md:pb-14 max-md:pt-9">
           <Kicker>{t("kicker")}</Kicker>
           <h1 className="mt-3.5 max-w-[18em] text-balance font-display text-[36px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[48px]">
             {t("title")}

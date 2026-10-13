@@ -35,9 +35,10 @@ function Contribute({ kind, study, tool }: { kind: "study" | "correction" | "too
   const t = useTranslations("contribute");
   const nav = useTranslations("nav");
   return (
-    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 max-md:pb-14">
+    <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4 max-md:pb-14">
       <PageHead
         kicker={nav("contribute")}
+        photo="noor-iii-tower"
         title={t("title")}
         lede={t("lede")}
       />

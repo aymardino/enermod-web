@@ -122,12 +122,8 @@ export function BetaBanner({ text, className }: { text?: string; className?: str
 
 /** Figure caption: serif 14.5px muted, led by "Fig. n" in small caps.
  *  `fig` is a number ("Fig. 2") or a ready label ("Fig. 1b"). */
-export function Caption({ fig, children, className, as = "figcaption" }: { fig?: number | string; children: React.ReactNode; className?: string; as?: "figcaption" | "p" }) {
+export function Caption({ children, className, as = "figcaption" }: { fig?: number | string; children: React.ReactNode; className?: string; as?: "figcaption" | "p" }) {
   const Comp = as;
-  return (
-    <Comp className={cn("cap mt-3", className)}>
-      {fig !== undefined && <b>{typeof fig === "number" ? `Fig. ${fig}` : fig}</b>}
-      {children}
-    </Comp>
-  );
+  // Figure numbers ("Fig. 2") are no longer printed: the captions read as plain notes.
+  return <Comp className={cn("cap mt-3", className)}>{children}</Comp>;
 }

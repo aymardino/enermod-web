@@ -1,3 +1,4 @@
+import { PhotoCredits } from "@/components/marketing/photo-credits";
 import fs from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
@@ -75,15 +76,10 @@ export default async function ContentPage({ params }: { params: Promise<{ locale
       toc={extractHeadings(body, lang)}
       tocLabel={r("toc")}
       aside={live ? <LiveFigures /> : undefined}
-      image={
-        slug === "about"
-          ? { src: "/images/aisesa-congress-talk.jpg", alt: r("photo.talkAlt"), credit: r("photo.credit"), position: "center 30%" }
-          : slug === "research"
-            ? { src: "/images/aisesa-congress-group.jpg", alt: r("photo.groupAlt"), credit: r("photo.credit"), position: "center 62%" }
-            : undefined
-      }
+      photo={slug === "about" ? "aisesa-congress-talk" : slug === "research" ? "aisesa-congress-group" : slug === "methodology" ? "inga-dam" : undefined}
     >
       <Markdown source={body} locale={lang} />
+      {slug === "legal" && <PhotoCredits title={r("photoCredits")} locale={locale} />}
     </ProseLayout>
   );
 }

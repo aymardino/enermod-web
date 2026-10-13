@@ -49,3 +49,12 @@ def test_facets_and_exports(client):
 def test_meta(client):
     m = client.get("/meta").json()
     assert m["n_studies"] == 1053 and m["assistant"] is False
+
+
+def test_origin_map_includes_institutions_outside_africa(client):
+    """The authorship world map needs the non-African countries too (ISO codes from pycountry)."""
+    rows = client.get("/stats/overview").json()["origin_map"]
+    groups = {r["group"] for r in rows}
+    assert groups == {"africa", "outside"}
+    codes = {r["iso3"] for r in rows if r["group"] == "outside"}
+    assert {"GBR", "USA", "DEU"} <= codes

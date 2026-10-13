@@ -44,7 +44,7 @@ export default function ToolsPage() {
   const tracked = (data?.items ?? []).filter((x) => x.metrics).length;
   const popular = [...(data?.items ?? [])].sort((a, b) => b.views_30d - a.views_30d).filter((x) => x.views_30d > 0).slice(0, 5);
   return (
-    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]">
+    <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pb-[72px] max-md:px-4">
       <PageHead section="tools" title={t("title")} lede={t("lede")}>
         <Button variant="outline" className="mt-7 border-white bg-white text-brand-800 hover:bg-brand-50" asChild><a href={api.url("/export/tools.csv")} onClick={() => track("download", "tools.csv")}><Download />{t("download")}</a></Button>
       </PageHead>

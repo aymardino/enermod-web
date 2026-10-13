@@ -74,8 +74,8 @@
       "krinea": "Krinea, l’atelier de revue",
       "privacy": "Confidentialité",
       "legalNotice": "Mentions légales",
-      "institutions": "Une activité du Cluster 1 d’AISESA, accueillie par le Centre de Mathématiques Appliquées de MINES Paris-PSL (The Transition Institute 1.5).",
-      "copyright": "© {year} EnerMod Africa · AISESA · MINES Paris-PSL",
+      "institutions": "Une activité du Cluster 1 d’AISESA. La revue initiale et la première version de la plateforme ont été réalisées au Centre de Mathématiques Appliquées de MINES Paris-PSL (The Transition Institute 1.5).",
+      "copyright": "© {year} EnerMod Africa · AISESA",
       "licence": "Données CC BY 4.0 · Code GPL-3.0 · Diagramme PRISMA 2020 CC BY 4.0",
       "colophon": "Cartes Natural Earth 1:110m, projection azimutale équivalente de Lambert."
     },
@@ -83,7 +83,7 @@
     "utilities": "Utilitaires",
     "main": "Principal",
     "home": "EnerMod Africa, accueil",
-    "partner": "Une activité du Cluster 1 d’AISESA accueillie à MINES Paris-PSL",
+    "partner": "Une activité du Cluster 1 d’AISESA",
     "sourceCode": "Code source",
     "sections": "Sections de l’observatoire",
     "search": "Rechercher dans les études",
@@ -175,8 +175,8 @@
         "cta": "Données et API"
       }
     },
-    "partnersTitle": "AISESA, MINES Paris-PSL et The Transition Institute 1.5",
-    "partnersText": "EnerMod Africa livre l’Activité 1 du Cluster 1 d’AISESA (trajectoires d’énergie propre pour le développement durable) : cartographier les outils de modélisation énergétique et les capacités d’analyse qui existent déjà sur le continent.",
+    "partnersTitle": "Le Cluster 1 d’AISESA",
+    "partnersText": "EnerMod Africa réalise l’Activité 1 du Cluster 1 d’AISESA (trajectoires d’énergie propre pour le développement durable) : cartographier les outils de modélisation énergétique et les capacités d’analyse qui existent déjà sur le continent. La revue initiale et la première version de la plateforme ont été réalisées à MINES Paris-PSL (The Transition Institute 1.5).",
     "krineaText": "L'outil d'extraction construit pour la revue est devenu un atelier open source de revue systématique,",
     "ctaText": "ou trouver le bon outil pour votre étude",
     "live": "calculé en direct",
@@ -883,7 +883,7 @@
   "pages": {
     "about": {
       "title": "À propos d’EnerMod Africa",
-      "description": "EnerMod Africa est une activité du Cluster 1 d’AISESA accueillie à MINES Paris-PSL. L’observatoire est parti d’une revue systématique de la littérature ; il est désormais tenu à jour par des curateurs et des contributeurs."
+      "description": "EnerMod Africa est une activité du Cluster 1 d’AISESA. L’observatoire est parti d’une revue systématique menée à MINES Paris-PSL ; il est désormais tenu à jour par des curateurs et des contributeurs."
     },
     "methodology": {
       "title": "Méthodologie et scores",

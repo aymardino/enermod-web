@@ -2,7 +2,7 @@
 
 ## Éditeur
 
-EnerMod Africa est édité par la communauté du Cluster 1 d'AISESA et MINES Paris-PSL (Centre de Mathématiques Appliquées, The Transition Institute 1.5) comme résultat d'une mission de recherche. L'identité et les coordonnées de l'éditeur seront complétées lorsque la convention d'hébergement institutionnel sera formalisée.
+EnerMod Africa est édité par AISESA (Cluster 1). Il a d'abord été développé à MINES Paris-PSL (Centre de Mathématiques Appliquées, The Transition Institute 1.5) dans le cadre d'une mission de recherche. L'identité et les coordonnées de l'éditeur seront complétées lorsque la transmission à AISESA sera formalisée.
 
 ## Hébergement
 

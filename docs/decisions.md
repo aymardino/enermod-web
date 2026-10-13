@@ -177,6 +177,16 @@ engines and the public endpoints return the same figures (`docs/supabase.md`, se
 **Consequences.** Any new query must be written with both engines in mind; running the suite
 once against PostgreSQL before a release is part of the checks in `docs/deploy.md`.
 
+## D-13 · 2026-10-13 · decided · AISESA runs the observatory
+
+**Decision.** The site presents EnerMod Africa as an AISESA Cluster 1 activity, in the present
+tense (header, footer, About, legal notice, structured data, assistant). MINES Paris-PSL (CMA,
+The Transition Institute 1.5) is credited, in the past tense, for the initial review and the
+first version of the platform; its logo stays next to AISESA's.
+
+**Why.** The owner hands the observatory over to AISESA; "hosted at MINES Paris-PSL" described
+the mission, not who runs the site.
+
 ## Proposed (waiting for the owner)
 
 - **P-01** Scopus re-query through an institutional API key, as a second discovery arm.

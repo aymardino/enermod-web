@@ -68,8 +68,9 @@ cd apps/web && pnpm lint && pnpm build
 ## Licence
 
 Code GPL-3.0 (`LICENSE`). Inventory data CC BY 4.0. PRISMA 2020 flow diagram CC BY 4.0
-(prisma-statement.org). An AISESA Cluster 1 activity hosted by the Centre de Mathématiques
-Appliquées of MINES Paris-PSL (The Transition Institute 1.5).
+(prisma-statement.org). An AISESA Cluster 1 activity. The initial review and the first version
+of the platform were produced at the Centre de Mathématiques Appliquées of MINES Paris-PSL
+(The Transition Institute 1.5).
 
 ---
 

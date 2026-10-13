@@ -2,7 +2,7 @@
 
 ## Publisher
 
-EnerMod Africa is published by the AISESA Cluster 1 community and MINES Paris-PSL (Centre de Mathématiques Appliquées, The Transition Institute 1.5) as the outcome of a research mission. The publisher identity and contact will be completed once the institutional hosting agreement is formalised.
+EnerMod Africa is published by AISESA (Cluster 1). It was first developed at MINES Paris-PSL (Centre de Mathématiques Appliquées, The Transition Institute 1.5) during a research mission. The publisher identity and contact will be completed once the handover to AISESA is formalised.
 
 ## Hosting
 

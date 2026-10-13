@@ -74,8 +74,8 @@
       "krinea": "Krinea, the review workbench",
       "privacy": "Privacy",
       "legalNotice": "Legal notice",
-      "institutions": "An AISESA Cluster 1 activity, hosted by the Centre de Mathématiques Appliquées of MINES Paris-PSL (The Transition Institute 1.5).",
-      "copyright": "© {year} EnerMod Africa · AISESA · MINES Paris-PSL",
+      "institutions": "An AISESA Cluster 1 activity. The initial review and the first version of the platform were produced at the Centre de Mathématiques Appliquées of MINES Paris-PSL (The Transition Institute 1.5).",
+      "copyright": "© {year} EnerMod Africa · AISESA",
       "licence": "Data CC BY 4.0 · Code GPL-3.0 · PRISMA 2020 diagram CC BY 4.0",
       "colophon": "Maps from Natural Earth 1:110m, Lambert azimuthal equal-area projection."
     },
@@ -83,7 +83,7 @@
     "utilities": "Utilities",
     "main": "Main",
     "home": "EnerMod Africa, home",
-    "partner": "An AISESA Cluster 1 activity hosted at MINES Paris-PSL",
+    "partner": "An AISESA Cluster 1 activity",
     "sourceCode": "Source code",
     "sections": "Observatory sections",
     "search": "Search the studies",
@@ -175,8 +175,8 @@
         "cta": "Data and API"
       }
     },
-    "partnersTitle": "AISESA, MINES Paris-PSL and The Transition Institute 1.5",
-    "partnersText": "EnerMod Africa delivers Activity 1 of AISESA Cluster 1 (clean energy pathways for sustainable development): mapping the energy modelling tools and analytical capacities that already exist across the continent.",
+    "partnersTitle": "AISESA Cluster 1",
+    "partnersText": "EnerMod Africa carries out Activity 1 of AISESA Cluster 1 (clean energy pathways for sustainable development): mapping the energy modelling tools and analytical capacities that already exist across the continent. The initial review and the first version of the platform were produced at MINES Paris-PSL (The Transition Institute 1.5).",
     "krineaText": "The extraction tool built for the review has grown into an open-source systematic review workbench,",
     "ctaText": "or find the right tool for your study",
     "live": "computed live",
@@ -196,7 +196,7 @@
       "latest": "Latest additions",
       "contents": "Contents",
       "living": "A living inventory",
-      "deliveredBy": "Delivered by"
+      "deliveredBy": "Run by"
     },
     "note": {
       "questions": "Each question is answered by one page of the observatory; the cross-reference sits under it.",
@@ -883,7 +883,7 @@
   "pages": {
     "about": {
       "title": "About EnerMod Africa",
-      "description": "EnerMod Africa is an AISESA Cluster 1 activity hosted at MINES Paris-PSL. It began with a systematic review of the literature and is now kept up to date by curators and contributors."
+      "description": "EnerMod Africa is an AISESA Cluster 1 activity. It began with a systematic review carried out at MINES Paris-PSL and is now kept up to date by curators and contributors."
     },
     "methodology": {
       "title": "Methodology and scores",

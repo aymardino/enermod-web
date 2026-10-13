@@ -27,6 +27,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     inLanguage: locale,
     url: SITE_URL + localePath(locale, ""),
     license: "https://creativecommons.org/licenses/by/4.0/",
+    publisher: { "@type": "Organization", name: "AISESA", url: AISESA_URL },
     creator: [
       { "@type": "Organization", name: "AISESA", url: AISESA_URL },
       { "@type": "Organization", name: "MINES Paris-PSL", url: TTI_URL },

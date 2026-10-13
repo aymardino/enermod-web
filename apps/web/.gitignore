@@ -42,3 +42,4 @@ next-env.d.ts
 
 # side-by-side dev servers
 /.next-*
+/messages/.lock

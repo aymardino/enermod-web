@@ -108,41 +108,45 @@ export default function MapPage() {
 
         <div className="min-w-0">
           {colourBy("mb-5 lg:hidden", false)}
-          {countries.data ? (
-            <AfricaMap
-              className="max-w-[720px]"
-              metric={mapMetric}
-              data={rows.map((x) => ({
-                iso3: x.iso3,
-                value: x.value,
-                label: nameOf(x),
-                hint: metric === "tools" ? tc("nStudies", { n: x.n_studies }) : td("nTools", { n: x.n_tools }),
-                href: `/observatory/countries/${x.iso_code}`,
-              }))}
-              legendTitle={legendTitle}
-              emptyLabel={capitalise(metric === "readiness" ? td("notRanked") : label("governance", ""))}
-              formatValue={fmtValue}
-              callout={isCount}
-              onSelect={(iso3) => { const cc = countries.data!.find((x) => x.iso3 === iso3); if (cc) router.push(`/observatory/countries/${cc.iso_code}`); }}
-              fig={1}
-              caption={t("figCaption", { metric: legendTitle })}
-              ariaLabel={legendTitle}
-            />
-          ) : (
-            <Skeleton className="aspect-[600/640] w-full max-w-[720px]" />
-          )}
-
-          <Block className="mt-12" title={t("ranking")} description={`${t("rankingHint")} ${legendTitle}.`}>
-            {countries.data ? (
-              <RowBars
-                ariaLabel={t("rankingAria")}
-                format={(v) => f.number(v, { minimumFractionDigits: digits, maximumFractionDigits: digits })}
-                rows={sorted.filter((x) => x.value !== null).slice(0, 15).map((x) => ({ label: nameOf(x), value: x.value ?? 0, href: `/observatory/countries/${x.iso_code}` }))}
-              />
-            ) : (
-              <Skeleton className="h-[510px] w-full" />
-            )}
-          </Block>
+          {/* the map and the top-15 ranking side by side from 1280px, stacked below */}
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-12 xl:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] xl:items-start">
+            <div className="min-w-0">
+              {countries.data ? (
+                <AfricaMap
+                  className="max-w-[760px]"
+                  metric={mapMetric}
+                  data={rows.map((x) => ({
+                    iso3: x.iso3,
+                    value: x.value,
+                    label: nameOf(x),
+                    hint: metric === "tools" ? tc("nStudies", { n: x.n_studies }) : td("nTools", { n: x.n_tools }),
+                    href: `/observatory/countries/${x.iso_code}`,
+                  }))}
+                  legendTitle={legendTitle}
+                  emptyLabel={capitalise(metric === "readiness" ? td("notRanked") : label("governance", ""))}
+                  formatValue={fmtValue}
+                  callout={isCount}
+                  onSelect={(iso3) => { const cc = countries.data!.find((x) => x.iso3 === iso3); if (cc) router.push(`/observatory/countries/${cc.iso_code}`); }}
+                  fig={1}
+                  caption={t("figCaption", { metric: legendTitle })}
+                  ariaLabel={legendTitle}
+                />
+              ) : (
+                <Skeleton className="aspect-[600/640] w-full max-w-[760px]" />
+              )}
+            </div>
+            <Block title={t("ranking")} description={`${t("rankingHint")} ${legendTitle}.`}>
+              {countries.data ? (
+                <RowBars
+                  ariaLabel={t("rankingAria")}
+                  format={(v) => f.number(v, { minimumFractionDigits: digits, maximumFractionDigits: digits })}
+                  rows={sorted.filter((x) => x.value !== null).slice(0, 15).map((x) => ({ label: nameOf(x), value: x.value ?? 0, href: `/observatory/countries/${x.iso_code}` }))}
+                />
+              ) : (
+                <Skeleton className="h-[510px] w-full" />
+              )}
+            </Block>
+          </div>
 
           <Block
             className="mt-12"

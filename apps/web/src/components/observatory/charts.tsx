@@ -558,6 +558,7 @@ export function ReadinessScatter({
   xLabel,
   yLabel,
   panelHeight = 170,
+  columns,
   className,
   ariaLabel,
 }: {
@@ -568,6 +569,8 @@ export function ReadinessScatter({
   xLabel: string;
   yLabel: string;
   panelHeight?: number;
+  /** panels per row; by default 3 from 640px, 2 below */
+  columns?: number;
   className?: string;
   ariaLabel?: string;
 }) {
@@ -583,7 +586,7 @@ export function ReadinessScatter({
     const present = Array.from(new Set(pts.map((r) => r.region)));
     return [...REGION_ORDER.filter((r) => present.includes(r)), ...present.filter((r) => !REGION_ORDER.includes(r))];
   }, [pts]);
-  const cols = width >= 640 ? 3 : 2;
+  const cols = columns ?? (width >= 640 ? 3 : 2);
   const gapX = 20;
   const pw = width > 0 ? Math.floor((width - gapX * (cols - 1)) / cols) : 0;
   const pad = { l: 28, r: 10, t: 10, b: 20 };

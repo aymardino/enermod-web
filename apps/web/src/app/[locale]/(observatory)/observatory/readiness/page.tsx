@@ -119,6 +119,8 @@ export default function ReadinessPage() {
                 xLabel={t("readinessAxis")}
                 yLabel={t("gapAxis")}
                 ariaLabel={t("scatterTitle")}
+                columns={2}
+                panelHeight={230}
               />
             </Block>
           </div>

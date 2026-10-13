@@ -6,7 +6,38 @@ Une étude est incluse lorsqu'elle applique un outil de modélisation énergéti
 
 Les recherches ont été exécutées sur OpenAlex (ampleur) et Scopus (couverture curatée) le 5 mai 2026, avec une requête booléenne en quatre blocs : vocabulaire énergétique ET géographie (Afrique et les 54 pays) ET méthodes de modélisation ET instruments nommés. Elles ont renvoyé 9 582 notices ; après suppression de 1 823 doublons, 7 759 notices uniques ont été triées sur titre et résumé, 1 452 textes intégraux ont été recherchés, et 1 053 études ont été incluses. Les documents gris (thèses, rapports, actes) sont entrés via OpenAlex, l'inventaire pilote et la recherche par citations.
 
-![Diagramme de flux PRISMA 2020](/brand/prisma_flow.png)
+```prisma
+identified: 9582
+identified.openalex: 6559
+identified.scopus: 3023
+duplicates: 1823
+screened: 7759
+screened.excluded: 6307
+sought: 1452
+sought.notRetrieved: 18
+assessed: 1434
+assessed.excluded: 409
+reason.scope: 107
+reason.private: 100
+reason.custom: 73
+reason.telecom: 55
+reason.duplicate: 20
+reason.etap: 16
+reason.notAfrica: 14
+reason.platform: 9
+reason.global: 6
+reason.sdNoSoftware: 5
+reason.language: 2
+reason.sdOneMarket: 1
+reason.deprecated: 1
+other: 32
+other.inventory: 24
+other.citations: 8
+other.excluded: 4
+included: 1053
+included.databases: 1025
+included.other: 28
+```
 
 Le pipeline de découverte de ce hub relance les mêmes quatre blocs sur OpenAlex (voir [Recherche](/research)) ; aucune nouvelle correspondance n'entre dans l'inventaire sans vérification par un curateur.
 

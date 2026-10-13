@@ -1,97 +1,278 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { api, type Overview } from "@/lib/api";
+import { api, qs, type CountrySummary, type Overview, type StudyPage } from "@/lib/api";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Key } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/misc";
-import { Kpi } from "@/components/observatory/kpi";
-import { WorldOriginMap } from "@/components/observatory/africa-map";
-import { YearBars } from "@/components/observatory/charts";
-import { StudyCard } from "@/components/observatory/study-card";
-import { Wrench } from "lucide-react";
+import { Callout, Caption, Fig, Figs } from "@/components/observatory/kpi";
+import { AfricaMap } from "@/components/observatory/africa-map";
+import { OriginBar, RowBars, ShareBar, YearBars, YearLegend } from "@/components/observatory/charts";
+import { AFRICA_COUNTRIES, StudyCard, StudyEntries, countryInfo } from "@/components/observatory/study-card";
 
-/** The live part of the home page: every figure comes from the API and updates with the inventory. */
-export function HomeLive({ variant }: { variant: "hero" | "body" }) {
+/* The live parts of the home page: every figure comes from the API and updates with the
+   inventory. The page itself (server) sets the static copy around them. */
+
+const CURRENT_YEAR = new Date().getFullYear();
+const H2 = "text-balance font-display text-[30px] font-bold leading-[1.08] tracking-[-0.015em] md:text-[40px]";
+const H3 = "font-display text-[23px] font-semibold leading-[1.2] tracking-[-0.005em]";
+const DESC = "mt-1 max-w-[46em] text-[13px] leading-[1.5] text-muted-foreground";
+const SUBLEDE = "max-w-[44em] font-display text-[17px] leading-[1.5] text-ink-2 md:text-[18.5px]";
+
+function useOverview() {
+  return useQuery<Overview>({ queryKey: ["overview"], queryFn: () => api.get("/stats/overview") }).data;
+}
+function useCountries() {
+  return useQuery<CountrySummary[]>({ queryKey: ["countries"], queryFn: () => api.get("/countries") }).data;
+}
+/** The six most recent studies with their full cards (authors, tags, countries, source). Shared
+ *  with the observatory overview, which lists all six. */
+export function useRecentStudies() {
+  return useQuery<StudyPage>({ queryKey: ["studies-recent", 6], queryFn: () => api.get(`/studies${qs({ sort: "recent", page_size: 6 })}`) });
+}
+
+/** Country name in the visitor's language (the API names are English). */
+function nameOf(c: CountrySummary, locale: string) {
+  return AFRICA_COUNTRIES[c.iso_code] ? countryInfo(c.iso_code, locale).name : c.country_name;
+}
+
+/** Fig. 1: the equal-area plate of studies per country, with its stepped legend and caption. */
+export function HeroMap({ className }: { className?: string }) {
   const t = useTranslations("home");
-  const c = useTranslations("common");
-  const { data, isLoading } = useQuery<Overview>({ queryKey: ["overview"], queryFn: () => api.get("/stats/overview") });
-
-  if (variant === "hero") {
+  const td = useTranslations("observatory.dashboard");
+  const tc = useTranslations("ui.chart");
+  const locale = useLocale();
+  const ov = useOverview();
+  const countries = useCountries();
+  if (!ov || !countries) {
     return (
-      <div className="relative rounded-2xl border border-border bg-card p-5 shadow-pop">
-        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("kpiTitle")}</p>
-        {isLoading || !data ? (
-          <div className="mt-3 grid grid-cols-2 gap-3">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-20" />)}</div>
-        ) : (
-          <>
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <Kpi label={t("kpis.studies")} value={data.n_studies.toLocaleString()} hint={`${data.year_min}–${data.year_max}`} tone="brand" />
-              <Kpi label={t("kpis.countries")} value={`${data.countries_covered}/${data.n_countries}`} hint={t("kpis.countriesHint")} />
-              <Kpi label={t("kpis.tools")} value={data.n_tools} hint={t("kpis.toolsHint", { n: data.n_tools_used })} />
-              <Kpi label={t("kpis.africanLed")} value={`${data.origin.african_led_pct}%`} hint={t("kpis.africanLedHint", { full: data.african_led_full_pct, light: data.african_led_light_pct })} />
-            </div>
-            <div className="mt-3 rounded-xl border border-border bg-background p-3">
-              <p className="mb-1 text-xs text-muted-foreground">{t("kpis.byYear")}</p>
-              <YearBars rows={data.by_year} height={120} labels={{ studies: c("studies"), full: c("full"), light: c("light") }} />
-            </div>
-            <p className="mt-3 text-xs text-muted-foreground">{t("kpiNote")}</p>
-          </>
-        )}
+      <div className={cn("min-w-0", className)} aria-busy="true">
+        <Skeleton className="aspect-[600/640] w-full" />
+        <Skeleton className="mt-4 h-[74px] w-full" />
       </div>
     );
   }
-
   return (
-    <section className="mx-auto max-w-6xl 2xl:max-w-[1400px] px-4 py-12 sm:px-6 md:py-16">
-      <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-start">
-        <div>
-          <h2 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{t("originTitle")}</h2>
-          <p className="mt-3 max-w-2xl text-lg text-muted-foreground">{t("originLede")}</p>
-          <div className="mt-6 rounded-2xl border border-border bg-card p-3 shadow-card">
-            {data ? <WorldOriginMap rows={data.origin_map} labels={{ africa: t("mapAfrica"), outside: t("mapOutside"), studies: c("studies") }} /> : <Skeleton className="h-72" />}
-          </div>
-          <p className="mt-2 text-xs text-muted-foreground">{t("originCaption")}</p>
-        </div>
-        <div className="space-y-6">
-          <div>
-            <h3 className="font-display text-2xl font-semibold">{t("scopeTitle")}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{t("scopeText")}</p>
-            {data && (
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="rounded-xl border border-border bg-card p-4"><p className="font-display text-3xl font-semibold text-brand-700 dark:text-brand-300">{data.n_full}</p><p className="mt-1 text-sm font-semibold">{t("fullTitle")}</p><p className="mt-1 text-xs text-muted-foreground">{t("fullText")}</p></div>
-                <div className="rounded-xl border border-border bg-card p-4"><p className="font-display text-3xl font-semibold text-amber-700">{data.n_light}</p><p className="mt-1 text-sm font-semibold">{t("lightTitle")}</p><p className="mt-1 text-xs text-muted-foreground">{t("lightText")}</p></div>
-              </div>
-            )}
-          </div>
-          <div>
-            <h3 className="flex items-center gap-2 font-display text-2xl font-semibold"><Wrench className="size-5 text-brand-700" />{t("topToolsTitle")}</h3>
-            <ul className="mt-3 space-y-1.5 text-sm">
-              {data?.top_tools.slice(0, 6).map((x) => (
-                <li key={x.tool} className="flex items-center justify-between rounded-md border border-border bg-card px-3 py-1.5">
-                  <Link href={`/observatory/tools/${encodeURIComponent(x.tool)}`} className="font-medium hover:text-primary">{x.tool}</Link><span className="tabular text-muted-foreground">{x.studies}</span>
-                </li>
-              ))}
-            </ul>
-            <Button variant="link" className="mt-1 px-0" asChild><Link href="/observatory/tools">{t("allTools")}<ArrowRight /></Link></Button>
-          </div>
-        </div>
-      </div>
-      {data && data.latest.length > 0 && (
-        <div className="mt-12">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div><h2 className="font-display text-2xl font-semibold tracking-tight">{t("latestTitle")}</h2><p className="mt-1 text-sm text-muted-foreground">{t("latestText")}</p></div>
-            <Button variant="outline" asChild><Link href="/observatory/studies?sort=recent">{c("viewAll")}</Link></Button>
-          </div>
-          <div className="mt-4 grid gap-3 md:grid-cols-3">
-            {data.latest.slice(0, 3).map((s) => (
-              <StudyCard key={s.study_id} compact s={{ study_id: s.study_id, title: s.title, authors: "", year: s.year, model_name: "", tools: s.tools, countries: [], scale: "", level: "", open_source: "", local_ownership: "", study_category: "", link: "", source: s.source, grey_literature: "" }} />
-            ))}
-          </div>
-        </div>
-      )}
-    </section>
+    <AfricaMap
+      className={cn("max-md:-mx-2 max-md:[&>*+*]:mx-2", className)}
+      metric="studies"
+      data={countries.map((x) => ({
+        iso3: x.iso3,
+        value: x.n_studies,
+        label: nameOf(x, locale),
+        hint: td("nTools", { n: x.n_tools }),
+        href: `/observatory/countries/${x.iso_code}`,
+      }))}
+      legendTitle={td("mapTitle")}
+      formatValue={(v) => tc("nStudies", { n: v })}
+      callout
+      fig={1}
+      caption={t("fig1", { from: String(ov.year_min), to: String(ov.year_max) })}
+      ariaLabel={t("mapAria")}
+    />
   );
+}
+
+/** "The inventory today": the 2×2 figures, the most/least modelled aside and the footnote. */
+export function HeroFigures({ className }: { className?: string }) {
+  const t = useTranslations("home");
+  const td = useTranslations("observatory.dashboard");
+  const f = useFormatter();
+  const locale = useLocale();
+  const d = useOverview();
+  const countries = useCountries();
+  const ranked = countries ? [...countries].sort((a, b) => b.n_studies - a.n_studies || a.country_name.localeCompare(b.country_name)) : [];
+  const top = ranked[0];
+  const bottom = ranked[ranked.length - 1];
+  return (
+    <div className={cn("min-w-0", className)}>
+      <div className="flex items-baseline justify-between gap-3 pb-[9px]">
+        <h2 className="sc">{t("kpiTitle")}</h2>
+        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span aria-hidden="true" className="size-1.5 bg-rubric" />
+          {t("live")}
+        </span>
+      </div>
+      {d ? (
+        <Figs>
+          <Fig
+            label={t("kpis.studies")}
+            value={f.number(d.n_studies)}
+            hint={t("figs.studiesHint", { from: String(d.year_min), to: String(d.year_max), full: d.n_full, light: d.n_light })}
+          />
+          <Fig label={t("kpis.countries")} value={f.number(d.countries_covered)} suffix={`/${f.number(d.n_countries)}`} hint={td("countriesHint", { n: d.n_countries })} />
+          <Fig label={t("kpis.tools")} value={f.number(d.n_tools)} hint={td("toolsUsed", { n: d.n_tools_used })} />
+          <Fig
+            label={t("kpis.africanLed")}
+            value={f.number(d.origin.african_led_pct / 100, { style: "percent", maximumFractionDigits: 0 })}
+            hint={t("kpis.africanLedHint", { full: d.african_led_full_pct, light: d.african_led_light_pct })}
+          />
+        </Figs>
+      ) : (
+        <Skeleton className="h-[262px] w-full border-t-2 border-rule" />
+      )}
+      {d && top && bottom && top !== bottom && (
+        <Callout tone="brand" className="mt-[22px]">
+          {t("aside", { top: nameOf(top, locale), n: top.n_studies, total: d.n_studies, bottom: nameOf(bottom, locale), m: bottom.n_studies })}
+        </Callout>
+      )}
+      <p className="mt-3 text-[12.5px] leading-[1.5] text-muted-foreground">{t("trust")}</p>
+    </div>
+  );
+}
+
+/** Fig. 1b, the data horizon: studies per publication year and scope, full width. */
+export function HeroHorizon({ className }: { className?: string }) {
+  const t = useTranslations("home");
+  const td = useTranslations("observatory.dashboard");
+  const c = useTranslations("common");
+  const d = useOverview();
+  const labels = { studies: c("studies"), full: td("scope.full"), light: td("scope.light") };
+  const rows = d?.by_year ?? [];
+  const py = rows.some((r) => r.year === CURRENT_YEAR) ? CURRENT_YEAR : null;
+  const complete = rows.filter((r) => py === null || r.year < py).sort((a, b) => a.year - b.year);
+  const [r1, r2] = complete.slice(-2);
+  return (
+    <figure className={cn("mt-11 min-w-0 border-t border-rule pt-3.5", className)}>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1.5">
+        <p className="text-[13px] font-semibold leading-[1.4]">{t("horizonTitle")}</p>
+        <YearLegend labels={labels} partialYear={py} />
+      </div>
+      {d ? (
+        <YearBars
+          rows={rows}
+          stacked
+          legend={false}
+          height={196}
+          years={[d.year_min, d.year_max]}
+          labels={labels}
+          ariaLabel={t("horizonTitle")}
+          className="mt-2.5 max-md:[&>div]:h-[170px]!"
+        />
+      ) : (
+        <Skeleton className="mt-2.5 h-[196px] w-full max-md:h-[170px]" />
+      )}
+      {r1 && r2 && (
+        <Caption fig="Fig. 1b">
+          {t("fig1b", {
+            n1: r1.full + r1.light,
+            y1: String(r1.year),
+            n2: r2.full + r2.light,
+            y2: String(r2.year),
+            partial: py === null ? "none" : String(py),
+          })}
+        </Caption>
+      )}
+    </figure>
+  );
+}
+
+/** Section 2: model scope, who leads the modelling, most used tools (three ruled columns). */
+export function InventoryTrio() {
+  const t = useTranslations("home");
+  const td = useTranslations("observatory.dashboard");
+  const f = useFormatter();
+  const d = useOverview();
+  const col = "min-w-0 pb-2 pt-5 max-md:pb-2.5 max-md:pt-[18px]";
+  return (
+    <div className="mt-[34px] grid grid-cols-3 border-t-2 border-rule max-xl:grid-cols-2 max-md:grid-cols-1">
+      <div className={cn(col, "pr-7 max-md:pr-0")}>
+        <h3 className={H3}>{t("scopeHead")}</h3>
+        {d ? (
+          <>
+            <div className="mt-4 grid grid-cols-2 gap-x-[18px]">
+              {(["full", "light"] as const).map((k) => (
+                <div key={k} className="min-w-0">
+                  <p className="text-[38px] font-semibold leading-none tracking-[-0.03em]">{f.number(k === "full" ? d.n_full : d.n_light)}</p>
+                  <p className="mt-2 flex items-start gap-[7px] text-[13.5px] font-semibold leading-[1.3]">
+                    <Key kind={k} className="mt-[3px] size-[11px]" />
+                    {td(`scope.${k}`)}
+                  </p>
+                  <p className="mt-[5px] text-[12.5px] leading-[1.45] text-muted-foreground">{t(k === "full" ? "scopeFullText" : "scopeLightText")}</p>
+                </div>
+              ))}
+            </div>
+            <ShareBar
+              className="mt-[18px]"
+              parts={[
+                { key: "full", value: d.n_full, kind: "full", label: td("scope.full") },
+                { key: "light", value: d.n_light, kind: "light", label: td("scope.light") },
+              ]}
+            />
+          </>
+        ) : (
+          <Skeleton className="mt-4 h-40 w-full" />
+        )}
+      </div>
+      <div className={cn(col, "border-l border-border px-7 max-xl:pr-0 max-md:border-l-0 max-md:border-t max-md:px-0")}>
+        <h3 className={H3}>{td("whoLeads")}</h3>
+        <p className={DESC}>{t("whoLeadsDesc")}</p>
+        {d ? (
+          <OriginBar
+            className="mt-[18px]"
+            origin={d.origin}
+            labels={{ african_led: td("origin.africanLed"), mixed: td("origin.mixed"), non_african: td("origin.nonAfrican") }}
+          />
+        ) : (
+          <Skeleton className="mt-[18px] h-36 w-full" />
+        )}
+      </div>
+      <div className={cn(col, "border-l border-border pl-7 max-xl:col-span-full max-xl:mt-3 max-xl:border-l-0 max-xl:border-t max-xl:pl-0 max-md:mt-0")}>
+        <h3 className={H3}>{t("topToolsTitle")}</h3>
+        <p className={DESC}>{t("topToolsDesc")}</p>
+        {d ? (
+          <RowBars
+            className="mt-3.5"
+            ariaLabel={t("topToolsTitle")}
+            rows={d.top_tools.slice(0, 6).map((x) => ({ label: x.tool, value: x.studies, href: `/observatory/tools/${encodeURIComponent(x.tool)}` }))}
+          />
+        ) : (
+          <Skeleton className="mt-3.5 h-52 w-full" />
+        )}
+        <p className="mt-4 text-sm">
+          <Link href="/observatory/tools" className="link inline-block py-[3px]">
+            {d ? t("allToolsN", { n: d.n_tools }) : t("allTools")}
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/** Section 3: the three most recent studies as full entries, with "View all n". */
+export function LatestEntries() {
+  const t = useTranslations("home");
+  const td = useTranslations("observatory.dashboard");
+  const c = useTranslations("common");
+  const { data } = useRecentStudies();
+  return (
+    <>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="min-w-0">
+          <h2 className={H2}>{t("latestTitle")}</h2>
+          <p className={cn(SUBLEDE, "mt-2.5")}>{td("latestHint")}</p>
+        </div>
+        <Button variant="outline" asChild>
+          <Link href="/observatory/studies?sort=recent">{data ? t("viewAllN", { n: data.total }) : c("viewAll")}</Link>
+        </Button>
+      </div>
+      {data ? (
+        <StudyEntries className="mt-[30px]">
+          {data.items.slice(0, 3).map((s) => <StudyCard key={s.study_id} s={s} />)}
+        </StudyEntries>
+      ) : (
+        <Skeleton className="mt-[30px] h-72 w-full border-t-2 border-rule" />
+      )}
+    </>
+  );
+}
+
+/** The bus label's record count in "How the inventory stays alive" ("1,053 records"). */
+export function RecordCount() {
+  const t = useTranslations("home.living");
+  const d = useOverview();
+  return d ? <>{t("records", { n: d.n_studies })}</> : null;
 }

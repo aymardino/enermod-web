@@ -1,106 +1,215 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useId, useMemo, useState } from "react";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@/i18n/navigation";
-import { api, type Readiness } from "@/lib/api";
+import { api, type CountrySummary, type Readiness } from "@/lib/api";
 import { useLabel } from "@/lib/labels";
+import { cn } from "@/lib/utils";
+import { NotAssessed } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/misc";
-import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
+import { NativeSelect } from "@/components/ui/select";
+import { IsoCode, Meter, Table, TBody, TD, TH, THead, TR, countryLinkClass } from "@/components/ui/table";
 import { AfricaMap } from "@/components/observatory/africa-map";
-import { Columns, ReadinessScatter } from "@/components/observatory/charts";
+import { ReadinessScatter } from "@/components/observatory/charts";
 import { ChipGroup } from "@/components/observatory/filters";
-import { Callout, Kpi, Section } from "@/components/observatory/kpi";
+import { Callout, Kpi, KpiStrip } from "@/components/observatory/kpi";
+import { Block, PageHead } from "@/components/observatory/page-head";
+import { countryInfo } from "@/components/observatory/study-card";
+
+/** Page container of the observatory: 1248px, 1400px from 2xl, 32px gutters (16px on phones). */
+const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] pt-10 max-md:px-4 2xl:max-w-[1400px]";
+const REGION_ORDER = ["north", "west", "central", "east", "southern"];
+type SortKey = "readiness_score" | "gap_score" | "n_studies" | "electrification_rate";
+type Facet = "region" | "gov" | "dat";
+
+/** Lower case without accents, so "ethiopie" finds "Éthiopie". */
+const fold = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 
 export default function ReadinessPage() {
   const t = useTranslations("observatory.readiness");
   const c = useTranslations("common");
   const label = useLabel();
+  const locale = useLocale();
+  const format = useFormatter();
+  const searchId = useId();
+  const sortId = useId();
   const [q, setQ] = useState("");
   const [regions, setRegions] = useState<string[]>([]);
   const [gov, setGov] = useState<string[]>([]);
   const [dat, setDat] = useState<string[]>([]);
-  const [sort, setSort] = useState<"readiness_score" | "gap_score" | "n_studies" | "electrification_rate">("readiness_score");
+  const [sort, setSort] = useState<SortKey>("readiness_score");
   const r = useQuery<Readiness>({ queryKey: ["readiness"], queryFn: () => api.get("/stats/readiness") });
   const d = r.data;
+  // English keeps the inventory's names; French takes them from the shared country list
+  const nameOf = (x: CountrySummary) => {
+    const info = countryInfo(x.iso_code, locale);
+    return locale === "en" || !info.pool ? x.country_name : info.name;
+  };
+  const colon = locale === "fr" ? " : " : ": ";
+
+  /** Whether a country passes the search and every facet except `skip` (live facet counts,). */
+  const passes = useMemo(() => {
+    const needle = fold(q.trim());
+    return (x: CountrySummary, skip?: Facet) =>
+      (!needle || fold(countryInfo(x.iso_code, locale).name).includes(needle) || fold(x.country_name).includes(needle) || fold(x.iso3) === needle) &&
+      (skip === "region" || !regions.length || regions.includes(x.region)) &&
+      (skip === "gov" || !gov.length || gov.includes(x.energy_governance)) &&
+      (skip === "dat" || !dat.length || dat.includes(x.data_availability));
+  }, [q, regions, gov, dat, locale]);
   const rows = useMemo(() => {
     if (!d) return [];
-    return d.countries
-      .filter((x) => !q || x.country_name.toLowerCase().includes(q.toLowerCase()))
-      .filter((x) => !regions.length || regions.includes(x.region))
-      .filter((x) => !gov.length || gov.includes(x.energy_governance))
-      .filter((x) => !dat.length || dat.includes(x.data_availability))
-      .sort((a, b) => ((b[sort] ?? -1) as number) - ((a[sort] ?? -1) as number));
-  }, [d, q, regions, gov, dat, sort]);
-  const regionsAll = Array.from(new Set(d?.countries.map((x) => x.region) ?? [])).filter(Boolean);
+    return d.countries.filter((x) => passes(x)).sort((a, b) => ((b[sort] ?? -1) as number) - ((a[sort] ?? -1) as number));
+  }, [d, passes, sort]);
+  const facetCount = (facet: Facet, key: keyof CountrySummary, value: string) => (d ? d.countries.filter((x) => x[key] === value && passes(x, facet)).length : 0);
+  const regionsAll = Array.from(new Set(d?.countries.map((x) => x.region) ?? []))
+    .filter(Boolean)
+    .sort((a, b) => (REGION_ORDER.indexOf(a) + 1 || 99) - (REGION_ORDER.indexOf(b) + 1 || 99));
+  const sorted = (key: SortKey) => (sort === key ? ("descending" as const) : undefined);
+  const pct = (v: number) => format.number(v / 100, { style: "percent", maximumFractionDigits: 0 });
+  const notRanked = t("notRanked");
+
   return (
-    <div className="mx-auto max-w-6xl 2xl:max-w-[1400px] px-4 py-8 sm:px-6">
-      <h1 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{t("title")}</h1>
-      <p className="mt-2 max-w-3xl text-muted-foreground">{t("lede")}</p>
-      {!d ? <Skeleton className="mt-8 h-72" /> : (
+    <div className={WRAP}>
+      <PageHead section="readiness" title={t("title")} lede={t("lede")} />
+      {!d ? (
         <>
-          <p className="mt-4 font-display text-lg italic text-muted-foreground">{t("headline", { n: d.n_below_4 })}</p>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Kpi label={t("average")} value={`${d.average}/10`} hint={t("averageHint", { n: d.n_ranked })} tone="brand" />
-            <Kpi label={t("goodData")} value={`${d.n_good_data}/${d.n_countries}`} />
-            <Kpi label={t("strongGov")} value={`${d.n_strong_gov}/${d.n_countries}`} />
-            <Kpi label={t("lts")} value={`${d.n_lts}/${d.n_countries}`} />
+          <Skeleton className="mt-8 h-32" />
+          <Skeleton className="mt-11 h-96" />
+        </>
+      ) : (
+        <>
+          <KpiStrip className="mt-8">
+            <Kpi label={t("average")} value={`${format.number(d.average)}/10`} hint={t("averageHint", { n: d.n_ranked })} />
+            <Kpi label={t("goodData")} value={`${format.number(d.n_good_data)}/${format.number(d.n_countries)}`} />
+            <Kpi label={t("strongGov")} value={`${format.number(d.n_strong_gov)}/${format.number(d.n_countries)}`} />
+            <Kpi label={t("lts")} value={`${format.number(d.n_lts)}/${format.number(d.n_countries)}`} />
+          </KpiStrip>
+          <Callout tone="brand" className="mt-6 max-w-[46em]">{t("headline", { n: d.n_below_4 })}</Callout>
+
+          <div className="mt-11 grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-12 max-lg:grid-cols-[minmax(0,1fr)]">
+            <Block title={t("mapTitle")} description={t("mapLede")}>
+              <AfricaMap
+                data={d.countries.map((x) => ({
+                  iso3: x.iso3,
+                  value: x.readiness_score,
+                  label: nameOf(x),
+                  hint: `${t("governance")}${colon}${label("governance", x.energy_governance)} · ${t("data")}${colon}${label("data", x.data_availability)}`,
+                  href: `/observatory/countries/${x.iso_code}`,
+                }))}
+                metric="readiness"
+                legendTitle={t("readiness")}
+                emptyLabel={notRanked.charAt(0).toUpperCase() + notRanked.slice(1)}
+                formatValue={(v) => `${t("readiness")} ${format.number(v)}/10`}
+                ariaLabel={t("mapTitle")}
+                fig={1}
+                caption={t("mapCaption", { n: d.n_countries - d.n_ranked })}
+                className="max-lg:mx-auto max-lg:w-full max-lg:max-w-[620px]"
+              />
+            </Block>
+            <Block title={t("scatterTitle")} description={t("scatterLede")}>
+              <ReadinessScatter
+                rows={d.countries
+                  .filter((x) => x.readiness_score !== null)
+                  .map((x) => ({ name: nameOf(x), iso3: x.iso3, region: x.region, readiness: x.readiness_score as number, gap: x.gap_score, studies: x.n_studies }))}
+                regionLabel={(x) => label("region", x)}
+                xLabel={t("readinessAxis")}
+                yLabel={t("gapAxis")}
+                ariaLabel={t("scatterTitle")}
+              />
+            </Block>
           </div>
-          <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_1fr]">
-            <div className="rounded-2xl border border-border bg-card p-3 shadow-card">
-              <p className="px-1 pb-1 text-sm font-semibold">{t("mapTitle")}</p>
-              <AfricaMap data={d.countries.map((x) => ({ iso3: x.iso3, value: x.readiness_score, label: x.country_name, hint: `${label("governance", x.energy_governance)} · ${label("data", x.data_availability)}`, href: `/observatory/countries/${x.iso_code}` }))}
-                colors={["#b71c1c", "#fdd835", "#1b5e20"]} domain={[0, 10]} legend={{ low: "0", high: "10" }} emptyLabel={t("notRanked")} />
-              <p className="mt-2 px-1 text-xs text-muted-foreground">{t("mapCaption", { n: d.n_countries - d.n_ranked })}</p>
+
+          <Block
+            className="mt-12"
+            title={t("tableTitle")}
+            description={<span aria-live="polite">{t("showing", { n: rows.length, total: d.n_countries })}</span>}
+          >
+            <div className="flex flex-wrap items-end gap-x-10 gap-y-5">
+              <ChipGroup
+                label={t("region")}
+                value={regions}
+                onChange={setRegions}
+                options={regionsAll.map((x) => ({ value: x, label: label("region", x), n: facetCount("region", "region", x) }))}
+              />
+              <ChipGroup
+                label={t("governance")}
+                value={gov}
+                onChange={setGov}
+                options={["strong", "moderate", "weak"].map((x) => ({ value: x, label: label("governance", x), n: facetCount("gov", "energy_governance", x) }))}
+              />
+              <ChipGroup
+                label={t("data")}
+                value={dat}
+                onChange={setDat}
+                options={["good", "limited", "none"].map((x) => ({ value: x, label: label("data", x), n: facetCount("dat", "data_availability", x) }))}
+              />
+              <div className="flex flex-wrap items-end gap-x-4 gap-y-4 max-md:w-full">
+                <div className="w-56 max-md:w-full">
+                  <Label htmlFor={searchId}>{t("searchLabel")}</Label>
+                  <Input id={searchId} type="search" placeholder={c("search")} value={q} onChange={(e) => setQ(e.target.value)} />
+                </div>
+                <div className="w-56 max-md:w-full">
+                  <Label htmlFor={sortId}>{t("sortLabel")}</Label>
+                  <NativeSelect id={sortId} value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
+                    <option value="readiness_score">{t("sort.readiness")}</option>
+                    <option value="gap_score">{t("sort.gap")}</option>
+                    <option value="n_studies">{t("sort.studies")}</option>
+                    <option value="electrification_rate">{t("sort.elec")}</option>
+                  </NativeSelect>
+                </div>
+              </div>
             </div>
-            <div className="space-y-6">
-              <div className="rounded-2xl border border-border bg-card p-4 shadow-card">
-                <p className="text-sm font-semibold">{t("scatterTitle")}</p>
-                <ReadinessScatter rows={d.countries.filter((x) => x.readiness_score !== null).map((x) => ({ name: x.country_name, region: x.region, readiness: x.readiness_score as number, gap: x.gap_score, studies: x.n_studies }))}
-                  regionLabel={(x) => label("region", x)} xLabel={t("readinessAxis")} yLabel={t("gapAxis")} height={300} />
-              </div>
-              <div className="rounded-2xl border border-border bg-card p-4 shadow-card">
-                <p className="text-sm font-semibold">{t("distTitle")}</p>
-                <Columns rows={d.distribution.map((x) => ({ label: x.range, value: x.countries }))} height={180} />
-              </div>
-            </div>
-          </div>
-          <Section title={t("tableTitle")}>
-            <div className="mb-4 grid gap-4 rounded-2xl border border-border bg-card p-4 shadow-card md:grid-cols-[1fr_auto]">
-              <div className="grid gap-4 sm:grid-cols-3">
-                <ChipGroup label={t("region")} value={regions} onChange={setRegions} options={regionsAll.map((x) => ({ value: x, label: label("region", x) }))} />
-                <ChipGroup label={t("governance")} value={gov} onChange={setGov} options={["strong", "moderate", "weak"].map((x) => ({ value: x, label: label("governance", x) }))} />
-                <ChipGroup label={t("data")} value={dat} onChange={setDat} options={["good", "limited", "none"].map((x) => ({ value: x, label: label("data", x) }))} />
-              </div>
-              <div className="space-y-2">
-                <Input placeholder={c("search")} value={q} onChange={(e) => setQ(e.target.value)} className="w-56" />
-                <select value={sort} onChange={(e) => setSort(e.target.value as typeof sort)} className="h-9 w-56 rounded-md border border-input bg-card px-3 text-sm">
-                  <option value="readiness_score">{t("sort.readiness")}</option><option value="gap_score">{t("sort.gap")}</option><option value="n_studies">{t("sort.studies")}</option><option value="electrification_rate">{t("sort.elec")}</option>
-                </select>
-              </div>
-            </div>
-            <Table>
-              <THead><TR><TH>{c("country")}</TH><TH>{t("region")}</TH><TH>{t("pool")}</TH><TH className="text-right">{c("studies")}</TH><TH>{t("readiness")}</TH><TH>{t("gap")}</TH><TH className="text-right">{t("elec")}</TH><TH>{t("data")}</TH><TH>{t("governance")}</TH><TH>NDC</TH><TH>LTS</TH></TR></THead>
+
+            <Table stickyFirst wrapperClassName="mt-7">
+              <THead>
+                <TR>
+                  <TH>{c("country")}</TH>
+                  <TH numeric sort={sorted("readiness_score")}>{t("readiness")}</TH>
+                  <TH className="whitespace-normal">{t("governance")}</TH>
+                  <TH className="whitespace-normal">{t("data")}</TH>
+                  <TH numeric sort={sorted("electrification_rate")}>{t("elec")}</TH>
+                  <TH>{t("ndc")}</TH>
+                  <TH>{t("ltsShort")}</TH>
+                  <TH numeric sort={sorted("gap_score")}>{t("gap")}</TH>
+                  <TH numeric sort={sorted("n_studies")}>{c("studies")}</TH>
+                  <TH lowPriority>{t("region")}</TH>
+                  <TH lowPriority>{t("pool")}</TH>
+                </TR>
+              </THead>
               <TBody>
                 {rows.map((x) => (
                   <TR key={x.iso_code}>
-                    <TD><Link href={`/observatory/countries/${x.iso_code}`} className="font-medium hover:text-primary">{x.country_name}</Link></TD>
-                    <TD className="text-muted-foreground">{label("region", x.region)}</TD><TD className="text-muted-foreground">{x.power_pool}</TD>
-                    <TD className="tabular text-right">{x.n_studies}</TD>
-                    <TD>{x.readiness_score === null ? <span className="text-xs text-muted-foreground">{t("notRanked")}</span> : <span className="inline-flex items-center gap-2"><span className="h-2 w-16 rounded-full bg-muted"><span className="block h-full rounded-full bg-brand-600" style={{ width: `${x.readiness_score * 10}%` }} /></span><span className="tabular">{x.readiness_score}</span></span>}</TD>
-                    <TD><span className="inline-flex items-center gap-2"><span className="h-2 w-16 rounded-full bg-muted"><span className="block h-full rounded-full bg-coral-500" style={{ width: `${x.gap_score}%` }} /></span><span className="tabular">{x.gap_score}</span></span></TD>
-                    <TD className="tabular text-right">{Math.round(x.electrification_rate)}%</TD>
-                    <TD className="text-muted-foreground">{label("data", x.data_availability)}</TD><TD className="text-muted-foreground">{label("governance", x.energy_governance)}</TD>
-                    <TD>{label("yesno", x.has_ndc)}</TD><TD>{label("yesno", x.has_lts)}</TD>
+                    <TD className="lg:whitespace-normal">
+                      <span className="flex items-baseline">
+                        <IsoCode>{x.iso3}</IsoCode>
+                        <Link href={`/observatory/countries/${x.iso_code}`} className={countryLinkClass}>{nameOf(x)}</Link>
+                      </span>
+                    </TD>
+                    <TD numeric>
+                      <Meter value={x.readiness_score} max={10} label={x.readiness_score === null ? undefined : format.number(x.readiness_score)} empty={notRanked} />
+                    </TD>
+                    <TD className="text-ink-2">{x.energy_governance ? label("governance", x.energy_governance) : <NotAssessed>{label("governance", "")}</NotAssessed>}</TD>
+                    <TD className="text-ink-2">{x.data_availability ? label("data", x.data_availability) : <NotAssessed>{label("data", "")}</NotAssessed>}</TD>
+                    <TD numeric>{pct(x.electrification_rate)}</TD>
+                    <TD className={cn(x.has_ndc === "yes" ? "text-ink-2" : "text-muted-foreground")}>{label("yesno", x.has_ndc)}</TD>
+                    <TD className={cn(x.has_lts === "yes" ? "text-ink-2" : "text-muted-foreground")}>{label("yesno", x.has_lts)}</TD>
+                    <TD numeric><Meter value={x.gap_score} max={100} label={format.number(x.gap_score)} /></TD>
+                    <TD numeric>{format.number(x.n_studies)}</TD>
+                    <TD lowPriority className="text-ink-2">{label("region", x.region)}</TD>
+                    <TD lowPriority className="text-ink-2">{x.power_pool}</TD>
                   </TR>
                 ))}
               </TBody>
             </Table>
-            <p className="mt-2 text-xs text-muted-foreground">{t("showing", { n: rows.length, total: d.n_countries })}</p>
-          </Section>
-          <Callout className="mt-8">{t("caveat")} <Link href="/methodology" className="underline">{t("methodLink")}</Link></Callout>
+          </Block>
+
+          <Callout className="mt-8 max-w-[46em]">
+            {t("caveat")} <Link href="/methodology">{t("methodLink")}</Link>
+          </Callout>
         </>
       )}
     </div>

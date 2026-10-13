@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, Link } from "@/i18n/navigation";
 import { api } from "@/lib/api";
+import { AuthHead } from "@/components/admin/auth-forms";
 
 export default function MagicPage() {
   return <Suspense fallback={null}><Magic /></Suspense>;
@@ -29,9 +30,22 @@ function Magic() {
     });
   }, [params, router, qc]);
   return (
-    <div className="text-center">
-      <p className="text-sm text-muted-foreground">{failed ? t("magicInvalid") : t("magicChecking")}</p>
-      {failed && <Link href="/sign-in" className="mt-4 inline-block text-primary underline">{t("noAccount")}</Link>}
+    <div>
+      <AuthHead title={t("signInTitle")} />
+      <div role="status" className="mt-6">
+        {failed ? (
+          <div className="border-l-2 border-amber-500 py-0.5 pl-3.5 font-display text-[15px] leading-[1.45] text-ink-2">
+            <p>{t("magicInvalid")}</p>
+          </div>
+        ) : (
+          <p className="font-display text-[16.5px] leading-[1.5] text-muted-foreground">{t("magicChecking")}</p>
+        )}
+      </div>
+      {failed && (
+        <p className="mt-5 text-[14px]">
+          <Link href="/sign-in" className="link inline-flex min-h-6 items-center font-medium">{t("backToSignIn")}</Link>
+        </p>
+      )}
     </div>
   );
 }

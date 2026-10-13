@@ -1,10 +1,14 @@
+import type * as React from "react";
 import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
-import { ArrowRight, BarChart3, BookOpen, Compass, Database, FileSearch, Gauge, Map as MapIcon, Search, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { PartnerLogos } from "@/components/brand/logo";
-import { HomeLive } from "@/components/observatory/home-live";
+import { SingleLineDiagram } from "@/components/marketing/single-line-diagram";
+import { Kicker, OBSERVATORY_SECTIONS } from "@/components/observatory/page-head";
+import { HeroFigures, HeroHorizon, HeroMap, InventoryTrio, LatestEntries, RecordCount } from "@/components/observatory/home-live";
 import { KRINEA_URL, REPO_URL, SITE_URL } from "@/lib/site";
 
 const JSON_LD = {
@@ -18,102 +22,159 @@ const JSON_LD = {
   sameAs: [REPO_URL],
 };
 
+const WRAP = "mx-auto w-full max-w-[1248px] px-8 max-md:px-4";
+const H2 = "text-balance text-[26px] font-bold leading-[1.15] tracking-[-0.01em] md:text-[32px]";
+const SUBLEDE = "mt-3 max-w-[48em] text-[17px] leading-[1.55] text-ink-2";
+
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
   return <Home />;
 }
 
+/** A home section: a small blue label above the title, full width; `band` paints it light grey so
+ *  consecutive sections read apart. */
+function HomeSection({ label, band = false, children }: { label?: React.ReactNode; band?: boolean; children: React.ReactNode }) {
+  return (
+    <section className={cn("py-16 max-md:py-11", band ? "border-y border-border bg-muted" : "")}>
+      <div className={WRAP}>
+        {label && <p className="sc mb-2.5 text-rubric">{label}</p>}
+        {children}
+      </div>
+    </section>
+  );
+}
+
 function Home() {
   const t = useTranslations("home");
   const nav = useTranslations("nav.obs");
-  const steps = [
-    { key: "map", href: "/observatory/map", icon: <MapIcon /> },
-    { key: "gaps", href: "/observatory/gaps", icon: <BarChart3 /> },
-    { key: "readiness", href: "/observatory/readiness", icon: <Gauge /> },
-    { key: "studies", href: "/observatory/studies", icon: <Search /> },
-    { key: "recommender", href: "/observatory/recommender", icon: <BookOpen /> },
-    { key: "methodology", href: "/methodology", icon: <FileSearch /> },
+  const questions = [
+    { key: "q1", page: "map", href: "/observatory/map", msg: "see" },
+    { key: "q2", page: "tools", href: "/observatory/tools", msg: "see" },
+    { key: "q3", page: "gaps", href: "/observatory/gaps", msg: "seeWho" },
+    { key: "q4", page: "gaps", href: "/observatory/gaps", msg: "see" },
+    { key: "q5", page: "readiness", href: "/observatory/readiness", msg: "see" },
   ] as const;
+  const contents = [
+    ...OBSERVATORY_SECTIONS.filter((s) => ["map", "gaps", "readiness", "studies", "recommender"].includes(s.key)).map((s) => ({
+      name: nav(s.key),
+      text: t(`story.${s.key as "map" | "gaps" | "readiness" | "studies" | "recommender"}.text`),
+      href: s.href,
+    })),
+    { name: t("story.methodology.title"), text: t("story.methodology.text"), href: "/methodology" },
+  ];
+  const nodeLink = (href: string, text: string) => (
+    <Link href={href} className="link inline-block py-[3px]">{text}</Link>
+  );
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
-      <section className="mesh-bg relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
-        <div className="relative mx-auto grid max-w-6xl 2xl:max-w-[1400px] gap-10 px-4 py-12 sm:px-6 md:py-16 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-12">
-          <div className="max-w-xl 2xl:max-w-2xl">
-            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-medium text-brand-900 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-100">{t("eyebrow")}</p>
-            <h1 className="font-display text-balance text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl xl:text-[3.4rem]">{t("title")}</h1>
-            <p className="mt-5 max-w-lg text-balance text-base text-muted-foreground md:text-lg">{t("lede")}</p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" className="w-full sm:w-auto" asChild><Link href="/observatory">{t("ctaPrimary")}<ArrowRight /></Link></Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto" asChild><Link href="/observatory/recommender">{t("ctaSecondary")}</Link></Button>
+
+      {/* Title page: kicker, full-width headline, Fig. 1 plate | commentary, Fig. 1b data horizon */}
+      <section className="border-b border-border">
+        <div className={cn(WRAP, "pb-14 pt-14 max-md:pb-10 max-md:pt-8")}>
+          <Kicker>{t("eyebrow")}</Kicker>
+          <h1 className="mt-4 max-w-[22em] text-balance text-[34px] font-bold leading-[1.1] tracking-[-0.015em] md:text-[44px] lg:text-[52px]">
+            {t("titleStatement")} <span className="block text-balance font-semibold text-brand-700">{t("titleQuestion")}</span>
+          </h1>
+          <div className="mt-10 grid grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] grid-rows-[auto_1fr] gap-x-14 [grid-template-areas:'map_a'_'map_b'] max-lg:grid-cols-[minmax(0,1fr)] max-lg:grid-rows-none max-lg:gap-x-0 max-lg:[grid-template-areas:'a'_'map'_'b'] max-md:mt-[26px] max-md:pt-5">
+            <div className="min-w-0 [grid-area:a]">
+              <p className="text-[18px] leading-[1.6] text-ink-2 md:text-[19px]">{t("lede")}</p>
+              <div className="mt-7 flex flex-wrap items-center gap-x-[22px] gap-y-2 max-md:flex-col max-md:items-stretch max-md:gap-y-1">
+                <Button size="lg" asChild>
+                  <Link href="/observatory">
+                    {t("ctaPrimary")}
+                    <ArrowRight strokeWidth={1.5} aria-hidden="true" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="/observatory/recommender">{t("ctaText")}</Link>
+                </Button>
+              </div>
             </div>
-            <p className="mt-6 text-sm text-muted-foreground">{t("trust")}</p>
+            <HeroMap className="[grid-area:map] max-lg:mt-[30px] max-lg:max-w-[620px] max-md:mt-[26px]" />
+            <HeroFigures className="mt-[34px] [grid-area:b]" />
           </div>
-          <HomeLive variant="hero" />
+          <HeroHorizon />
         </div>
       </section>
 
-      <section className="border-y border-border bg-sand-100/70 dark:bg-muted/40">
-        <div className="mx-auto max-w-6xl 2xl:max-w-[1400px] px-4 py-10 sm:px-6 md:py-12">
-          <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">{t("questionsTitle")}</h2>
-          <ul className="mt-5 grid gap-3 text-[15px] leading-relaxed md:grid-cols-2">
-            {(["q1", "q2", "q3", "q4", "q5"] as const).map((q) => (
-              <li key={q} className="flex gap-3 rounded-xl border border-border bg-card p-4 shadow-card"><span className="mt-1 size-2 shrink-0 rounded-full bg-brand-600" />{t(`questions.${q}`)}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <HomeSection label={t("sec.questions")} band>
+        <h2 className={H2}>{t("questionsTitle")}</h2>
+        <ul className="mt-8 grid grid-cols-2 gap-4 max-md:grid-cols-1">
+          {questions.map((q) => (
+            <li key={q.key} className="flex flex-col justify-between gap-3 rounded-lg border border-border bg-card p-5 shadow-card">
+              <p className="text-[18px] font-semibold leading-[1.35]">{t(`questions.${q.key}`)}</p>
+              <p className="text-[14px] text-muted-foreground">
+                {t.rich(q.msg, { page: nav(q.page), link: (chunks) => <Link href={q.href} className="link font-semibold">{chunks}</Link> })}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </HomeSection>
 
-      <HomeLive variant="body" />
+      <HomeSection label={t("sec.inventory")}>
+        <h2 className={H2}>{t("inventoryTitle")}</h2>
+        <p className={SUBLEDE}>{t("scopeText")}</p>
+        <InventoryTrio />
+      </HomeSection>
 
-      <section className="mx-auto max-w-6xl 2xl:max-w-[1400px] px-4 py-12 sm:px-6 md:py-16">
-        <h2 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{t("storyTitle")}</h2>
-        <p className="mt-3 max-w-2xl text-lg text-muted-foreground">{t("storyLede")}</p>
-        <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {steps.map((s, i) => (
-            <li key={s.key}>
-              <Link href={s.href} className="group block h-full rounded-xl border border-border bg-card p-5 shadow-card transition-colors hover:border-brand-400">
-                <div className="flex items-center gap-3">
-                  <span className="flex size-9 items-center justify-center rounded-lg bg-brand-100 text-brand-800 dark:bg-brand-900 dark:text-brand-100 [&_svg]:size-5">{s.icon}</span>
-                  <span className="font-mono text-xs text-muted-foreground">0{i + 1}</span>
-                </div>
-                <h3 className="mt-4 text-base font-semibold group-hover:text-brand-800 dark:group-hover:text-brand-200">{s.key === "methodology" ? t("story.methodology.title") : nav(s.key)}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t(`story.${s.key}.text`)}</p>
+      <HomeSection band>
+        <LatestEntries />
+      </HomeSection>
+
+      <HomeSection label={t("sec.contents")}>
+        <h2 className={H2}>{t("storyTitle")}</h2>
+        <p className={SUBLEDE}>{t("storyLede")}</p>
+        <ul className="mt-8 grid grid-cols-3 gap-4 max-lg:grid-cols-2 max-md:grid-cols-1">
+          {contents.map((r) => (
+            <li key={r.href}>
+              <Link
+                href={r.href}
+                className="group flex h-full flex-col gap-2 rounded-lg border border-border bg-card p-5 no-underline shadow-card hover:border-brand-300 hover:bg-accent"
+              >
+                <span className="flex items-center justify-between gap-3 text-[18px] font-bold text-brand-700">
+                  {r.name}
+                  <ArrowRight aria-hidden="true" className="size-[18px] shrink-0 transition-transform group-hover:translate-x-0.5" />
+                </span>
+                <span className="text-[15px] leading-[1.5] text-ink-2">{r.text}</span>
               </Link>
             </li>
           ))}
-        </ol>
-      </section>
+        </ul>
+      </HomeSection>
 
-      <section className="border-y border-border bg-sand-100/70 dark:bg-muted/40">
-        <div className="mx-auto grid max-w-6xl 2xl:max-w-[1400px] gap-8 px-4 py-12 sm:px-6 md:grid-cols-3 md:gap-10 md:py-16">
-          {[
-            { icon: <Users />, title: t("hub.contribute.title"), text: t("hub.contribute.text"), href: "/contribute", cta: t("hub.contribute.cta") },
-            { icon: <Compass />, title: t("hub.discovery.title"), text: t("hub.discovery.text"), href: "/research", cta: t("hub.discovery.cta") },
-            { icon: <Database />, title: t("hub.data.title"), text: t("hub.data.text"), href: "/research#data", cta: t("hub.data.cta") },
-          ].map((f) => (
-            <div key={f.title}>
-              <span className="inline-flex size-10 items-center justify-center rounded-lg bg-card text-brand-700 shadow-card [&_svg]:size-5">{f.icon}</span>
-              <h3 className="mt-4 font-display text-2xl font-semibold">{f.title}</h3>
-              <p className="mt-2 leading-relaxed text-muted-foreground">{f.text}</p>
-              <Button variant="link" className="mt-2 px-0" asChild><Link href={f.href}>{f.cta}<ArrowRight /></Link></Button>
-            </div>
-          ))}
-        </div>
-      </section>
+      <HomeSection label={t("sec.living")} band>
+        <h2 className={H2}>{t("living.title")}</h2>
+        <SingleLineDiagram
+          className="mt-9"
+          ariaLabel={t("living.aria")}
+          feeders={[
+            { label: t("living.feeder", { n: 1 }), title: t("living.f1Title"), description: t("living.f1Text"), link: nodeLink("/contribute", t("living.f1Link")) },
+            {
+              label: t("living.feeder", { n: 2 }),
+              title: t("living.f2Title"),
+              description: t.rich("living.f2Text", { krinea: (chunks) => <a href={KRINEA_URL} target="_blank" rel="noreferrer" className="link">{chunks}</a> }),
+              link: nodeLink("/research", t("living.f2Link")),
+            },
+          ]}
+          bus={{ name: t("living.busName"), note: t("living.busNote"), meta: <RecordCount /> }}
+          outputs={[
+            { label: t("living.output", { n: 1 }), title: t("living.o1Title"), description: t("living.o1Text"), link: nodeLink("/observatory", t("living.o1Link")) },
+            { label: t("living.output", { n: 2 }), title: t("living.o2Title"), description: t("living.o2Text"), link: nodeLink("/research#data", t("living.o2Link")) },
+          ]}
+        />
+      </HomeSection>
 
-      <section className="mx-auto max-w-6xl 2xl:max-w-[1400px] px-4 py-12 sm:px-6 md:py-16">
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-card md:flex md:items-center md:justify-between md:gap-8 md:p-8">
-          <div className="max-w-2xl">
-            <h2 className="font-display text-2xl font-semibold tracking-tight">{t("partnersTitle")}</h2>
-            <p className="mt-2 text-muted-foreground">{t("partnersText")}</p>
-            <p className="mt-2 text-sm text-muted-foreground">{t("krineaText")} <a href={KRINEA_URL} target="_blank" rel="noreferrer" className="font-medium text-primary underline-offset-4 hover:underline">Krinea</a>.</p>
+      <HomeSection label={t("sec.deliveredBy")}>
+        <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-center gap-x-12 gap-y-6 max-lg:grid-cols-[minmax(0,1fr)]">
+          <div>
+            <h2 className="text-[24px] font-bold leading-[1.2]">{t("partnersTitle")}</h2>
+            <p className="mt-3 text-[17px] leading-[1.55] text-ink-2">{t("partnersText")}</p>
           </div>
-          <PartnerLogos className="mt-6 md:mt-0" />
+          <PartnerLogos height={52} className="justify-end gap-x-[30px] max-lg:justify-start" />
         </div>
-      </section>
+      </HomeSection>
     </>
   );
 }

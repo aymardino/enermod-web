@@ -5,7 +5,7 @@
   },
   "common": {
     "appName": "EnerMod Africa",
-    "tagline": "Qui modélise l'avenir énergétique de l'Afrique, avec quels outils, pour quels pays, et avec quels angles morts ?",
+    "tagline": "Qui modélise l’avenir énergétique de l’Afrique, avec quels outils, pour quels pays, et avec quels angles morts ?",
     "signIn": "Se connecter",
     "signUp": "Créer un compte",
     "signOut": "Se déconnecter",
@@ -56,7 +56,7 @@
     "menu": "Menu",
     "language": "Langue",
     "obs": {
-      "dashboard": "Vue d'ensemble",
+      "dashboard": "Vue d’ensemble",
       "map": "Carte",
       "gaps": "Analyse des lacunes",
       "readiness": "Préparation",
@@ -71,41 +71,49 @@
       "data": "Données et mentions",
       "downloadStudies": "Télécharger les études (CSV)",
       "downloadAll": "Tout télécharger (zip)",
-      "krinea": "Krinea, l'atelier de revue",
+      "krinea": "Krinea, l’atelier de revue",
       "privacy": "Confidentialité",
       "legalNotice": "Mentions légales",
-      "institutions": "Une activité du Cluster 1 d'AISESA, accueillie par le Centre de Mathématiques Appliquées de MINES Paris-PSL (The Transition Institute 1.5).",
+      "institutions": "Une activité du Cluster 1 d’AISESA, accueillie par le Centre de Mathématiques Appliquées de MINES Paris-PSL (The Transition Institute 1.5).",
       "copyright": "© {year} EnerMod Africa · AISESA · MINES Paris-PSL",
-      "licence": "Données CC BY 4.0 · Code GPL-3.0 · Diagramme PRISMA 2020 CC BY 4.0"
-    }
+      "licence": "Données CC BY 4.0 · Code GPL-3.0 · Diagramme PRISMA 2020 CC BY 4.0",
+      "colophon": "Cartes Natural Earth 1:110m, projection azimutale équivalente de Lambert."
+    },
+    "skip": "Aller au contenu",
+    "utilities": "Utilitaires",
+    "main": "Principal",
+    "home": "EnerMod Africa, accueil",
+    "partner": "Une activité du Cluster 1 d’AISESA · MINES Paris-PSL · The Transition Institute 1.5",
+    "sourceCode": "Code source",
+    "sections": "Sections de l’observatoire"
   },
   "home": {
     "eyebrow": "Revue systématique PRISMA · 54 pays · données ouvertes",
     "title": "L'avenir énergétique de l'Afrique se modélise. Par qui, avec quels outils, et avec quels angles morts ?",
-    "lede": "Les études individuelles abondent ; une synthèse de ce qu'elles montrent, et de ce qu'elles manquent, collectivement n'existait pas. EnerMod Africa cartographie chaque étude de modélisation énergétique appliquée à un pays africain, les outils qui les sous-tendent et les conditions dans lesquelles les modèles peuvent éclairer les politiques.",
-    "ctaPrimary": "Explorer l'observatoire",
+    "lede": "Les études individuelles abondent ; une synthèse de ce qu’elles montrent, et de ce qu’elles manquent, collectivement n’existait pas. EnerMod Africa cartographie chaque étude de modélisation énergétique appliquée à un pays africain, les outils qui les sous-tendent et les conditions dans lesquelles les modèles peuvent éclairer les politiques.",
+    "ctaPrimary": "Explorer l’observatoire",
     "ctaSecondary": "Trouver le bon outil",
-    "trust": "Chaque étude vérifiée individuellement · chaque score documenté · chaque chiffre mis à jour avec l'inventaire.",
-    "kpiTitle": "L'inventaire aujourd'hui",
+    "trust": "Chaque étude vérifiée individuellement · chaque score documenté · chaque chiffre mis à jour avec l’inventaire.",
+    "kpiTitle": "L’inventaire aujourd’hui",
     "kpis": {
       "studies": "Études",
       "countries": "Pays couverts",
       "countriesHint": "sur les 54 pays africains",
       "tools": "Outils de modélisation",
       "toolsHint": "{n} utilisés dans au moins une étude",
-      "africanLed": "Pilotées par l'Afrique",
-      "africanLedHint": "{full} % des études système complet · {light} % des études ciblées",
+      "africanLed": "Pilotées par l’Afrique",
+      "africanLedHint": "{full} % des études système complet · {light} % des études ciblées",
       "open": "Licence ouverte ou mixte",
       "byYear": "Études par année de publication"
     },
     "kpiNote": "Les chiffres sont calculés en direct depuis la base et changent à chaque ajout d'étude.",
     "questionsTitle": "Conçu pour répondre à des questions comme",
     "questions": {
-      "q1": "Quels pays sont abondamment modélisés, et lesquels à peine étudiés ?",
-      "q2": "Quels outils dominent, et sont-ils ouverts ou verrouillés par des licences ?",
-      "q3": "Quelle part de cette recherche est menée par des institutions africaines ?",
-      "q4": "Les modèles saisissent-ils ce qui façonne les systèmes énergétiques africains : économie informelle, charbon de bois et biomasse, alimentation peu fiable, urbanisation rapide ?",
-      "q5": "Quels pays ont les institutions et les données pour mettre les modèles au travail ?"
+      "q1": "Quels pays sont abondamment modélisés, et lesquels à peine étudiés ?",
+      "q2": "Quels outils dominent, et sont-ils ouverts ou verrouillés par des licences ?",
+      "q3": "Quelle part de cette recherche est menée par des institutions africaines ?",
+      "q4": "Les modèles saisissent-ils ce qui façonne les systèmes énergétiques africains : économie informelle, charbon de bois et biomasse, alimentation peu fiable, urbanisation rapide ?",
+      "q5": "Quels pays ont les institutions et les données pour mettre les modèles au travail ?"
     },
     "originTitle": "Où sont basés les auteurs",
     "originLede": "Institutions des auteurs par pays, comptées une fois par étude. Les chercheurs africains mènent désormais la majorité du corpus, mais ce leadership s'amenuise là où l'enjeu est le plus grand : la planification du système énergétique complet.",
@@ -113,7 +121,7 @@
     "mapAfrica": "Institutions africaines",
     "mapOutside": "Hors d'Afrique",
     "scopeTitle": "Ce que contient l'inventaire",
-    "scopeText": "Les études sont regroupées selon le périmètre du modèle utilisé. Les statistiques qui mélangent les deux peuvent tromper ; les pages analytiques permettent de filtrer par périmètre.",
+    "scopeText": "Les études sont regroupées selon le périmètre du modèle ; mélanger les deux peut tromper, aussi chaque page analytique filtre par périmètre.",
     "fullTitle": "études système énergétique complet",
     "fullText": "Modèles de planification long terme : MESSAGE, OSeMOSYS, TIMES, LEAP, PLEXOS, Balmorel. Les 51 champs extraits.",
     "lightTitle": "études ciblées",
@@ -123,56 +131,184 @@
     "latestTitle": "Derniers ajouts",
     "latestText": "Les études entrées le plus récemment dans l'inventaire, par la revue, les contributions ou la découverte.",
     "storyTitle": "Suivre le fil",
-    "storyLede": "Six pages, une question. Commencez par la carte et terminez par la méthodologie qui rend chaque chiffre vérifiable.",
+    "storyLede": "Six pages, une question : commencez par la carte, terminez par la méthodologie qui rend chaque chiffre vérifiable.",
     "story": {
-      "map": { "text": "Où l'Afrique est-elle modélisée ? Études par pays, par périmètre, échelle et période." },
-      "gaps": { "text": "Qui modélise, et que laissent de côté les modèles ? Couverture des spécificités africaines et score d'écart." },
-      "readiness": { "text": "Quels pays ont la gouvernance, les données et les engagements pour mettre les modèles au travail ?" },
-      "studies": { "text": "Toute la preuve : filtrez l'inventaire jusqu'à la fiche individuelle et sa source." },
-      "recommender": { "text": "Quel outil convient à votre objectif, votre échelle, votre budget, votre équipe et vos données ? Une présélection transparente." },
-      "methodology": { "title": "Méthodologie", "text": "Flux PRISMA, formules des scores, provenance des données : comment chaque chiffre est calculé." }
+      "map": {
+        "text": "Où l’Afrique est-elle modélisée ? Études par pays, par périmètre, échelle et période."
+      },
+      "gaps": {
+        "text": "Qui modélise, et que laissent de côté les modèles ? Couverture des spécificités africaines et score d’écart."
+      },
+      "readiness": {
+        "text": "Quels pays ont la gouvernance, les données et les engagements pour mettre les modèles au travail ?"
+      },
+      "studies": {
+        "text": "Toute la preuve : filtrez l’inventaire jusqu’à la fiche individuelle et sa source."
+      },
+      "recommender": {
+        "text": "Quel outil convient à votre objectif, votre échelle, votre budget, votre équipe et vos données ? Une présélection transparente."
+      },
+      "methodology": {
+        "title": "Méthodologie",
+        "text": "Flux PRISMA, formules des scores, provenance des données : comment chaque chiffre est calculé."
+      }
     },
     "hub": {
-      "contribute": { "title": "Un inventaire vivant", "text": "Proposez une étude manquante, une correction ou un profil d'outil. Les curateurs vérifient chaque proposition avant son entrée dans l'inventaire.", "cta": "Contribuer" },
-      "discovery": { "title": "Une revue qui continue de tourner", "text": "Le hub relance la stratégie de recherche de la revue sur OpenAlex, confronte les résultats au corpus et transmet les nouveaux candidats aux curateurs, et à Krinea pour le tri et l'extraction.", "cta": "Comment l'inventaire reste vivant" },
-      "data": { "title": "Données ouvertes et API", "text": "Chaque table est téléchargeable (CC BY 4.0) et chaque page repose sur une API JSON interrogeable.", "cta": "Données et API" }
+      "contribute": {
+        "title": "Un inventaire vivant",
+        "text": "Proposez une étude manquante, une correction ou un profil d'outil. Les curateurs vérifient chaque proposition avant son entrée dans l'inventaire.",
+        "cta": "Contribuer"
+      },
+      "discovery": {
+        "title": "Une revue qui continue de tourner",
+        "text": "Le hub relance la stratégie de recherche de la revue sur OpenAlex, confronte les résultats au corpus et transmet les nouveaux candidats aux curateurs, et à Krinea pour le tri et l'extraction.",
+        "cta": "Comment l'inventaire reste vivant"
+      },
+      "data": {
+        "title": "Données ouvertes et API",
+        "text": "Chaque table est téléchargeable (CC BY 4.0) et chaque page repose sur une API JSON interrogeable.",
+        "cta": "Données et API"
+      }
     },
     "partnersTitle": "AISESA · MINES Paris-PSL · The Transition Institute 1.5",
-    "partnersText": "EnerMod Africa livre l'Activité 1 du Cluster 1 d'AISESA (trajectoires d'énergie propre pour le développement durable) : cartographier les outils de modélisation énergétique et les capacités d'analyse qui existent déjà sur le continent.",
-    "krineaText": "L'outil d'extraction construit pour la revue est devenu un atelier open source de revue systématique,"
+    "partnersText": "EnerMod Africa livre l’Activité 1 du Cluster 1 d’AISESA (trajectoires d’énergie propre pour le développement durable) : cartographier les outils de modélisation énergétique et les capacités d’analyse qui existent déjà sur le continent.",
+    "krineaText": "L'outil d'extraction construit pour la revue est devenu un atelier open source de revue systématique,",
+    "titleStatement": "L’avenir énergétique de l’Afrique se modélise.",
+    "titleQuestion": "Par qui, avec quels outils, et avec quels angles morts ?",
+    "ctaText": "ou trouver le bon outil pour votre étude",
+    "live": "calculé en direct",
+    "figs": {
+      "studiesHint": "{from}–{to} · {full, number} système complet, {light, number} ciblées"
+    },
+    "fig1": "Études par pays, {from}–{to}, en cinq classes ; la seconde ligne donne le nombre de pays par classe. Une étude compte une fois pour chaque pays modélisé. Projection azimutale équivalente de Lambert : les surfaces se comparent fidèlement.",
+    "mapAria": "Carte de l’Afrique : études par pays",
+    "aside": "Le pays le plus modélisé, {top}, apparaît dans {n, number} des {total, number} études ; le moins modélisé, {bottom}, dans {m, number}.",
+    "horizonTitle": "Études par année de publication et périmètre du modèle",
+    "fig1b": "Études par an, système complet à la base. {n1, number} études en {y1} et {n2, number} en {y2}{partial, select, none {.} other { ; {partial} compte l’année en cours.}}",
+    "see": "Voir <link>{page}</link>",
+    "seeWho": "Voir <link>{page}</link>, qui pilote la modélisation",
+    "sec": {
+      "questions": "Questions",
+      "inventory": "L’inventaire",
+      "latest": "Derniers ajouts",
+      "contents": "Sommaire",
+      "living": "Un inventaire vivant",
+      "deliveredBy": "Porté par"
+    },
+    "note": {
+      "questions": "Chaque question a sa page dans l’observatoire ; le renvoi figure dessous.",
+      "inventory": "Le lapis désigne toujours des études ; <b>foncé</b> pour les modèles du système complet, <b>moyen</b> pour les modèles ciblés.",
+      "latest": "Les études entrent par la revue, les contributions ou la découverte ; le numéro de fiche ne change jamais.",
+      "living": "Dessiné comme un schéma unifilaire : deux arrivées vers un jeu de barres vérifié, deux sorties."
+    },
+    "inventoryTitle": "Ce que contient l’inventaire, et qui pilote le travail",
+    "scopeHead": "Périmètre du modèle",
+    "scopeFullText": "MESSAGE, OSeMOSYS, TIMES, LEAP, PLEXOS, Balmorel. Les 51 champs extraits.",
+    "scopeLightText": "HOMER, OnSSET, RETScreen, analyses SIG. Champs de base uniquement.",
+    "whoLeadsDesc": "D’après les affiliations : pilotée par l’Afrique quand le premier auteur, ou tous, sont dans des institutions africaines.",
+    "topToolsDesc": "Études par outil, deux périmètres.",
+    "allToolsN": "Les {n, number} outils et leurs tendances",
+    "viewAllN": "Voir les {n, number}",
+    "living": {
+      "title": "Comment l’inventaire reste vivant",
+      "aria": "Les contributions et la revue relancée alimentent l’inventaire curaté, qui publie des données ouvertes",
+      "feeder": "Source {n}",
+      "output": "Résultat {n}",
+      "f1Title": "Contributions",
+      "f1Text": "Proposez une étude manquante, une correction ou un profil d’outil.",
+      "f1Link": "Contribuer",
+      "f2Title": "Une revue qui continue de tourner",
+      "f2Text": "La stratégie de recherche est relancée sur OpenAlex ; les candidats vont aux curateurs, et à <krinea>Krinea</krinea> pour le tri.",
+      "f2Link": "Comment fonctionne la découverte",
+      "busName": "Inventaire curaté",
+      "busNote": "rien n’entre sans vérification d’un curateur",
+      "records": "{n, plural, one {# fiche} other {# fiches}}",
+      "o1Title": "L’observatoire",
+      "o1Text": "Cartes, scores d’écart et de préparation, explorateur d’études et recommandeur, recalculés depuis le jeu de barres.",
+      "o1Link": "Ouvrir l’observatoire",
+      "o2Title": "Données ouvertes et API",
+      "o2Text": "Chaque table se télécharge sous CC BY 4.0, et chaque page repose sur une API JSON.",
+      "o2Link": "Données et API"
+    }
   },
   "observatory": {
     "dashboard": {
-      "title": "L'observatoire en un coup d'œil",
-      "lede": "Chiffres clés de l'inventaire, géographie de l'activité de modélisation et outils qui la portent. Chaque nombre renvoie aux études dont il est calculé.",
+      "title": "L’observatoire en un coup d’œil",
+      "lede": "Chiffres clés de l’inventaire, géographie de l’activité de modélisation et outils qui la portent. Chaque nombre renvoie aux études dont il est calculé.",
       "countriesCovered": "Pays couverts",
-      "toolsUsed": "{n} utilisés dans au moins une étude",
-      "africanLed": "Études pilotées par l'Afrique",
-      "africanLedHint": "{full} % système complet · {light} % ciblées",
+      "toolsUsed": "{n, number} utilisés dans au moins une étude",
+      "africanLed": "Études pilotées par l’Afrique",
+      "africanLedHint": "{full} % système complet · {light} % ciblées",
       "open": "Licence ouverte ou mixte",
-      "openHint": "sur {n} études à licence évaluée",
+      "openHint": "sur {n, number} études à licence évaluée",
       "mapTitle": "Études par pays",
       "openMap": "Ouvrir la carte",
       "byYear": "Études par année et périmètre",
-      "whoLeads": "Qui pilote la modélisation ?",
-      "whoLeadsHint": "D'après les affiliations : pilotée par l'Afrique quand le premier auteur, ou tous les auteurs, sont dans des institutions africaines.",
+      "whoLeads": "Qui pilote la modélisation ?",
+      "whoLeadsHint": "D’après les affiliations : pilotée par l’Afrique quand le premier auteur, ou tous les auteurs, sont dans des institutions africaines.",
       "topTools": "Outils les plus utilisés",
-      "topToolsHint": "Études par outil, les deux périmètres confondus ; filtrez par périmètre sur la page Outils.",
+      "topToolsHint": "Études par outil, les deux périmètres confondus ; filtrez par périmètre sur la page Outils.",
       "pools": "Études par pool énergétique",
-      "poolsHint": "Une étude compte pour chaque pool qu'elle couvre.",
+      "poolsHint": "Une étude compte pour chaque pool qu’elle couvre.",
       "latest": "Derniers ajouts",
-      "latestHint": "Les études entrées le plus récemment dans l'inventaire."
+      "latestHint": "Les études entrées le plus récemment dans l’inventaire.",
+      "countriesHint": "sur les {n, number} pays africains",
+      "studiesHint": "{full, number} système complet · {light, number} ciblées",
+      "ofStudies": "sur {n, number} études",
+      "africanLedFull": "des études système complet",
+      "africanLedLight": "des études ciblées",
+      "countriesFull": "avec une étude système complet",
+      "countriesLight": "avec une étude ciblée",
+      "bothScopes": "Les outils, les licences, le pilotage et les classements ci-dessous comptent les deux périmètres.",
+      "methodNote": "Chaque score de cette page est documenté, avec sa formule et ses sources, sur la <link>page Méthodologie</link>.",
+      "scope": {
+        "title": "Périmètre du modèle",
+        "all": "Tout",
+        "full": "Système complet",
+        "light": "Ciblé"
+      },
+      "origin": {
+        "africanLed": "Pilotées par l’Afrique",
+        "mixed": "Équipes mixtes",
+        "nonAfrican": "Non africaines"
+      },
+      "byYearDesc": "Études système complet à la base, études ciblées au-dessus.",
+      "byYearDescFull": "Études système complet uniquement.",
+      "byYearDescLight": "Études ciblées uniquement.",
+      "mapDesc": "Une étude compte une fois pour chaque pays qu’elle modélise.",
+      "legendFull": "Études système complet par pays",
+      "legendLight": "Études ciblées par pays",
+      "tableTitle": "Tous les pays",
+      "tableDesc": "Triés par nombre d’études. Score d’écart 0–100 : plus il est haut, moins le pays est couvert. Préparation 0–10.",
+      "tableNote": "« non classé » signifie que le score ne peut pas être calculé ; il n’est jamais nul.",
+      "notRanked": "non classé",
+      "gapScore": "Score d’écart",
+      "readiness": "Préparation",
+      "csv": "CSV",
+      "csvLabel": "Télécharger tous les pays en CSV",
+      "table": "Tableau",
+      "chart": "Graphique",
+      "year": "Année",
+      "total": "Total",
+      "nTools": "{n, plural, one {# outil} other {# outils}}"
     },
     "map": {
-      "title": "Quels pays africains sont modélisés ?",
-      "lede": "Études par pays, avec filtres par périmètre du modèle, échelle et période. Une étude compte une fois pour chaque pays qu'elle modélise ; les études continentales contribuent donc à chaque case qu'elles couvrent.",
+      "title": "Quels pays africains sont modélisés ?",
+      "lede": "Études par pays, avec filtres par périmètre du modèle, échelle et période. Une étude compte une fois pour chaque pays qu’elle modélise ; les études continentales contribuent donc à chaque case qu’elles couvrent.",
       "metric": "Colorer par",
-      "metrics": { "studies": "Études", "full": "Système complet", "light": "Ciblées", "tools": "Outils distincts", "gap": "Score d'écart", "readiness": "Score de préparation" },
+      "metrics": {
+        "studies": "Études",
+        "full": "Système complet",
+        "light": "Ciblées",
+        "tools": "Outils distincts",
+        "gap": "Score d’écart",
+        "readiness": "Score de préparation"
+      },
       "filtersHint": "Les filtres d'études s'appliquent au seul comptage des études.",
       "scope": "Périmètre du modèle",
       "scale": "Échelle de l'étude",
       "years": "Années de publication",
-      "partial": "Le comptage filtré utilise les {n} premières des {total} études correspondantes ; resserrez les filtres pour des chiffres exacts.",
+      "partial": "Le comptage filtré utilise les {n} premières des {total} études correspondantes ; resserrez les filtres pour des chiffres exacts.",
       "toolsShort": "outils",
       "low": "faible",
       "high": "élevé",
@@ -181,58 +317,75 @@
       "rankingHint": "Pour la métrique sélectionnée.",
       "table": "Tous les pays",
       "region": "Région",
-      "pool": "Pool énergétique"
+      "pool": "Pool énergétique",
+      "legend": {
+        "studies": "Études par pays",
+        "filtered": "Études par pays correspondant aux filtres",
+        "full": "Études système complet par pays",
+        "light": "Études ciblées par pays",
+        "tools": "Outils distincts par pays",
+        "gap": "Score d’écart, 0–100 (plus haut : pays moins couvert)",
+        "readiness": "Score de préparation, 0–10"
+      },
+      "figCaption": "{metric}, en cinq classes fixes pour que les cartes restent comparables dans le temps. Projection azimutale équivalente de Lambert. Survolez un pays pour ses chiffres ; cliquez pour ouvrir sa page.",
+      "tableDesc": "Triés selon la métrique choisie. Score d’écart 0–100 : plus il est haut, moins le pays est couvert. Préparation 0–10.",
+      "rankingAria": "Les 15 premiers pays pour la métrique choisie"
     },
     "gaps": {
-      "title": "Que laissent de côté les modèles ?",
-      "lede": "Les systèmes énergétiques africains ont des traits que beaucoup de modèles globaux n'ont pas été conçus pour saisir : économie informelle, charbon de bois et biomasse, alimentation peu fiable, urbanisation rapide. Cette page quantifie ces silences.",
+      "title": "Que laissent de côté les modèles ?",
+      "lede": "Les systèmes énergétiques africains ont des traits que beaucoup de modèles globaux n’ont pas été conçus pour saisir : économie informelle, charbon de bois et biomasse, alimentation peu fiable, urbanisation rapide. Cette page quantifie ces silences.",
       "scope": "Périmètre du modèle",
-      "scopeHelp": "Les modèles ciblés laissent vides les champs méthodologiques parce que ceux-ci ne s'appliquent pas, non par moindre effort d'extraction.",
+      "scopeHelp": "Les modèles ciblés laissent vides les champs méthodologiques parce que ceux-ci ne s’appliquent pas, non par moindre effort d’extraction.",
       "scopeAllHelp": "Les statistiques agrègent modèles système complet et modèles ciblés, ce qui peut tromper.",
       "region": "Filtre de région",
-      "regionHint": "S'applique aux cartes et au tableau, pas aux chiffres de couverture en tête de page.",
+      "regionHint": "S’applique aux cartes et au tableau, pas aux chiffres de couverture en tête de page.",
       "featuresTitle": "Les spécificités africaines sont rarement modélisées",
-      "featuresLede": "Part des {n} études du périmètre qui traitent chaque dimension, comptée seulement lorsque l'étude a été évaluée sur ce point.",
-      "featuresCaption": "La ligne pointillée est la médiane des quatre dimensions.",
-      "whoTitle": "Qui pilote la modélisation ?",
-      "whoLede": "Pilotée par l'Afrique : le premier auteur, ou tous les auteurs, sont dans des institutions africaines. Mixte : premier auteur non africain dans une équipe comptant des institutions africaines. Non africaine : tous les auteurs hors d'Afrique.",
-      "whoCaption": "{n} études avec une affiliation renseignée.",
+      "featuresLede": "Part des {n, number} études du périmètre qui traitent chaque dimension, comptée seulement lorsque l’étude a été évaluée sur ce point.",
+      "featuresCaption": "La ligne tiretée est la médiane des quatre dimensions.",
+      "whoTitle": "Qui pilote la modélisation ?",
+      "whoLede": "Pilotée par l’Afrique : le premier auteur, ou tous les auteurs, sont dans des institutions africaines. Mixte : premier auteur non africain dans une équipe comptant des institutions africaines. Non africaine : tous les auteurs hors d’Afrique.",
+      "whoCaption": "{n, number} études avec une affiliation renseignée.",
       "whereTitle": "Où sont basés les auteurs",
-      "whereCaption": "Institutions des auteurs par pays, comptées une fois par étude, pour les {n} études du périmètre et de la région courants.",
+      "whereCaption": "Institutions des auteurs par pays, comptées une fois par étude, pour les {n, number} études du périmètre et de la région courants.",
       "mapAfrica": "Institutions africaines",
-      "mapOutside": "Hors d'Afrique",
+      "mapOutside": "Hors d’Afrique",
       "gapMapTitle": "Où se concentrent les lacunes",
-      "gapMapLede": "Le score d'écart combine la couverture des spécificités africaines, la disponibilité des données, la gouvernance énergétique et la densité de modèles. Plus il est élevé, plus le pays est mal desservi.",
+      "gapMapLede": "Le score d’écart combine la couverture des spécificités africaines, la disponibilité des données, la gouvernance énergétique et la densité de modèles. Plus il est élevé, plus le pays est mal desservi.",
       "lessGap": "écart moindre",
       "moreGap": "écart plus grand",
-      "gapScore": "Score d'écart",
+      "gapScore": "Score d’écart",
       "data": "Données",
       "governance": "Gouvernance",
       "elec": "Électrification",
       "gapTableCaption": "Les 15 pays au plus fort écart dans les régions sélectionnées.",
-      "financeTitle": "Les modèles tiennent-ils compte du financement des projets ?",
-      "financeLede": "Le coût du capital et les hypothèses de financement façonnent chaque résultat d'investissement, mais restent souvent implicites ou uniformes.",
-      "modeRate": "Taux d'actualisation le plus courant",
-      "modeRateHint": "utilisé par {share} % des {n} études qui en indiquent un",
+      "financeTitle": "Les modèles tiennent-ils compte du financement des projets ?",
+      "financeLede": "Le coût du capital et les hypothèses de financement façonnent chaque résultat d’investissement, mais restent souvent implicites ou uniformes.",
+      "modeRate": "Taux d’actualisation le plus courant",
+      "modeRateHint": "utilisé par {share} % des {n, number} études qui en indiquent un",
       "varied": "Études testant plusieurs taux",
       "variedHint": "fourchette ou coût du capital par scénario",
       "financingModelled": "Modélisent explicitement le financement",
-      "financingHint": "{p} sur {n} études évaluées",
+      "financingHint": "{p, number} sur {n, number} études évaluées",
       "unstated": "Taux non indiqué",
       "unstatedHint": "{m} études nomment un mécanisme de financement précis",
-      "rateCaption": "Taux d'actualisation de base indiqué par les études. La plupart supposent un taux uniforme malgré de grandes différences de coût réel du financement entre pays africains.",
+      "rateCaption": "Taux d’actualisation de base indiqué par les études. La plupart supposent un taux uniforme malgré de grandes différences de coût réel du financement entre pays africains.",
       "emergingTitle": "Dimensions émergentes",
-      "emergingLede": "Suivies dès le départ ; les comptes augmentent à mesure que la littérature grise et les documents de politique sont intégrés.",
-      "agenda": "Référence à l'Agenda 2063",
+      "emergingLede": "Suivies dès le départ ; les comptes augmentent à mesure que la littérature grise et les documents de politique sont intégrés.",
+      "agenda": "Référence à l’Agenda 2063",
       "grey": "Littérature grise",
-      "ofAssessed": "{p} % des études évaluées",
+      "ofAssessed": "{p} % des études évaluées",
       "method": "Chaque score de cette page est documenté, avec sa formule et ses sources, sur la",
-      "methodLink": "page Méthodologie."
+      "methodLink": "page Méthodologie.",
+      "outsideRegion": "Hors des régions choisies",
+      "gapMapCaption": "Cinq classes fixes, pour comparer la carte dans le temps. Choisissez un pays pour ouvrir sa page.",
+      "showTable": "Tableau",
+      "showMap": "Carte",
+      "institutions": "Institutions"
     },
     "readiness": {
-      "title": "Quels pays sont les mieux préparés à utiliser les modèles ?",
-      "lede": "Un modèle ne vaut que par la capacité d'un pays à l'exécuter, l'entretenir et lui faire confiance. La préparation combine capacité institutionnelle, disponibilité des données, engagements climatiques et électrification : les conditions qui permettent à la modélisation de se traduire en politiques.",
-      "headline": "{n} pays obtiennent moins de 4/10. Les écarts de préparation tiennent moins à l'électrification qu'aux cadres de gouvernance et à la transparence des données.",
+      "title": "Quels pays sont les mieux préparés à utiliser les modèles ?",
+      "lede": "Un modèle ne vaut que par la capacité d’un pays à l’exécuter, l’entretenir et lui faire confiance. La préparation combine capacité institutionnelle, disponibilité des données, engagements climatiques et électrification : les conditions qui permettent à la modélisation de se traduire en politiques.",
+      "headline": "{n} pays obtiennent moins de 4/10. Les écarts de préparation tiennent moins à l’électrification qu’aux cadres de gouvernance et à la transparence des données.",
       "average": "Préparation moyenne",
       "averageHint": "sur {n} pays classés",
       "goodData": "Bonne disponibilité des données",
@@ -242,8 +395,8 @@
       "mapCaption": "{n} pays sans couverture RISE, surtout de petits États insulaires, ne sont pas classés plutôt que notés comme non prêts.",
       "notRanked": "non classé",
       "scatterTitle": "Où les lacunes de modélisation rencontrent la préparation institutionnelle",
-      "readinessAxis": "Préparation (0-10)",
-      "gapAxis": "Score d'écart (0-100)",
+      "readinessAxis": "Préparation (0–10)",
+      "gapAxis": "Score d’écart (0–100)",
       "distTitle": "Distribution des scores de préparation",
       "tableTitle": "Comparaison des pays",
       "region": "Région",
@@ -253,10 +406,21 @@
       "readiness": "Préparation",
       "gap": "Écart",
       "elec": "Électrification",
-      "sort": { "readiness": "Trier par préparation", "gap": "Trier par score d'écart", "studies": "Trier par études", "elec": "Trier par électrification" },
+      "sort": {
+        "readiness": "Trier par préparation",
+        "gap": "Trier par score d’écart",
+        "studies": "Trier par études",
+        "elec": "Trier par électrification"
+      },
       "showing": "{n} pays sur {total}",
-      "caveat": "La gouvernance énergétique est un proxy déclaré : RISE mesure le cadre réglementaire, pas la capacité de modélisation. Formules et sources sur la",
-      "methodLink": "page Méthodologie."
+      "caveat": "La gouvernance énergétique est un proxy déclaré : RISE mesure le cadre réglementaire, pas la capacité de modélisation. Formules et sources sur la",
+      "methodLink": "page Méthodologie.",
+      "searchLabel": "Chercher un pays",
+      "sortLabel": "Ordre",
+      "ndc": "CDN",
+      "ltsShort": "SLT",
+      "scatterLede": "Un panneau par région, les autres régions en gris. Les trois pays au plus fort écart de chaque panneau portent leur code ISO3.",
+      "mapLede": "Préparation de 0 à 10 en cinq classes fixes. Choisissez un pays pour ouvrir sa page."
     },
     "studies": {
       "title": "Explorer la preuve",
@@ -283,7 +447,13 @@
       "more": "Afficher {n} de plus",
       "less": "Afficher moins",
       "searchPlaceholder": "Rechercher titres, auteurs, modèles, outils, pays…",
-      "sort": { "yearDesc": "Plus récentes d'abord", "yearAsc": "Plus anciennes d'abord", "title": "Titre A-Z", "recent": "Ajoutées récemment", "id": "Numéro d'étude" },
+      "sort": {
+        "yearDesc": "Plus récentes d'abord",
+        "yearAsc": "Plus anciennes d'abord",
+        "title": "Titre A-Z",
+        "recent": "Ajoutées récemment",
+        "id": "Numéro d'étude"
+      },
       "showing": "{n} études correspondent à vos filtres",
       "empty": "Aucune étude ne correspond aux filtres",
       "emptyHint": "Essayez d'assouplir certaines contraintes.",
@@ -347,7 +517,13 @@
       "repo": "Dépôt",
       "repoLink": "ouvrir",
       "freeLic": "gratuit pour les PRFI",
-      "sort": { "studies": "Les plus utilisés en Afrique", "recent": "En progression (3 dernières années)", "views": "Les plus consultés ici", "stars": "Les plus étoilés", "name": "Nom A-Z" },
+      "sort": {
+        "studies": "Les plus utilisés en Afrique",
+        "recent": "En progression (3 dernières années)",
+        "views": "Les plus consultés ici",
+        "stars": "Les plus étoilés",
+        "name": "Nom A-Z"
+      },
       "caption": "Études Afrique : nombre d'études de l'inventaire utilisant l'outil. La courbe montre les études par an sur les douze dernières années."
     },
     "tool": {
@@ -407,30 +583,42 @@
     },
     "country": {
       "back": "Retour à la carte",
-      "notFound": "Ce pays n'est pas dans l'inventaire",
+      "notFound": "Ce pays n’est pas dans l’inventaire",
       "distinctTools": "Outils distincts",
-      "nationalStudies": "{n} études nationales ou infranationales",
+      "nationalStudies": "{n, plural, one {# étude nationale ou infranationale} other {# études nationales ou infranationales}}",
       "readiness": "Préparation",
-      "readinessHint": "0-10, gouvernance, données, électrification, CDN, LTS",
+      "readinessHint": "0–10 : gouvernance, données, électrification, CDN, SLT",
       "notRanked": "non classé",
-      "gap": "Score d'écart",
-      "gapHint": "0-100, plus élevé = moins bien desservi",
+      "gap": "Score d’écart",
+      "gapHint": "0–100, plus élevé = moins bien desservi",
       "governance": "Gouvernance énergétique",
       "data": "Disponibilité des données",
       "elec": "Électrification",
       "lts": "Stratégie long terme",
       "byYear": "Études par année et périmètre",
       "toolsUsed": "Outils appliqués",
-      "noStudies": "Aucune étude de l'inventaire ne couvre encore ce pays.",
+      "noStudies": "Aucune étude de l’inventaire ne couvre encore ce pays.",
       "whoModels": "Qui modélise ce pays",
-      "africanLedCount": "{n} études pilotées par des institutions africaines.",
+      "africanLedCount": "{n, plural, one {# étude pilotée par des institutions africaines.} other {# études pilotées par des institutions africaines.}}",
       "features": "Spécificités africaines couvertes",
       "featuresHint": "Part des études évaluées couvrant chaque dimension.",
-      "caveat": "Les indicateurs viennent de RISE 2023, Ember 2022, WDI 2024 et des registres de la CCNUCC ; les scores sont documentés sur la",
+      "caveat": "Les indicateurs viennent de RISE 2023, Ember 2022, WDI 2024 et des registres de la CCNUCC ; les scores sont documentés sur la",
       "methodLink": "page Méthodologie.",
-      "studiesTitle": "{n} études",
-      "studiesLede": "Chaque étude de l'inventaire qui modélise ce pays, les plus récentes d'abord.",
-      "allStudies": "Voir les {n} études avec filtres"
+      "studiesTitle": "{n, plural, one {# étude} other {# études}}",
+      "studiesLede": "Chaque étude de l’inventaire qui modélise ce pays, les plus récentes d’abord.",
+      "allStudies": "Voir les {n} études avec filtres",
+      "lede": "Les études de l’inventaire qui modélisent ce pays, les outils qu’elles emploient et qui les pilote, avec les indicateurs qui décident si les modèles peuvent servir.",
+      "pool": "Pool énergétique : {name} ({code}).",
+      "scopeHint": "{full, number} système complet · {light, number} ciblées",
+      "ndc": "CDN",
+      "unfccc": "CCNUCC",
+      "toolsLede": "Nombre d’études du pays qui emploient chaque outil, du plus au moins utilisé.",
+      "byYearLede": "Études système complet à la base, études ciblées au-dessus.",
+      "whoLede": "D’après les affiliations : pilotée par l’Afrique quand le premier auteur, ou tous les auteurs, sont dans des institutions africaines.",
+      "showTable": "Tableau",
+      "showChart": "Graphique",
+      "year": "Année",
+      "total": "Total"
     },
     "recommender": {
       "title": "Quel outil convient à votre contexte ?",
@@ -490,42 +678,87 @@
       "emissions": "Émissions, qualité de l'air et impact climatique",
       "buildings": "Bâtiments et énergie thermique"
     },
-    "scale": { "facility": "Installation, site de projet ou communauté", "subnational": "Infranational, État ou province", "national": "National", "regional": "Régional, multi-pays", "continental": "Continental ou mondial" },
-    "horizon": { "long": "Long terme (planification stratégique à 2030-2060)", "medium": "Moyen terme (5 à 15 ans)", "short": "Court terme (opérationnel, infra-annuel, durée de vie du projet)" },
-    "budget": { "none": "Aucun budget (outils gratuits, y compris licences gratuites pour les institutions africaines)", "limited": "Budget limité (freemium ou licences abordables)", "any": "Tout budget" },
-    "capacity": { "limited": "Limitée (sans programmation, interface graphique seulement)", "intermediate": "Intermédiaire (tableurs, scripts simples)", "advanced": "Avancée (Python, Julia, GAMS, programmation complète)" },
-    "data": { "good": "Bonne (statistiques nationales détaillées disponibles)", "moderate": "Moyenne (quelques lacunes, données proxy nécessaires)", "limited": "Limitée (contexte pauvre en données)" },
-    "extras": { "open_source": "Code open source requis", "clean_cooking": "La cuisson propre doit être représentée", "financing": "Analyse d'investissement et de financement", "non_windows": "L'équipe travaille sous macOS ou Linux", "helpdesk": "Une assistance formelle est requise" },
-    "breakdown": { "objective": "Objectif", "scale": "Échelle", "budget": "Budget", "capacity": "Capacité", "horizon": "Horizon", "data": "Données", "requirements": "Exigences", "track_record": "Expérience Afrique" }
+    "scale": {
+      "facility": "Installation, site de projet ou communauté",
+      "subnational": "Infranational, État ou province",
+      "national": "National",
+      "regional": "Régional, multi-pays",
+      "continental": "Continental ou mondial"
+    },
+    "horizon": {
+      "long": "Long terme (planification stratégique à 2030-2060)",
+      "medium": "Moyen terme (5 à 15 ans)",
+      "short": "Court terme (opérationnel, infra-annuel, durée de vie du projet)"
+    },
+    "budget": {
+      "none": "Aucun budget (outils gratuits, y compris licences gratuites pour les institutions africaines)",
+      "limited": "Budget limité (freemium ou licences abordables)",
+      "any": "Tout budget"
+    },
+    "capacity": {
+      "limited": "Limitée (sans programmation, interface graphique seulement)",
+      "intermediate": "Intermédiaire (tableurs, scripts simples)",
+      "advanced": "Avancée (Python, Julia, GAMS, programmation complète)"
+    },
+    "data": {
+      "good": "Bonne (statistiques nationales détaillées disponibles)",
+      "moderate": "Moyenne (quelques lacunes, données proxy nécessaires)",
+      "limited": "Limitée (contexte pauvre en données)"
+    },
+    "extras": {
+      "open_source": "Code open source requis",
+      "clean_cooking": "La cuisson propre doit être représentée",
+      "financing": "Analyse d'investissement et de financement",
+      "non_windows": "L'équipe travaille sous macOS ou Linux",
+      "helpdesk": "Une assistance formelle est requise"
+    },
+    "breakdown": {
+      "objective": "Objectif",
+      "scale": "Échelle",
+      "budget": "Budget",
+      "capacity": "Capacité",
+      "horizon": "Horizon",
+      "data": "Données",
+      "requirements": "Exigences",
+      "track_record": "Expérience Afrique"
+    }
   },
   "assistant": {
-    "open": "Interroger l'observatoire",
-    "title": "Interroger l'observatoire",
+    "open": "Interroger l’observatoire",
+    "title": "Interroger l’observatoire",
     "caption": "Les réponses viennent du seul inventaire, avec les fiches citées.",
     "close": "Fermer",
     "intro": "Posez une question sur un outil, un pays, une licence, ou sur le classement d'un outil.",
-    "ex1": "Quels outils ont été appliqués au Kenya, et sont-ils open source ?",
+    "ex1": "Quels outils ont été appliqués au Kenya, et sont-ils open source ?",
     "ex2": "Comparez OSeMOSYS et LEAP pour une planification nationale avec une petite équipe.",
-    "ex3": "Quels pays ont le plus grand écart de modélisation et pourquoi ?",
+    "ex3": "Quels pays ont le plus grand écart de modélisation et pourquoi ?",
     "placeholder": "Votre question…",
     "send": "Envoyer",
-    "thinking": "Lecture de l'inventaire…",
+    "thinking": "Lecture de l’inventaire…",
     "sources": "Sources",
-    "unavailable": "L'assistant n'est pas disponible sur ce déploiement (aucun fournisseur d'IA configuré).",
-    "rateLimited": "Vous avez posé beaucoup de questions en peu de temps ; réessayez dans un moment.",
-    "failed": "L'assistant n'a pas pu répondre cette fois. Réessayez plus tard.",
+    "unavailable": "L’assistant n’est pas disponible sur ce déploiement (aucun fournisseur d’IA configuré).",
+    "rateLimited": "Vous avez posé beaucoup de questions en peu de temps ; réessayez dans un moment.",
+    "failed": "L’assistant n’a pas pu répondre cette fois. Réessayez plus tard.",
     "limit": "Limite de session atteinte. Rechargez la page pour une nouvelle conversation.",
-    "disclaimer": "Un assistant IA ancré dans les données de cet observatoire. Il ne consulte pas le web et peut se tromper : vérifiez les fiches citées."
+    "disclaimer": "Un assistant IA ancré dans les données de cet observatoire. Il ne consulte pas le web et peut se tromper : vérifiez les fiches citées.",
+    "examples": "Essayez une question",
+    "you": "Vous",
+    "answer": "Réponse",
+    "cite": "Source {n}"
   },
   "contribute": {
-    "title": "Contribuer à l'inventaire",
-    "lede": "L'observatoire est une revue vivante. Proposez une étude que la revue a manquée, corrigez une fiche ou décrivez un outil. Un curateur vérifie chaque proposition avant publication.",
-    "kinds": { "study": "Proposer une étude", "correction": "Suggérer une correction", "tool": "Décrire un outil" },
-    "studyIntro": "Minimum : le titre, les outils utilisés et les pays modélisés. Le reste aide le curateur et peut être complété ensuite depuis la publication.",
-    "correctionIntro": "Dites-nous ce qui est erroné et ce qu'il faudrait. Indiquez un numéro d'étude ou un nom d'outil quand vous le pouvez.",
-    "toolIntro": "Un outil absent de l'inventaire, ou un profil à mettre à jour. Les liens vers le dépôt et le site permettent au tracker de le suivre.",
+    "title": "Contribuer à l’inventaire",
+    "lede": "L’observatoire est une revue vivante. Proposez une étude que la revue a manquée, corrigez une fiche ou décrivez un outil. Un curateur vérifie chaque proposition avant publication.",
+    "kinds": {
+      "study": "Proposer une étude",
+      "correction": "Suggérer une correction",
+      "tool": "Décrire un outil"
+    },
+    "studyIntro": "Minimum : le titre, les outils utilisés et les pays modélisés. Le reste aide le curateur et peut être complété ensuite depuis la publication.",
+    "correctionIntro": "Dites-nous ce qui est erroné et ce qu’il faudrait. Indiquez un numéro d’étude ou un nom d’outil quand vous le pouvez.",
+    "toolIntro": "Un outil absent de l’inventaire, ou un profil à mettre à jour. Les liens vers le dépôt et le site permettent au tracker de le suivre.",
     "f": {
-      "title": "Titre de l'étude",
+      "title": "Titre de l’étude",
       "doi": "DOI ou URL",
       "doiHint": "Un DOI permet de détecter les doublons et de récupérer les métadonnées.",
       "year": "Année de publication",
@@ -537,22 +770,22 @@
       "countriesHint": "Maintenez Ctrl ou Cmd pour en sélectionner plusieurs.",
       "level": "Périmètre du modèle",
       "scale": "Échelle",
-      "licence": "Licence de l'outil",
-      "category": "Catégorie d'étude",
+      "licence": "Licence de l’outil",
+      "category": "Catégorie d’étude",
       "ownership": "Pilotage africain",
       "grey": "Littérature grise",
       "objective": "Objectif (1-2 phrases)",
       "result": "Résultat clé (1-2 phrases)",
       "message": "Message aux curateurs",
-      "studyId": "Numéro d'étude",
-      "toolName": "Nom de l'outil",
-      "correction": "Que faut-il corriger ?",
+      "studyId": "Numéro d’étude",
+      "toolName": "Nom de l’outil",
+      "correction": "Que faut-il corriger ?",
       "fullName": "Nom complet",
       "toolLicence": "Licence",
       "toolType": "Type",
       "website": "Site web",
       "repo": "Dépôt de code",
-      "institution": "Institution d'origine",
+      "institution": "Institution d’origine",
       "bestFor": "Indiqué pour",
       "strengths": "Forces",
       "weaknesses": "Faiblesses",
@@ -563,34 +796,91 @@
     "you": "À propos de vous",
     "youHint": "Optionnel, mais un e-mail permet au curateur de revenir vers vous. Connectez-vous pour suivre vos contributions.",
     "signedAs": "Connecté en tant que {email}.",
-    "consent": "En soumettant, vous acceptez que la proposition (pas vos coordonnées) soit publiée dans l'inventaire sous CC BY 4.0 après vérification.",
+    "consent": "En soumettant, vous acceptez que la proposition (pas vos coordonnées) soit publiée dans l’inventaire sous CC BY 4.0 après vérification.",
     "submit": "Soumettre la proposition",
-    "thanksTitle": "Merci !",
-    "thanksText": "Votre proposition est dans la file de curation. Elle apparaîtra dans l'observatoire une fois vérifiée par un curateur.",
-    "duplicate": "Elle ressemble à une fiche existante, que le curateur vérifiera :",
+    "thanksTitle": "Merci !",
+    "thanksText": "Votre proposition est dans la file de curation. Elle apparaîtra dans l’observatoire une fois vérifiée par un curateur.",
+    "duplicate": "Elle ressemble à une fiche existante, que le curateur vérifiera :",
     "another": "Soumettre une autre",
-    "how": { "title": "Comment ça marche", "s1": "Vous soumettez une proposition ; les doublons sont signalés automatiquement.", "s2": "Un curateur la vérifie contre la publication, complète les champs et l'approuve ou la refuse.", "s3": "Les études approuvées entrent dans l'inventaire avec leur source marquée comme contribution." },
-    "criteria": { "title": "Ce qui a sa place dans l'inventaire", "c1": "Un outil de modélisation énergétique nommé, ou une analyse SIG ad hoc ou de dynamique des systèmes, appliqué à un système énergétique communautaire ou territorial.", "c2": "Tous les pays modélisés sont africains.", "c3": "Articles à comité de lecture, thèses, rapports et actes en anglais ou en français.", "c4": "Exclus : installations privées isolées modélisant leur propre approvisionnement ; modèles macroéconomiques purement descendants.", "more": "Critères d'éligibilité complets" },
-    "bulk": { "title": "Beaucoup d'études à la fois ?", "text": "Les curateurs importent les exports d'extraction de" }
+    "how": {
+      "title": "Comment ça marche",
+      "s1": "Vous soumettez une proposition ; les doublons sont signalés automatiquement.",
+      "s2": "Un curateur la vérifie contre la publication, complète les champs et l’approuve ou la refuse.",
+      "s3": "Les études approuvées entrent dans l’inventaire avec leur source marquée comme contribution."
+    },
+    "criteria": {
+      "title": "Ce qui a sa place dans l’inventaire",
+      "c1": "Un outil de modélisation énergétique nommé, ou une analyse SIG ad hoc ou de dynamique des systèmes, appliqué à un système énergétique communautaire ou territorial.",
+      "c2": "Tous les pays modélisés sont africains.",
+      "c3": "Articles à comité de lecture, thèses, rapports et actes en anglais ou en français.",
+      "c4": "Exclus : installations privées isolées modélisant leur propre approvisionnement ; modèles macroéconomiques purement descendants.",
+      "more": "Critères d’éligibilité complets"
+    },
+    "bulk": {
+      "title": "Beaucoup d’études à la fois ?",
+      "text": "Les curateurs importent les exports d’extraction de"
+    },
+    "step": {
+      "kind": "Que proposez-vous ?",
+      "study": "L’étude",
+      "correction": "La correction",
+      "tool": "L’outil"
+    },
+    "requiredNote": "Les champs marqués * sont obligatoires.",
+    "received": "Proposition reçue",
+    "reference": "Référence"
   },
   "contact": {
     "title": "Contact",
     "lede": "Une vraie personne lit chaque message, en français ou en anglais.",
-    "institutions": { "title": "Institutions et partenaires", "text": "Membres d'AISESA, ministères, compagnies d'électricité et groupes de recherche qui veulent ancrer l'observatoire, ajouter un inventaire national ou mener une évaluation des capacités de modélisation." },
-    "community": { "title": "Modélisateurs et auteurs", "text": "Une de vos études manque ou est mal décrite ? Le formulaire de contribution est le chemin le plus rapide ; un curateur reviendra vers vous.", "cta": "Ouvrir le formulaire de contribution" },
-    "code": { "title": "Code et données", "text": "Bugs, demandes de fonctionnalités et questions sur l'API ou les exports de données passent par le suivi de tickets public.", "cta": "Ouvrir un ticket sur GitHub" },
+    "institutions": {
+      "title": "Institutions et partenaires",
+      "text": "Membres d’AISESA, ministères, compagnies d’électricité et groupes de recherche qui veulent ancrer l’observatoire, ajouter un inventaire national ou mener une évaluation des capacités de modélisation."
+    },
+    "community": {
+      "title": "Modélisateurs et auteurs",
+      "text": "Une de vos études manque ou est mal décrite ? Le formulaire de contribution est le chemin le plus rapide ; un curateur reviendra vers vous.",
+      "cta": "Ouvrir le formulaire de contribution"
+    },
+    "code": {
+      "title": "Code et données",
+      "text": "Bugs, demandes de fonctionnalités et questions sur l’API ou les exports de données passent par le suivi de tickets public.",
+      "cta": "Ouvrir un ticket sur GitHub"
+    },
     "email": "Pour tout autre sujet, écrivez à",
-    "emailSoon": "Une adresse de contact sera publiée ici une fois la boîte institutionnelle en place. D'ici là, utilisez le formulaire de contribution ou GitHub.",
-    "response": "Nous répondons sous dix jours ouvrés."
+    "emailSoon": "Une adresse de contact sera publiée ici une fois la boîte institutionnelle en place. D’ici là, utilisez le formulaire de contribution ou GitHub.",
+    "response": "Nous répondons sous dix jours ouvrés.",
+    "byEmail": "Par e-mail"
   },
   "pages": {
-    "about": { "title": "À propos d'EnerMod Africa", "description": "Un observatoire né d'une revue systématique PRISMA, livré pour le Cluster 1 d'AISESA à MINES Paris-PSL, et conçu pour être entretenu par sa communauté." },
-    "methodology": { "title": "Méthodologie et scores", "description": "Comment les études ont été sélectionnées et extraites, comment les données vides sont traitées, d'où vient chaque indicateur, et comment exactement chaque score est calculé." },
-    "research": { "title": "Hub de recherche", "description": "Publications, données ouvertes et API, et les mécanismes qui gardent l'inventaire vivant : contributions, découverte, sondage et suivi des outils." },
-    "privacy": { "title": "Confidentialité", "description": "Ce que l'observatoire conserve, pourquoi, et ce qu'il ne fait jamais." },
-    "legal": { "title": "Mentions légales", "description": "Éditeur, hébergement, licences et responsabilité." },
-    "contact": { "title": "Contact", "description": "Institutions, modélisateurs, code et données." },
-    "contribute": { "title": "Contribuer", "description": "Proposer une étude, une correction ou un profil d'outil à l'inventaire EnerMod Africa." }
+    "about": {
+      "title": "À propos d’EnerMod Africa",
+      "description": "Un observatoire né d’une revue systématique PRISMA, livré pour le Cluster 1 d’AISESA à MINES Paris-PSL, et conçu pour être entretenu par sa communauté."
+    },
+    "methodology": {
+      "title": "Méthodologie et scores",
+      "description": "Comment les études ont été sélectionnées et extraites, comment les données vides sont traitées, d’où vient chaque indicateur, et comment exactement chaque score est calculé."
+    },
+    "research": {
+      "title": "Hub de recherche",
+      "description": "Publications, données ouvertes et API, et les mécanismes qui gardent l’inventaire vivant : contributions, découverte, sondage et suivi des outils."
+    },
+    "privacy": {
+      "title": "Confidentialité",
+      "description": "Ce que l’observatoire conserve, pourquoi, et ce qu’il ne fait jamais."
+    },
+    "legal": {
+      "title": "Mentions légales",
+      "description": "Éditeur, hébergement, licences et responsabilité."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Institutions, modélisateurs, code et données."
+    },
+    "contribute": {
+      "title": "Contribuer",
+      "description": "Proposer une étude, une correction ou un profil d’outil à l’inventaire EnerMod Africa."
+    }
   },
   "auth": {
     "signInTitle": "Bon retour",
@@ -602,50 +892,80 @@
     "organisation": "Organisation",
     "passwordHint": "Au moins 8 caractères",
     "magicTitle": "Ou recevez un lien de connexion par e-mail",
-    "magicButton": "M'envoyer un lien",
+    "magicButton": "M’envoyer un lien",
     "magicSent": "Consultez votre boîte de réception pour le lien de connexion.",
     "magicChecking": "Connexion en cours…",
     "magicInvalid": "Ce lien est invalide ou a expiré. Demandez-en un nouveau.",
     "magicAgain": "Envoyer un autre lien",
-    "noAccount": "Pas encore de compte ?",
-    "haveAccount": "Déjà un compte ?"
+    "noAccount": "Pas encore de compte ?",
+    "haveAccount": "Déjà un compte ?",
+    "backToSignIn": "Demander un nouveau lien"
   },
   "admin": {
     "title": "Curation",
     "noAccessTitle": "Réservé aux curateurs",
-    "noAccessText": "{email} n'a pas le rôle de curateur. Demandez à un administrateur de l'accorder, ou retournez à l'observatoire.",
+    "noAccessText": "{email} n’a pas le rôle de curateur. Demandez à un administrateur de l’accorder, ou retournez à l’observatoire.",
     "backHome": "Retour au site",
-    "nav": { "overview": "Vue d'ensemble", "contributions": "Contributions", "discovery": "Découverte", "imports": "Imports et tracker", "analytics": "Usage", "users": "Personnes" },
-    "overview": {
-      "title": "Vue d'ensemble de la curation",
-      "lede": "Ce qui attend une décision, ce que les pipelines ont fait, comment l'observatoire est utilisé.",
-      "pending": "Contributions en attente",
-      "pendingHint": "propositions en attente d'un curateur",
-      "candidates": "Nouveaux candidats de découverte",
-      "candidatesHint": "{n} marqués pertinents, prêts pour Krinea",
-      "visitors": "Visiteurs (30 jours)",
-      "visitorsHint": "{n} événements d'usage",
-      "users": "Comptes",
-      "metricsAt": "métriques d'outils rafraîchies le {d}",
-      "noMetrics": "métriques d'outils jamais rafraîchies",
-      "discovery": "Pipeline de découverte",
-      "lastRun": "Dernière exécution {d} : {status}, {n} nouveaux candidats sur {f} travaux récupérés.",
-      "noRun": "Le pipeline de découverte n'a pas encore tourné.",
-      "jobs": "Tâches récentes"
+    "nav": {
+      "overview": "Vue d’ensemble",
+      "contributions": "Contributions",
+      "discovery": "Découverte",
+      "imports": "Imports et tracker",
+      "analytics": "Usage",
+      "users": "Personnes"
     },
-    "jobs": { "kind": "Tâche", "status": "Statut", "when": "Créée", "result": "Résultat" },
+    "overview": {
+      "title": "Vue d’ensemble de la curation",
+      "lede": "Ce qui attend une décision, ce que les pipelines ont fait, comment l’observatoire est utilisé.",
+      "pending": "Contributions en attente",
+      "pendingHint": "propositions en attente d’un curateur",
+      "candidates": "Nouveaux candidats de découverte",
+      "candidatesHint": "{n, plural, one {# marqué pertinent, prêt pour Krinea} other {# marqués pertinents, prêts pour Krinea}}",
+      "visitors": "Visiteurs (30 jours)",
+      "visitorsHint": "{n, plural, one {# événement d’usage} other {# événements d’usage}}",
+      "users": "Comptes",
+      "metricsAt": "métriques d’outils rafraîchies le {d}",
+      "noMetrics": "métriques d’outils jamais rafraîchies",
+      "discovery": "Pipeline de découverte",
+      "lastRun": "Dernière exécution {d} : {status}, {n} nouveaux candidats sur {f} travaux récupérés.",
+      "noRun": "Le pipeline de découverte n’a pas encore tourné.",
+      "jobs": "Tâches récentes",
+      "lastRunLabel": "Dernière exécution",
+      "runResult": "{n, plural, one {# nouveau candidat} other {# nouveaux candidats}} sur {f, number} travaux récupérés"
+    },
+    "jobs": {
+      "kind": "Tâche",
+      "status": "Statut",
+      "when": "Créée",
+      "result": "Résultat",
+      "kinds": {
+        "discovery": "Découverte",
+        "metrics": "Métriques des outils",
+        "survey_sync": "Synchronisation du sondage"
+      },
+      "empty": "Aucune tâche pour l’instant."
+    },
     "contributions": {
       "title": "Contributions",
       "lede": "Propositions du formulaire, des exports Krinea, du sondage et de la découverte. Approuvez pour publier, refusez avec une note.",
-      "status": { "pending": "En attente", "approved": "Approuvées", "rejected": "Refusées", "all": "Toutes" },
-      "kind": { "study": "Étude", "correction": "Correction", "tool": "Outil" },
+      "status": {
+        "pending": "En attente",
+        "approved": "Approuvées",
+        "rejected": "Refusées",
+        "all": "Toutes"
+      },
+      "kind": {
+        "study": "Étude",
+        "correction": "Correction",
+        "tool": "Outil"
+      },
       "empty": "Rien ici.",
       "pick": "Sélectionnez une contribution pour la relire.",
       "anonymous": "anonyme",
       "possibleDuplicate": "doublon possible de",
-      "duplicateNote": "Doublon possible ({note}) de l'étude",
+      "duplicateNote": "Doublon possible ({note}) de l’étude",
       "target": "Concerne",
-      "openStudy": "Ouvrir l'étude",
+      "openStudy": "Ouvrir l’étude",
       "payload": "Fiche proposée",
       "editJson": "Modifier la fiche (JSON)",
       "badJson": "La fiche n'est pas un JSON valide",
@@ -654,10 +974,25 @@
       "reject": "Refuser",
       "approved": "Approuvée et publiée",
       "rejected": "Refusée",
-      "approveHint": "L'approbation crée l'étude, ses liens outils et pays et ses pools énergétiques, et recalcule les compteurs. Corrigez d'abord les erreurs listées ci-dessus.",
-      "approveToolHint": "L'approbation crée ou met à jour le profil de l'outil.",
-      "approveCorrectionHint": "L'approbation enregistre la décision ; appliquez la modification elle-même via les points d'édition ou le classeur.",
-      "reviewed": "Relue le {d}"
+      "approveHint": "L’approbation crée l’étude, ses liens outils et pays et ses pools énergétiques, et recalcule les compteurs. Corrigez d’abord les erreurs listées ci-dessus.",
+      "approveToolHint": "L’approbation crée ou met à jour le profil de l’outil.",
+      "approveCorrectionHint": "L’approbation enregistre la décision ; appliquez la modification elle-même via les points d’édition ou le classeur.",
+      "reviewed": "Relue le {d}",
+      "state": {
+        "pending": "En attente",
+        "approved": "Approuvée",
+        "rejected": "Refusée"
+      },
+      "source": {
+        "form": "Formulaire",
+        "krinea": "Krinea",
+        "survey": "Sondage",
+        "discovery": "Découverte"
+      },
+      "errors": "À corriger avant l’approbation",
+      "message": "Message du contributeur",
+      "decision": "Décision",
+      "noteLabel": "Note de relecture"
     },
     "discovery": {
       "title": "Découverte",
@@ -665,15 +1000,21 @@
       "since": "À partir du",
       "runSince": "Lancer depuis la dernière exécution",
       "runFull": "Balayage complet (depuis 2000)",
-      "runHint": "Laissez la date vide pour reprendre à la dernière exécution. Un balayage complet cherche les études que la revue a pu manquer ; il prend quelques minutes.",
-      "runDone": "Découverte terminée : {n} nouveaux candidats.",
-      "runQueued": "Découverte mise en file ; le worker l'exécutera.",
+      "runHint": "Laissez la date vide pour reprendre à la dernière exécution. Un balayage complet cherche les études que la revue a pu manquer ; il prend quelques minutes.",
+      "runDone": "Découverte terminée : {n, plural, one {# nouveau candidat} other {# nouveaux candidats}}.",
+      "runQueued": "Découverte mise en file ; le worker l’exécutera.",
       "exportRis": "Exporter les pertinents en RIS",
-      "status": { "new": "À trier", "relevant": "Pertinents", "irrelevant": "Non pertinents", "imported": "Importés", "known": "Déjà dans le corpus" },
-      "count": "{n} candidats",
+      "status": {
+        "new": "À trier",
+        "relevant": "Pertinents",
+        "irrelevant": "Non pertinents",
+        "imported": "Importés",
+        "known": "Déjà dans le corpus"
+      },
+      "count": "{n, plural, one {# candidat} other {# candidats}}",
       "empty": "Aucun candidat dans cette liste.",
       "emptyHint": "Lancez le pipeline de découverte, ou changez de filtre.",
-      "cited": "{n} citations",
+      "cited": "{n, plural, one {# citation} other {# citations}}",
       "matches": "correspond à",
       "abstract": "Résumé",
       "markRelevant": "Pertinent",
@@ -681,90 +1022,410 @@
       "toContribution": "Vers les contributions",
       "sentToContributions": "Une contribution en attente a été créée depuis ce candidat.",
       "runs": "Exécutions",
-      "noRuns": "Aucune exécution pour l'instant.",
+      "noRuns": "Aucune exécution pour l’instant.",
       "sinceLabel": "depuis",
-      "fetched": "{f} récupérés, {n} nouveaux, {k} connus",
+      "fetched": "{f, number} récupérés, {n, number} nouveaux, {k, number} connus",
       "workflowTitle": "Flux de travail suggéré",
-      "w1": "Lancez le pipeline ; les travaux déjà dans le corpus sont écartés automatiquement.",
-      "w2": "Triez les nouveaux candidats sur titre et résumé : pertinent ou non.",
-      "w3": "Exportez les pertinents en RIS et importez-les dans une revue Krinea pour le tri sur texte intégral et l'extraction en 51 champs.",
-      "w4": "Importez l'export d'extraction de Krinea sur la page Imports ; chaque ligne devient une contribution en attente."
+      "w1": "Lancez le pipeline ; les travaux déjà dans le corpus sont écartés automatiquement.",
+      "w2": "Triez les nouveaux candidats sur titre et résumé : pertinent ou non.",
+      "w3": "Exportez les pertinents en RIS et importez-les dans une revue Krinea pour le tri sur texte intégral et l’extraction en 51 champs.",
+      "w4": "Importez l’export d’extraction de Krinea sur la page Imports ; chaque ligne devient une contribution en attente.",
+      "runTitle": "Lancer le pipeline",
+      "noDate": "s. d.",
+      "pager": "Page {page} sur {pages}"
     },
     "imports": {
       "title": "Imports et suivi des outils",
       "lede": "Sources en volume de propositions, et rafraîchissement des métriques de dépôt.",
-      "krinea": { "title": "Export d'extraction Krinea", "text": "Le modèle d'extraction modélisation énergétique (51 champs) est livré avec", "s1": "Dans Krinea, vérifiez les extractions des études incluses.", "s2": "Exportez les extractions (CSV ou Excel, feuille des valeurs).", "s3": "Déposez le fichier ici : chaque ligne devient une contribution en attente ; les études marquées « none » (pas d'outil) sont ignorées." },
-      "survey": { "title": "Sondage de validation", "text": "Réponses du sondage envoyé aux équipes de modélisation (CSV ou Excel). Les colonnes sont reconnues par leur nom ; ajustez la correspondance si besoin.", "mappingPlaceholder": "Correspondance optionnelle, ex. {\"full_title\": \"Titre de l'étude\", \"link_doi\": \"DOI\"}", "sync": "Synchroniser depuis l'URL configurée", "syncHint": "Utilise SURVEY_CSV_URL (une feuille Google publiée fonctionne)." },
-      "metrics": { "title": "Suivi des outils", "text": "Relève étoiles, forks, tickets ouverts, contributeurs et dernier commit pour chaque outil ayant une URL de dépôt (GitHub). Mensuel quand METRICS_AUTO est activé.", "run": "Rafraîchir les métriques de dépôt" },
+      "krinea": {
+        "title": "Export d’extraction Krinea",
+        "text": "Le modèle d'extraction modélisation énergétique (51 champs) est livré avec",
+        "s1": "Dans Krinea, vérifiez les extractions des études incluses.",
+        "s2": "Exportez les extractions (CSV ou Excel, feuille des valeurs).",
+        "s3": "Déposez le fichier ici : chaque ligne devient une contribution en attente ; les études marquées « none » (pas d’outil) sont ignorées."
+      },
+      "survey": {
+        "title": "Sondage de validation",
+        "text": "Réponses du sondage envoyé aux équipes de modélisation (CSV ou Excel). Les colonnes sont reconnues par leur nom ; ajustez la correspondance si besoin.",
+        "mappingPlaceholder": "Ex. '{'\"full_title\": \"Titre de l’étude\", \"link_doi\": \"DOI\"'}'",
+        "sync": "Synchroniser depuis l’URL configurée",
+        "syncHint": "Utilise SURVEY_CSV_URL (une feuille Google publiée fonctionne)."
+      },
+      "metrics": {
+        "title": "Suivi des outils",
+        "text": "Relève étoiles, forks, tickets ouverts, contributeurs et dernier commit pour chaque outil ayant une URL de dépôt (GitHub). Mensuel quand METRICS_AUTO est activé.",
+        "run": "Rafraîchir les métriques de dépôt"
+      },
       "import": "Importer",
-      "queued": "Mis en file ; le worker l'exécutera.",
-      "metricsDone": "Métriques rafraîchies pour {n} outils.",
-      "result": "{kind} : {rows} lignes lues, {created} contributions créées.",
-      "mappingUsed": "Correspondance utilisée"
+      "queued": "Mis en file ; le worker l’exécutera.",
+      "metricsDone": "Métriques rafraîchies pour {n, plural, one {# outil} other {# outils}}.",
+      "result": "{kind} : {rows, plural, one {# ligne lue} other {# lignes lues}}, {created, plural, one {# contribution créée} other {# contributions créées}}.",
+      "mappingUsed": "Correspondance utilisée",
+      "file": "Fichier d’export",
+      "responses": "Fichier des réponses",
+      "mapping": "Correspondance des colonnes (JSON, facultative)"
     },
     "analytics": {
-      "title": "Usage de l'observatoire",
-      "lede": "Quelles pages, outils, pays et études sont consultés, combien de fois le recommandeur et l'assistant sont utilisés. Aucune donnée personnelle n'est conservée.",
+      "title": "Usage de l’observatoire",
+      "lede": "Quelles pages, quels outils, pays et études sont consultés, combien de fois le recommandeur et l’assistant sont utilisés. Aucune donnée personnelle n’est conservée.",
       "days": "{n} derniers jours",
       "visitors": "Visiteurs distincts",
       "pageViews": "Pages vues",
       "recommender": "Exécutions du recommandeur",
-      "chat": "Questions à l'assistant",
-      "chatFailed": "{n} en échec",
+      "chat": "Questions à l’assistant",
+      "chatFailed": "{n, number} en échec",
       "downloads": "Téléchargements",
       "daily": "Événements par jour",
       "pages": "Pages les plus visitées",
       "tools": "Outils les plus consultés",
       "countries": "Pays les plus consultés",
-      "questions": "Questions récentes à l'assistant",
-      "noQuestions": "Aucune question pour l'instant.",
+      "questions": "Questions récentes à l’assistant",
+      "noQuestions": "Aucune question pour l’instant.",
       "citations": "citations",
-      "failed": "échec"
+      "failed": "Échec",
+      "period": "Période",
+      "nothing": "Rien d’enregistré sur cette période.",
+      "col": {
+        "question": "Question",
+        "answer": "Réponse",
+        "locale": "Langue",
+        "when": "Posée le"
+      },
+      "nCitations": "{n, plural, one {# citation} other {# citations}}"
     },
     "users": {
       "title": "Personnes",
-      "lede": "Comptes et rôles. Les curateurs relisent les contributions et lancent les pipelines ; les administrateurs gèrent aussi les rôles.",
+      "lede": "Comptes et rôles. Les curateurs relisent les contributions et lancent les pipelines ; les administrateurs gèrent aussi les rôles.",
       "adminOnly": "Seuls les administrateurs peuvent gérer les rôles.",
       "email": "E-mail",
       "name": "Nom",
       "role": "Rôle",
       "joined": "Inscription",
       "lastLogin": "Dernière connexion",
-      "roles": { "contributor": "Contributeur", "curator": "Curateur", "admin": "Administrateur" },
-      "hint": "Les e-mails listés dans ADMIN_EMAILS deviennent administrateurs automatiquement à la connexion."
+      "roles": {
+        "contributor": "Contributeur",
+        "curator": "Curateur",
+        "admin": "Administrateur"
+      },
+      "hint": "Les e-mails listés dans ADMIN_EMAILS deviennent administrateurs automatiquement à la connexion.",
+      "roleOf": "Rôle de {email}"
+    },
+    "sections": "Sections de la curation",
+    "signedInAs": "Connecté en tant que {email}, {role}",
+    "jobStatus": {
+      "queued": "En file",
+      "running": "En cours",
+      "done": "Terminée",
+      "failed": "Échec"
     }
   },
   "labels": {
     "notAssessed": "non évalué",
-    "level": { "full": "Système énergétique complet", "light": "Ciblé", "unspecified": "Non précisé" },
-    "scale": { "national": "National", "subnational": "Infranational", "regional": "Régional", "continental": "Continental", "global": "Mondial" },
-    "open_source": { "open": "Ouvert", "proprietary": "Propriétaire", "mixed": "Mixte" },
-    "origin": { "african_led": "Pilotée par l'Afrique", "mixed": "Mixte", "non_african": "Non africaine" },
-    "ownership": { "yes": "Pilotée par l'Afrique", "partial": "Équipe mixte", "no": "Non africaine" },
-    "grey": { "yes": "Littérature grise", "no": "Comité de lecture" },
-    "source": { "review": "Revue systématique", "contribution": "Contribution communautaire", "krinea": "Extraction Krinea", "survey": "Sondage", "discovery": "Découverte" },
-    "region": { "north": "Afrique du Nord", "west": "Afrique de l'Ouest", "east": "Afrique de l'Est", "central": "Afrique centrale", "southern": "Afrique australe" },
-    "governance": { "strong": "Forte", "moderate": "Modérée", "weak": "Faible" },
-    "data": { "good": "Bonne", "limited": "Limitée", "none": "Aucune" },
-    "yesno": { "yes": "Oui", "no": "Non", "partial": "Partiel" },
-    "category": { "long_term_planning": "Planification long terme", "rural_electrification": "Électrification rurale", "microgrid": "Mini-réseau", "dispatch": "Dispatch", "nexus": "Nexus", "economic": "Économique", "geospatial": "Géospatial", "other": "Autre" },
-    "approach": { "bottom_up": "Ascendante", "top_down": "Descendante", "hybrid": "Hybride" },
-    "method": { "optimization": "Optimisation", "simulation": "Simulation", "accounting": "Comptabilité", "hybrid": "Hybride", "multi_criteria": "Multicritère" },
-    "math": { "linear_programming": "Programmation linéaire", "mixed_integer_programming": "Programmation en nombres entiers mixtes", "dynamic_programming": "Programmation dynamique", "stochastic": "Stochastique", "other": "Autre" },
-    "feature": { "informal_economy": "Économie informelle", "biomass_charcoal": "Biomasse et charbon de bois", "power_reliability": "Fiabilité de l'alimentation", "urbanization": "Urbanisation", "clean_cooking": "Cuisson propre" },
-    "tech": { "solar": "Solaire", "wind": "Éolien", "hydro": "Hydraulique", "biomass": "Biomasse", "nuclear": "Nucléaire", "geothermal": "Géothermie", "fossil": "Fossiles", "h2": "Hydrogène", "coal": "Charbon" },
-    "license": { "open_source": "Open source", "free": "Gratuit", "freemium": "Freemium", "proprietary": "Propriétaire", "internal": "Interne", "varies": "Variable" },
-    "type": { "capacity_expansion": "Expansion de capacité", "production_cost": "Coût de production", "geospatial_electrification": "Électrification géospatiale", "reliability": "Fiabilité", "nexus": "Nexus", "demand_forecast": "Prévision de demande", "system_dynamics": "Dynamique des systèmes", "hybrid_optimization": "Optimisation hybride", "simulation": "Simulation", "accounting": "Comptabilité", "hydrological": "Hydrologique", "other": "Autre" },
-    "programming": { "none": "Aucune", "basic": "De base", "advanced": "Avancée" },
-    "learning": { "low": "Faible", "medium": "Moyenne", "high": "Élevée", "not_applicable": "Sans objet" },
-    "horizon": { "short_term": "Court terme", "medium_term": "Moyen terme", "long_term": "Long terme" },
-    "toolscale": { "facility": "Installation", "community": "Communauté", "subnational": "Infranational", "national": "National", "regional": "Régional", "continental": "Continental", "global": "Mondial", "varies": "Variable" },
-    "data_intensity": { "low": "Faible", "medium": "Moyenne", "high": "Élevée" },
-    "quality": { "low": "Faible", "medium": "Moyenne", "high": "Élevée" },
-    "financing": { "no": "Non", "basic": "De base", "advanced": "Avancée" },
-    "os": { "windows": "Windows", "linux": "Linux", "macos": "macOS", "mac": "macOS", "web": "Web", "any": "Tous", "cross_platform": "Multiplateforme" },
-    "bestfor": { "national_planning": "planification nationale", "electrification_planning": "planification de l'électrification", "geospatial_analysis": "analyse géospatiale", "project_prefeasibility": "préfaisabilité de projet", "minigrid_hybrid_design": "conception de mini-réseaux et systèmes hybrides", "regional_trade": "échanges régionaux", "power_system_operation": "exploitation du système électrique", "grid_reliability": "fiabilité du réseau", "resource_assessment": "évaluation des ressources", "nexus_water_land": "nexus eau-énergie-terres", "demand_forecasting": "prévision de la demande", "emissions_air_quality": "émissions et qualité de l'air", "buildings_thermal": "bâtiments et thermique", "what_if_scenarios": "scénarios exploratoires" },
-    "sector": { "electricity": "Électricité", "full_energy": "Système énergétique complet", "power_heat": "Électricité et chaleur", "other": "Autre" },
-    "theme": { "powering_livelihoods": "Énergie pour les moyens de subsistance", "inclusive_industrialisation": "Industrialisation inclusive", "urban_transitions": "Transitions urbaines", "cross_cutting": "Transversal", "none": "Aucun" }
+    "level": {
+      "full": "Système énergétique complet",
+      "light": "Ciblé",
+      "unspecified": "Non précisé"
+    },
+    "scale": {
+      "national": "National",
+      "subnational": "Infranational",
+      "regional": "Régional",
+      "continental": "Continental",
+      "global": "Mondial"
+    },
+    "open_source": {
+      "open": "Ouvert",
+      "proprietary": "Propriétaire",
+      "mixed": "Mixte"
+    },
+    "origin": {
+      "african_led": "Pilotée par l’Afrique",
+      "mixed": "Mixte",
+      "non_african": "Non africaine"
+    },
+    "ownership": {
+      "yes": "Pilotée par l’Afrique",
+      "partial": "Équipe mixte",
+      "no": "Non africaine"
+    },
+    "grey": {
+      "yes": "Littérature grise",
+      "no": "Comité de lecture"
+    },
+    "source": {
+      "review": "Revue systématique",
+      "contribution": "Contribution communautaire",
+      "krinea": "Extraction Krinea",
+      "survey": "Sondage",
+      "discovery": "Découverte"
+    },
+    "region": {
+      "north": "Afrique du Nord",
+      "west": "Afrique de l’Ouest",
+      "east": "Afrique de l’Est",
+      "central": "Afrique centrale",
+      "southern": "Afrique australe"
+    },
+    "governance": {
+      "strong": "Forte",
+      "moderate": "Modérée",
+      "weak": "Faible"
+    },
+    "data": {
+      "good": "Bonne",
+      "limited": "Limitée",
+      "none": "Aucune"
+    },
+    "yesno": {
+      "yes": "Oui",
+      "no": "Non",
+      "partial": "Partiel"
+    },
+    "category": {
+      "long_term_planning": "Planification long terme",
+      "rural_electrification": "Électrification rurale",
+      "microgrid": "Mini-réseau",
+      "dispatch": "Dispatch",
+      "nexus": "Nexus",
+      "economic": "Économique",
+      "geospatial": "Géospatial",
+      "other": "Autre"
+    },
+    "approach": {
+      "bottom_up": "Ascendante",
+      "top_down": "Descendante",
+      "hybrid": "Hybride"
+    },
+    "method": {
+      "optimization": "Optimisation",
+      "simulation": "Simulation",
+      "accounting": "Comptabilité",
+      "hybrid": "Hybride",
+      "multi_criteria": "Multicritère"
+    },
+    "math": {
+      "linear_programming": "Programmation linéaire",
+      "mixed_integer_programming": "Programmation en nombres entiers mixtes",
+      "dynamic_programming": "Programmation dynamique",
+      "stochastic": "Stochastique",
+      "other": "Autre"
+    },
+    "feature": {
+      "informal_economy": "Économie informelle",
+      "biomass_charcoal": "Biomasse et charbon de bois",
+      "power_reliability": "Fiabilité de l’alimentation",
+      "urbanization": "Urbanisation",
+      "clean_cooking": "Cuisson propre"
+    },
+    "tech": {
+      "solar": "Solaire",
+      "wind": "Éolien",
+      "hydro": "Hydraulique",
+      "biomass": "Biomasse",
+      "nuclear": "Nucléaire",
+      "geothermal": "Géothermie",
+      "fossil": "Fossiles",
+      "h2": "Hydrogène",
+      "coal": "Charbon"
+    },
+    "license": {
+      "open_source": "Open source",
+      "free": "Gratuit",
+      "freemium": "Freemium",
+      "proprietary": "Propriétaire",
+      "internal": "Interne",
+      "varies": "Variable"
+    },
+    "type": {
+      "capacity_expansion": "Expansion de capacité",
+      "production_cost": "Coût de production",
+      "geospatial_electrification": "Électrification géospatiale",
+      "reliability": "Fiabilité",
+      "nexus": "Nexus",
+      "demand_forecast": "Prévision de demande",
+      "system_dynamics": "Dynamique des systèmes",
+      "hybrid_optimization": "Optimisation hybride",
+      "simulation": "Simulation",
+      "accounting": "Comptabilité",
+      "hydrological": "Hydrologique",
+      "other": "Autre"
+    },
+    "programming": {
+      "none": "Aucune",
+      "basic": "De base",
+      "advanced": "Avancée"
+    },
+    "learning": {
+      "low": "Faible",
+      "medium": "Moyenne",
+      "high": "Élevée",
+      "not_applicable": "Sans objet"
+    },
+    "horizon": {
+      "short_term": "Court terme",
+      "medium_term": "Moyen terme",
+      "long_term": "Long terme"
+    },
+    "toolscale": {
+      "facility": "Installation",
+      "community": "Communauté",
+      "subnational": "Infranational",
+      "national": "National",
+      "regional": "Régional",
+      "continental": "Continental",
+      "global": "Mondial",
+      "varies": "Variable"
+    },
+    "data_intensity": {
+      "low": "Faible",
+      "medium": "Moyenne",
+      "high": "Élevée"
+    },
+    "quality": {
+      "low": "Faible",
+      "medium": "Moyenne",
+      "high": "Élevée"
+    },
+    "financing": {
+      "no": "Non",
+      "basic": "De base",
+      "advanced": "Avancée"
+    },
+    "os": {
+      "windows": "Windows",
+      "linux": "Linux",
+      "macos": "macOS",
+      "mac": "macOS",
+      "web": "Web",
+      "any": "Tous",
+      "cross_platform": "Multiplateforme"
+    },
+    "bestfor": {
+      "national_planning": "planification nationale",
+      "electrification_planning": "planification de l’électrification",
+      "geospatial_analysis": "analyse géospatiale",
+      "project_prefeasibility": "préfaisabilité de projet",
+      "minigrid_hybrid_design": "conception de mini-réseaux et systèmes hybrides",
+      "regional_trade": "échanges régionaux",
+      "power_system_operation": "exploitation du système électrique",
+      "grid_reliability": "fiabilité du réseau",
+      "resource_assessment": "évaluation des ressources",
+      "nexus_water_land": "nexus eau-énergie-terres",
+      "demand_forecasting": "prévision de la demande",
+      "emissions_air_quality": "émissions et qualité de l’air",
+      "buildings_thermal": "bâtiments et thermique",
+      "what_if_scenarios": "scénarios exploratoires"
+    },
+    "sector": {
+      "electricity": "Électricité",
+      "full_energy": "Système énergétique complet",
+      "power_heat": "Électricité et chaleur",
+      "other": "Autre"
+    },
+    "theme": {
+      "powering_livelihoods": "Énergie pour les moyens de subsistance",
+      "inclusive_industrialisation": "Industrialisation inclusive",
+      "urban_transitions": "Transitions urbaines",
+      "cross_cutting": "Transversal",
+      "none": "Aucun"
+    }
+  },
+  "ui": {
+    "brand": {
+      "subline": "Observatoire de la modélisation énergétique"
+    },
+    "beta": {
+      "tag": "Bêta",
+      "text": "Les données et les fonctions évoluent"
+    },
+    "study": {
+      "no": "N°",
+      "mixedTeam": "Équipe mixte",
+      "mixedLicence": "Licence mixte"
+    },
+    "filters": {
+      "title": "Filtres",
+      "reset": "Réinitialiser",
+      "button": "{n, plural, =0 {Filtres} other {Filtres (#)}}",
+      "done": "Voir les résultats",
+      "from": "de",
+      "to": "à",
+      "more": "Afficher {n} de plus",
+      "less": "Afficher moins"
+    },
+    "map": {
+      "aria": "Carte de l’Afrique",
+      "perClass": "nombre de pays par classe",
+      "nCountries": "{n, plural, one {# pays} other {# pays}}",
+      "noData": "Hors inventaire",
+      "none": "Aucune étude",
+      "islands": "États insulaires, en points",
+      "cancer": "Tropique du Cancer",
+      "equator": "Équateur",
+      "capricorn": "Tropique du Capricorne",
+      "westernSahara": "Sahara occidental",
+      "most": "{value}, le maximum",
+      "world": "Carte du monde des pays des auteurs",
+      "worldNone": "Aucun auteur"
+    },
+    "chart": {
+      "yearToDate": "{year}, année en cours",
+      "byYear": "Études par année de publication",
+      "median": "médiane {value}",
+      "ofAssessed": "{positive} sur {assessed} études évaluées",
+      "nStudies": "{n, plural, one {# étude} other {# études}}",
+      "otherRegions": "Autres régions",
+      "scatter": "Préparation et score de lacune, un panneau par région",
+      "axes": "{x} en abscisse, {y} en ordonnée"
+    }
+  },
+  "notFound": {
+    "kicker": "Erreur 404",
+    "title": "Cette page n’existe pas.",
+    "lede": "L’adresse est peut-être mal saisie, ou la page a été déplacée. Chaque étude, chaque pays et chaque outil de l’inventaire est accessible depuis l’observatoire.",
+    "home": "Retour à l’accueil",
+    "observatory": "ou explorer l’observatoire",
+    "next": "Où aller ensuite"
+  },
+  "reading": {
+    "toc": "Sur cette page",
+    "headline": {
+      "methodology": "Comment chaque chiffre est calculé",
+      "research": "Publications, données ouvertes et inventaire vivant"
+    },
+    "prisma": {
+      "aria": "Diagramme de flux PRISMA 2020 de la revue systématique",
+      "identified": "Identifiées dans OpenAlex et Scopus",
+      "sources": "OpenAlex {openalex} · Scopus {scopus}",
+      "duplicates": "doublons supprimés",
+      "screened": "Triées sur titre et résumé",
+      "screenedExcluded": "exclues",
+      "sought": "Textes intégraux recherchés",
+      "notRetrieved": "non obtenus",
+      "assessed": "Textes intégraux évalués",
+      "assessedExcluded": "exclus, avec motifs",
+      "showReasons": "Voir les {n} motifs",
+      "hideReasons": "Masquer les motifs",
+      "other": "issues d’autres méthodes",
+      "otherDetail": "{n} notices de l’inventaire pilote ({inventory}) et de la recherche par citations ({citations}) ; {excluded} exclues",
+      "included": "Incluses dans l’inventaire",
+      "includedDetail": "{databases} issues des bases · {other} d’autres méthodes",
+      "caption": "Le flux PRISMA 2020 de la revue, dessiné comme un schéma unifilaire : le départ principal descend depuis les recherches en bases de données, chaque exclusion bifurque vers une borne, et les études trouvées par d’autres méthodes le rejoignent avant l’inclusion.",
+      "reasons": {
+        "scope": "Hors sujet énergétique, hors périmètre",
+        "private": "Dimensionnement d’une installation privée isolée",
+        "custom": "Algorithme sur mesure (Python, MATLAB, MILP…)",
+        "telecom": "HOMER pour sites télécoms ou commerciaux",
+        "duplicate": "Doublon d’une étude initiale",
+        "etap": "Étude technique de fiabilité sous ETAP",
+        "notAfrica": "Pas uniquement l’Afrique",
+        "platform": "Plateforme de données ou de formation",
+        "global": "Études mondiales",
+        "sdNoSoftware": "Dynamique des systèmes, sans logiciel nommé",
+        "language": "Langue autre que l’anglais ou le français",
+        "sdOneMarket": "Dynamique des systèmes, l’Afrique comme marché unique",
+        "deprecated": "Outil en ligne obsolète"
+      }
+    }
   }
 }

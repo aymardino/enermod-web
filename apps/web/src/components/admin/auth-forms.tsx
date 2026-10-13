@@ -7,9 +7,18 @@ import { toast } from "sonner";
 import { Link, useRouter } from "@/i18n/navigation";
 import { api, ApiError } from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { FieldHint, Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/misc";
+
+/** Heading of the auth column: h1 32px, the reason in serif, closed by a 2px rule. */
+export function AuthHead({ title, children }: { title: React.ReactNode; children?: React.ReactNode }) {
+  return (
+    <header className="border-b-2 border-rule pb-5">
+      <h1 className="text-balance font-display text-[32px] font-bold leading-[1.1] tracking-[-0.018em]">{title}</h1>
+      {children && <div className="mt-2.5 font-display text-[16.5px] leading-[1.5] text-ink-2">{children}</div>}
+    </header>
+  );
+}
 
 export function AuthForm({ mode, next = "/contribute" }: { mode: "sign-in" | "sign-up"; next?: string }) {
   const t = useTranslations("auth");
@@ -54,35 +63,50 @@ export function AuthForm({ mode, next = "/contribute" }: { mode: "sign-in" | "si
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-semibold">{mode === "sign-in" ? t("signInTitle") : t("signUpTitle")}</h1>
-      <p className="mt-1 text-sm text-muted-foreground">{t("why")}</p>
-      <form onSubmit={submit} className="mt-6 space-y-4">
+      <AuthHead title={mode === "sign-in" ? t("signInTitle") : t("signUpTitle")}>{t("why")}</AuthHead>
+      <form onSubmit={submit} className="mt-6 space-y-5">
         {mode === "sign-up" && (
           <>
-            <div className="space-y-1.5"><Label htmlFor="name">{t("name")}</Label><Input id="name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" /></div>
-            <div className="space-y-1.5"><Label htmlFor="org">{t("organisation")}</Label><Input id="org" value={org} onChange={(e) => setOrg(e.target.value)} autoComplete="organization" /></div>
+            <div><Label htmlFor="name">{t("name")}</Label><Input id="name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" /></div>
+            <div><Label htmlFor="org">{t("organisation")}</Label><Input id="org" value={org} onChange={(e) => setOrg(e.target.value)} autoComplete="organization" /></div>
           </>
         )}
-        <div className="space-y-1.5"><Label htmlFor="email">{t("email")}</Label><Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" /></div>
-        <div className="space-y-1.5">
+        <div><Label htmlFor="email">{t("email")}</Label><Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" /></div>
+        <div>
           <Label htmlFor="password">{t("password")}</Label>
-          <Input id="password" type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === "sign-up" ? "new-password" : "current-password"} />
-          {mode === "sign-up" && <p className="text-xs text-muted-foreground">{t("passwordHint")}</p>}
+          <Input
+            id="password"
+            type="password"
+            required
+            minLength={8}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete={mode === "sign-up" ? "new-password" : "current-password"}
+            aria-describedby={mode === "sign-up" ? "password-hint" : undefined}
+          />
+          {mode === "sign-up" && <FieldHint id="password-hint">{t("passwordHint")}</FieldHint>}
         </div>
-        <Button type="submit" className="w-full" disabled={busy}>{mode === "sign-in" ? c("signIn") : c("signUp")}</Button>
+        <Button type="submit" size="lg" className="w-full" disabled={busy}>{mode === "sign-in" ? c("signIn") : c("signUp")}</Button>
       </form>
-      <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground"><Separator className="flex-1" />{t("magicTitle")}<Separator className="flex-1" /></div>
-      {magicSent === null ? (
-        <Button type="button" variant="outline" className="w-full" disabled={busy || !email} onClick={magic}>{t("magicButton")}</Button>
-      ) : (
-        <p className="rounded-md bg-brand-50 px-3 py-2 text-sm text-brand-900 dark:bg-brand-950 dark:text-brand-100">
-          {t("magicSent")}{magicSent && <> <a className="underline" href={magicSent}>(dev link)</a></>}{" "}
-          <button type="button" className="underline" onClick={() => setMagicSent(null)}>{t("magicAgain")}</button>
-        </p>
-      )}
-      <p className="mt-6 text-center text-sm text-muted-foreground">
+
+      <section aria-labelledby="magic-title" className="mt-8 border-t border-border pt-5">
+        <h2 id="magic-title" className="field-label">{t("magicTitle")}</h2>
+        {magicSent === null ? (
+          <Button type="button" variant="outline" className="mt-3 w-full" disabled={busy || !email} onClick={magic}>{t("magicButton")}</Button>
+        ) : (
+          <div role="status" className="mt-3 border-l-2 border-rubric py-0.5 pl-3.5 font-display text-[15px] leading-[1.45] text-ink-2">
+            <p>
+              {t("magicSent")}
+              {magicSent && <> <a className="link not-italic" href={magicSent}>(dev link)</a></>}
+            </p>
+            <button type="button" className="link mt-1.5 inline-flex min-h-6 items-center font-sans text-[13.5px] not-italic" onClick={() => setMagicSent(null)}>{t("magicAgain")}</button>
+          </div>
+        )}
+      </section>
+
+      <p className="mt-8 border-t border-border pt-5 text-[14px] text-muted-foreground">
         {mode === "sign-in" ? t("noAccount") : t("haveAccount")}{" "}
-        <Link href={mode === "sign-in" ? "/sign-up" : "/sign-in"} className="font-medium text-primary underline-offset-4 hover:underline">{mode === "sign-in" ? c("signUp") : c("signIn")}</Link>
+        <Link href={mode === "sign-in" ? "/sign-up" : "/sign-in"} className="link inline-flex min-h-6 items-center font-medium">{mode === "sign-in" ? c("signUp") : c("signIn")}</Link>
       </p>
     </div>
   );

@@ -76,8 +76,16 @@
       "legalNotice": "Legal notice",
       "institutions": "An AISESA Cluster 1 activity, hosted by the Centre de Mathématiques Appliquées of MINES Paris-PSL (The Transition Institute 1.5).",
       "copyright": "© {year} EnerMod Africa · AISESA · MINES Paris-PSL",
-      "licence": "Data CC BY 4.0 · Code GPL-3.0 · PRISMA 2020 diagram CC BY 4.0"
-    }
+      "licence": "Data CC BY 4.0 · Code GPL-3.0 · PRISMA 2020 diagram CC BY 4.0",
+      "colophon": "Maps from Natural Earth 1:110m, Lambert azimuthal equal-area projection."
+    },
+    "skip": "Skip to content",
+    "utilities": "Utilities",
+    "main": "Main",
+    "home": "EnerMod Africa, home",
+    "partner": "An AISESA Cluster 1 activity · MINES Paris-PSL · The Transition Institute 1.5",
+    "sourceCode": "Source code",
+    "sections": "Observatory sections"
   },
   "home": {
     "eyebrow": "PRISMA systematic review · 54 countries · open data",
@@ -113,7 +121,7 @@
     "mapAfrica": "African institutions",
     "mapOutside": "Outside Africa",
     "scopeTitle": "What is in the inventory",
-    "scopeText": "Studies are grouped by the scope of the model they use. Statistics mixing the two can mislead, so the analytical pages let you filter by scope.",
+    "scopeText": "Studies are grouped by the scope of the model they use; statistics mixing the two can mislead, so every analytical page filters by scope.",
     "fullTitle": "whole energy-system studies",
     "fullText": "Long-term planning models: MESSAGE, OSeMOSYS, TIMES, LEAP, PLEXOS, Balmorel. All 51 fields extracted.",
     "lightTitle": "focused studies",
@@ -125,32 +133,114 @@
     "storyTitle": "Follow the storyline",
     "storyLede": "Six pages, one question. Start with the map and end with the methodology that makes every number auditable.",
     "story": {
-      "map": { "text": "Where is Africa being modelled? Studies per country, by scope, scale and period." },
-      "gaps": { "text": "Who models, and what do the models leave out? Coverage of African specificities and the gap score." },
-      "readiness": { "text": "Which countries have the governance, data and commitments to put models to work?" },
-      "studies": { "text": "The full evidence: filter the inventory down to the individual record and its source." },
-      "recommender": { "text": "Which tool fits your objective, scale, budget, team and data? A transparent shortlist." },
-      "methodology": { "title": "Methodology", "text": "PRISMA flow, score formulas, data provenance: how every figure is computed." }
+      "map": {
+        "text": "Where is Africa being modelled? Studies per country, by scope, scale and period."
+      },
+      "gaps": {
+        "text": "Who models, and what do the models leave out? Coverage of African specificities and the gap score."
+      },
+      "readiness": {
+        "text": "Which countries have the governance, data and commitments to put models to work?"
+      },
+      "studies": {
+        "text": "The full evidence: filter the inventory down to the individual record and its source."
+      },
+      "recommender": {
+        "text": "Which tool fits your objective, scale, budget, team and data? A transparent shortlist."
+      },
+      "methodology": {
+        "title": "Methodology",
+        "text": "PRISMA flow, score formulas, data provenance: how every figure is computed."
+      }
     },
     "hub": {
-      "contribute": { "title": "A living inventory", "text": "Propose a missing study, a correction or a tool profile. Curators verify every proposal before it enters the inventory.", "cta": "Contribute" },
-      "discovery": { "title": "A review that keeps running", "text": "The hub re-runs the review's search strategy on OpenAlex, matches results against the corpus and hands new candidates to curators, and to Krinea for screening and extraction.", "cta": "How the inventory stays alive" },
-      "data": { "title": "Open data and API", "text": "Every table is downloadable (CC BY 4.0) and every page is backed by a JSON API you can query.", "cta": "Data and API" }
+      "contribute": {
+        "title": "A living inventory",
+        "text": "Propose a missing study, a correction or a tool profile. Curators verify every proposal before it enters the inventory.",
+        "cta": "Contribute"
+      },
+      "discovery": {
+        "title": "A review that keeps running",
+        "text": "The hub re-runs the review's search strategy on OpenAlex, matches results against the corpus and hands new candidates to curators, and to Krinea for screening and extraction.",
+        "cta": "How the inventory stays alive"
+      },
+      "data": {
+        "title": "Open data and API",
+        "text": "Every table is downloadable (CC BY 4.0) and every page is backed by a JSON API you can query.",
+        "cta": "Data and API"
+      }
     },
     "partnersTitle": "AISESA · MINES Paris-PSL · The Transition Institute 1.5",
     "partnersText": "EnerMod Africa delivers Activity 1 of AISESA Cluster 1 (clean energy pathways for sustainable development): mapping the energy modelling tools and analytical capacities that already exist across the continent.",
-    "krineaText": "The extraction tool built for the review has grown into an open-source systematic review workbench,"
+    "krineaText": "The extraction tool built for the review has grown into an open-source systematic review workbench,",
+    "titleStatement": "Africa’s energy future is being modelled.",
+    "titleQuestion": "By whom, with which tools, and with what blind spots?",
+    "ctaText": "or find the right tool for your study",
+    "live": "computed live",
+    "figs": {
+      "studiesHint": "{from}–{to} · {full, number} whole energy-system, {light, number} focused"
+    },
+    "fig1": "Studies per country, {from}–{to}, in five classes; the second line gives the number of countries per class. A study counts once for every country it models. Lambert azimuthal equal-area projection, so areas compare truthfully.",
+    "mapAria": "Map of Africa: studies per country",
+    "aside": "{top} appears in {n, number} of the {total, number} studies; {bottom}, the least modelled, in {m, number}.",
+    "horizonTitle": "Studies by publication year and model scope",
+    "fig1b": "Studies per year, whole energy-system at the base. {n1, number} studies in {y1} and {n2, number} in {y2}{partial, select, none {.} other {; {partial} counts the year to date.}}",
+    "see": "See <link>{page}</link>",
+    "seeWho": "See <link>{page}</link>, who leads the modelling",
+    "sec": {
+      "questions": "Questions",
+      "inventory": "The inventory",
+      "latest": "Latest additions",
+      "contents": "Contents",
+      "living": "A living inventory",
+      "deliveredBy": "Delivered by"
+    },
+    "note": {
+      "questions": "Each question is answered by one page of the observatory; the cross-reference sits under it.",
+      "inventory": "Lapis always means studies; <b>deep</b> marks whole energy-system models, <b>mid</b> marks focused ones.",
+      "latest": "Studies enter through the review, contributions or discovery; the record number never changes.",
+      "living": "Drawn as a single-line diagram: two feeders into one verified bus, two outputs."
+    },
+    "inventoryTitle": "What is in the inventory, and who leads the work",
+    "scopeHead": "Model scope",
+    "scopeFullText": "MESSAGE, OSeMOSYS, TIMES, LEAP, PLEXOS, Balmorel. All 51 fields extracted.",
+    "scopeLightText": "HOMER, OnSSET, RETScreen, GIS analyses. Core fields only.",
+    "whoLeadsDesc": "From author affiliations: African-led when the first author, or all authors, are at African institutions.",
+    "topToolsDesc": "Studies per tool, both scopes.",
+    "allToolsN": "All {n, number} tools and their trends",
+    "viewAllN": "View all {n, number}",
+    "living": {
+      "title": "How the inventory stays alive",
+      "aria": "Contributions and review re-runs feed the curated inventory, which publishes open data",
+      "feeder": "Source {n}",
+      "output": "Result {n}",
+      "f1Title": "Contributions",
+      "f1Text": "Propose a missing study, a correction or a tool profile.",
+      "f1Link": "Contribute",
+      "f2Title": "A review that keeps running",
+      "f2Text": "The search strategy re-runs on OpenAlex; new candidates go to curators, and to <krinea>Krinea</krinea> for screening.",
+      "f2Link": "How discovery works",
+      "busName": "Curated inventory",
+      "busNote": "nothing enters without a curator’s verification",
+      "records": "{n, plural, one {# record} other {# records}}",
+      "o1Title": "The observatory",
+      "o1Text": "Maps, gap and readiness scores, the study explorer and the recommender, recomputed from the bus.",
+      "o1Link": "Open the observatory",
+      "o2Title": "Open data and API",
+      "o2Text": "Every table downloads under CC BY 4.0, and every page is backed by a JSON API.",
+      "o2Link": "Data and API"
+    }
   },
   "observatory": {
     "dashboard": {
       "title": "The observatory at a glance",
       "lede": "Headline figures of the inventory, the geography of modelling activity and the tools behind it. Every number links to the studies it is computed from.",
       "countriesCovered": "Countries covered",
-      "toolsUsed": "{n} used in at least one study",
+      "toolsUsed": "{n, number} used in at least one study",
       "africanLed": "African-led studies",
       "africanLedHint": "{full}% whole energy-system · {light}% focused",
       "open": "Open or mixed licence",
-      "openHint": "of {n} studies with an assessed licence",
+      "openHint": "of {n, number} studies with an assessed licence",
       "mapTitle": "Studies per country",
       "openMap": "Open the map",
       "byYear": "Studies by year and scope",
@@ -161,13 +251,59 @@
       "pools": "Studies per power pool",
       "poolsHint": "A study counts for every pool it covers.",
       "latest": "Latest additions",
-      "latestHint": "Studies that entered the inventory most recently."
+      "latestHint": "Studies that entered the inventory most recently.",
+      "countriesHint": "of the {n, number} African countries",
+      "studiesHint": "{full, number} whole energy-system · {light, number} focused",
+      "ofStudies": "of {n, number} studies",
+      "africanLedFull": "of whole energy-system studies",
+      "africanLedLight": "of focused studies",
+      "countriesFull": "with a whole energy-system study",
+      "countriesLight": "with a focused study",
+      "bothScopes": "Tools, licences, leadership and the rankings below count both scopes.",
+      "methodNote": "Every score on this page is documented, with its formula and sources, on the <link>Methodology page</link>.",
+      "scope": {
+        "title": "Model scope",
+        "all": "All",
+        "full": "Whole energy-system",
+        "light": "Focused"
+      },
+      "origin": {
+        "africanLed": "African-led",
+        "mixed": "Mixed teams",
+        "nonAfrican": "Non-African"
+      },
+      "byYearDesc": "Whole energy-system studies at the base, focused studies above.",
+      "byYearDescFull": "Whole energy-system studies only.",
+      "byYearDescLight": "Focused studies only.",
+      "mapDesc": "A study counts once for every country it models.",
+      "legendFull": "Whole energy-system studies per country",
+      "legendLight": "Focused studies per country",
+      "tableTitle": "All countries",
+      "tableDesc": "Sorted by studies. Gap score 0–100: higher means more under-served. Readiness 0–10.",
+      "tableNote": "“Not ranked” means the score cannot be computed; it is never zero.",
+      "notRanked": "not ranked",
+      "gapScore": "Gap score",
+      "readiness": "Readiness",
+      "csv": "CSV",
+      "csvLabel": "Download all countries as CSV",
+      "table": "Table",
+      "chart": "Chart",
+      "year": "Year",
+      "total": "Total",
+      "nTools": "{n, plural, one {# tool} other {# tools}}"
     },
     "map": {
       "title": "Which African countries are modelled?",
       "lede": "Studies per country, with filters by model scope, scale and period. A study counts once for every country it models, so continental studies contribute to every cell they cover.",
       "metric": "Colour by",
-      "metrics": { "studies": "Studies", "full": "Whole energy-system", "light": "Focused", "tools": "Distinct tools", "gap": "Gap score", "readiness": "Readiness score" },
+      "metrics": {
+        "studies": "Studies",
+        "full": "Whole energy-system",
+        "light": "Focused",
+        "tools": "Distinct tools",
+        "gap": "Gap score",
+        "readiness": "Readiness score"
+      },
       "filtersHint": "Study filters apply to the study count only.",
       "scope": "Model scope",
       "scale": "Study scale",
@@ -181,7 +317,19 @@
       "rankingHint": "For the selected metric.",
       "table": "All countries",
       "region": "Region",
-      "pool": "Power pool"
+      "pool": "Power pool",
+      "legend": {
+        "studies": "Studies per country",
+        "filtered": "Studies per country matching the filters",
+        "full": "Whole energy-system studies per country",
+        "light": "Focused studies per country",
+        "tools": "Distinct tools per country",
+        "gap": "Gap score, 0–100 (higher means more under-served)",
+        "readiness": "Readiness score, 0–10"
+      },
+      "figCaption": "{metric}, in five fixed classes so maps compare over time. Lambert azimuthal equal-area projection. Hover a country for its figures; click to open its page.",
+      "tableDesc": "Sorted by the selected metric. Gap score 0–100: higher means more under-served. Readiness 0–10.",
+      "rankingAria": "Top 15 countries for the selected metric"
     },
     "gaps": {
       "title": "What do the models leave out?",
@@ -192,13 +340,13 @@
       "region": "Region filter",
       "regionHint": "Applies to the maps and the table, not to the headline coverage figures.",
       "featuresTitle": "African-specific features are rarely modelled",
-      "featuresLede": "Share of the {n} studies in scope that address each feature, counted only where the study was assessed on it.",
-      "featuresCaption": "The dotted line is the median across the four features.",
+      "featuresLede": "Share of the {n, number} studies in scope that address each feature, counted only where the study was assessed on it.",
+      "featuresCaption": "The dashed line is the median across the four features.",
       "whoTitle": "Who leads the modelling?",
       "whoLede": "African-led: the first author, or all authors, are at African institutions. Mixed: a non-African first author in a team with African institutions. Non-African: all authors outside Africa.",
-      "whoCaption": "{n} studies with a stated affiliation.",
+      "whoCaption": "{n, number} studies with a stated affiliation.",
       "whereTitle": "Where the authors are based",
-      "whereCaption": "Author institutions by country, counted once per study, for the {n} studies in the current scope and region.",
+      "whereCaption": "Author institutions by country, counted once per study, for the {n, number} studies in the current scope and region.",
       "mapAfrica": "African institutions",
       "mapOutside": "Outside Africa",
       "gapMapTitle": "Where the gaps concentrate",
@@ -213,11 +361,11 @@
       "financeTitle": "Do the models account for how projects are financed?",
       "financeLede": "Capital cost and financing assumptions shape every investment result, yet are often left implicit or uniform.",
       "modeRate": "Most common discount rate",
-      "modeRateHint": "used by {share}% of the {n} studies that state one",
+      "modeRateHint": "used by {share}% of the {n, number} studies that state one",
       "varied": "Studies testing several rates",
       "variedHint": "range or scenario-specific cost of capital",
       "financingModelled": "Model financing explicitly",
-      "financingHint": "{p} of {n} assessed studies",
+      "financingHint": "{p, number} of {n, number} assessed studies",
       "unstated": "Rate left unstated",
       "unstatedHint": "{m} studies name a specific financing mechanism",
       "rateCaption": "Base-case discount rate stated by the studies. Most assume a uniform rate despite wide differences in real financing costs across African countries.",
@@ -227,7 +375,12 @@
       "grey": "Grey literature",
       "ofAssessed": "{p}% of assessed studies",
       "method": "Every score on this page is documented, with its formula and sources, on the",
-      "methodLink": "Methodology page."
+      "methodLink": "Methodology page.",
+      "outsideRegion": "Outside the selected regions",
+      "gapMapCaption": "Five fixed classes, so the map compares over time. Select a country to open its page.",
+      "showTable": "Table",
+      "showMap": "Map",
+      "institutions": "Institutions"
     },
     "readiness": {
       "title": "Which countries are best prepared to use models?",
@@ -242,8 +395,8 @@
       "mapCaption": "{n} countries without RISE coverage, mostly small island states, are not ranked rather than scored as unready.",
       "notRanked": "not ranked",
       "scatterTitle": "Where modelling gaps meet institutional readiness",
-      "readinessAxis": "Readiness (0-10)",
-      "gapAxis": "Gap score (0-100)",
+      "readinessAxis": "Readiness (0–10)",
+      "gapAxis": "Gap score (0–100)",
       "distTitle": "Distribution of readiness scores",
       "tableTitle": "Country comparison",
       "region": "Region",
@@ -253,10 +406,21 @@
       "readiness": "Readiness",
       "gap": "Gap",
       "elec": "Electrification",
-      "sort": { "readiness": "Sort by readiness", "gap": "Sort by gap score", "studies": "Sort by studies", "elec": "Sort by electrification" },
+      "sort": {
+        "readiness": "Sort by readiness",
+        "gap": "Sort by gap score",
+        "studies": "Sort by studies",
+        "elec": "Sort by electrification"
+      },
       "showing": "Showing {n} of {total} countries",
       "caveat": "Energy governance is a declared proxy: RISE measures the regulatory framework, not modelling capacity. Formulas and sources are on the",
-      "methodLink": "Methodology page."
+      "methodLink": "Methodology page.",
+      "searchLabel": "Find a country",
+      "sortLabel": "Order",
+      "ndc": "NDC",
+      "ltsShort": "LTS",
+      "scatterLede": "One panel per region, the other regions in grey. The three highest-gap countries of each panel carry their ISO3 code.",
+      "mapLede": "Readiness 0–10 in five fixed classes. Select a country to open its page."
     },
     "studies": {
       "title": "Explore the evidence",
@@ -283,7 +447,13 @@
       "more": "Show {n} more",
       "less": "Show fewer",
       "searchPlaceholder": "Search titles, authors, models, tools, countries…",
-      "sort": { "yearDesc": "Newest first", "yearAsc": "Oldest first", "title": "Title A-Z", "recent": "Recently added", "id": "Study number" },
+      "sort": {
+        "yearDesc": "Newest first",
+        "yearAsc": "Oldest first",
+        "title": "Title A-Z",
+        "recent": "Recently added",
+        "id": "Study number"
+      },
       "showing": "{n} studies match your filters",
       "empty": "No study matches the current filters",
       "emptyHint": "Try relaxing some constraints.",
@@ -347,7 +517,13 @@
       "repo": "Repository",
       "repoLink": "open",
       "freeLic": "free for LMICs",
-      "sort": { "studies": "Most used in Africa", "recent": "Rising (last 3 years)", "views": "Most consulted here", "stars": "Most starred", "name": "Name A-Z" },
+      "sort": {
+        "studies": "Most used in Africa",
+        "recent": "Rising (last 3 years)",
+        "views": "Most consulted here",
+        "stars": "Most starred",
+        "name": "Name A-Z"
+      },
       "caption": "Africa studies: number of inventory studies using the tool. The sparkline shows studies per year over the last twelve years."
     },
     "tool": {
@@ -409,12 +585,12 @@
       "back": "Back to the map",
       "notFound": "This country is not in the inventory",
       "distinctTools": "Distinct tools",
-      "nationalStudies": "{n} national or subnational studies",
+      "nationalStudies": "{n, plural, one {# national or subnational study} other {# national or subnational studies}}",
       "readiness": "Readiness",
-      "readinessHint": "0-10, governance, data, electrification, NDC, LTS",
+      "readinessHint": "0–10: governance, data, electrification, NDC, LTS",
       "notRanked": "not ranked",
       "gap": "Gap score",
-      "gapHint": "0-100, higher = more under-served",
+      "gapHint": "0–100, higher = more under-served",
       "governance": "Energy governance",
       "data": "Data availability",
       "elec": "Electrification",
@@ -423,14 +599,26 @@
       "toolsUsed": "Tools applied",
       "noStudies": "No study in the inventory covers this country yet.",
       "whoModels": "Who models this country",
-      "africanLedCount": "{n} studies led by African institutions.",
+      "africanLedCount": "{n, plural, one {# study led by African institutions.} other {# studies led by African institutions.}}",
       "features": "African features covered",
       "featuresHint": "Share of assessed studies covering each feature.",
       "caveat": "Indicators come from RISE 2023, Ember 2022, WDI 2024 and the UNFCCC registries; scores are documented on the",
       "methodLink": "Methodology page.",
-      "studiesTitle": "{n} studies",
+      "studiesTitle": "{n, plural, one {# study} other {# studies}}",
       "studiesLede": "Every study of the inventory that models this country, newest first.",
-      "allStudies": "See all {n} studies with filters"
+      "allStudies": "See all {n} studies with filters",
+      "lede": "The studies of the inventory that model this country, the tools they apply and who leads them, with the indicators that decide whether models can be put to work.",
+      "pool": "Power pool: {name} ({code}).",
+      "scopeHint": "{full, number} whole energy-system · {light, number} focused",
+      "ndc": "NDC",
+      "unfccc": "UNFCCC",
+      "toolsLede": "Number of this country's studies that apply each tool, most used first.",
+      "byYearLede": "Whole energy-system studies at the base, focused studies above.",
+      "whoLede": "Based on author affiliations: African-led when the first author, or all authors, are at African institutions.",
+      "showTable": "Table",
+      "showChart": "Chart",
+      "year": "Year",
+      "total": "Total"
     },
     "recommender": {
       "title": "Which tool fits your context?",
@@ -490,13 +678,50 @@
       "emissions": "Emissions, air quality and climate impact assessment",
       "buildings": "Buildings and thermal energy"
     },
-    "scale": { "facility": "Facility, project site or community", "subnational": "Sub-national, state or province", "national": "National", "regional": "Regional, multi-country", "continental": "Continental or global" },
-    "horizon": { "long": "Long-term (strategic planning to 2030-2060)", "medium": "Medium-term (5 to 15 years)", "short": "Short-term (operational, sub-annual, project lifetime)" },
-    "budget": { "none": "No budget (free tools, including free licences for African institutions)", "limited": "Limited budget (freemium or affordable licences)", "any": "Any budget" },
-    "capacity": { "limited": "Limited (no programming, GUI only)", "intermediate": "Intermediate (spreadsheets, basic scripting)", "advanced": "Advanced (Python, Julia, GAMS, full programming)" },
-    "data": { "good": "Good (detailed national statistics available)", "moderate": "Moderate (some gaps, proxy data needed)", "limited": "Limited (data-scarce context)" },
-    "extras": { "open_source": "Open-source code required", "clean_cooking": "Clean cooking must be represented", "financing": "Investment and financing analysis", "non_windows": "Team works on macOS or Linux", "helpdesk": "A formal helpdesk is required" },
-    "breakdown": { "objective": "Objective", "scale": "Scale", "budget": "Budget", "capacity": "Capacity", "horizon": "Horizon", "data": "Data", "requirements": "Requirements", "track_record": "Africa record" }
+    "scale": {
+      "facility": "Facility, project site or community",
+      "subnational": "Sub-national, state or province",
+      "national": "National",
+      "regional": "Regional, multi-country",
+      "continental": "Continental or global"
+    },
+    "horizon": {
+      "long": "Long-term (strategic planning to 2030-2060)",
+      "medium": "Medium-term (5 to 15 years)",
+      "short": "Short-term (operational, sub-annual, project lifetime)"
+    },
+    "budget": {
+      "none": "No budget (free tools, including free licences for African institutions)",
+      "limited": "Limited budget (freemium or affordable licences)",
+      "any": "Any budget"
+    },
+    "capacity": {
+      "limited": "Limited (no programming, GUI only)",
+      "intermediate": "Intermediate (spreadsheets, basic scripting)",
+      "advanced": "Advanced (Python, Julia, GAMS, full programming)"
+    },
+    "data": {
+      "good": "Good (detailed national statistics available)",
+      "moderate": "Moderate (some gaps, proxy data needed)",
+      "limited": "Limited (data-scarce context)"
+    },
+    "extras": {
+      "open_source": "Open-source code required",
+      "clean_cooking": "Clean cooking must be represented",
+      "financing": "Investment and financing analysis",
+      "non_windows": "Team works on macOS or Linux",
+      "helpdesk": "A formal helpdesk is required"
+    },
+    "breakdown": {
+      "objective": "Objective",
+      "scale": "Scale",
+      "budget": "Budget",
+      "capacity": "Capacity",
+      "horizon": "Horizon",
+      "data": "Data",
+      "requirements": "Requirements",
+      "track_record": "Africa record"
+    }
   },
   "assistant": {
     "open": "Ask the observatory",
@@ -515,12 +740,20 @@
     "rateLimited": "You have asked many questions in a short time; please try again in a while.",
     "failed": "The assistant could not answer this time. Please try again later.",
     "limit": "Session limit reached. Reload the page to start a new conversation.",
-    "disclaimer": "An AI assistant grounded in this observatory's data. It does not browse the web and can be wrong: check the cited records."
+    "disclaimer": "An AI assistant grounded in this observatory's data. It does not browse the web and can be wrong: check the cited records.",
+    "examples": "Try a question",
+    "you": "You",
+    "answer": "Answer",
+    "cite": "Source {n}"
   },
   "contribute": {
     "title": "Contribute to the inventory",
     "lede": "The observatory is a living review. Propose a study the review missed, correct a record, or describe a tool. A curator verifies every proposal before it is published.",
-    "kinds": { "study": "Propose a study", "correction": "Suggest a correction", "tool": "Describe a tool" },
+    "kinds": {
+      "study": "Propose a study",
+      "correction": "Suggest a correction",
+      "tool": "Describe a tool"
+    },
     "studyIntro": "Minimum: the title, the tools used and the countries modelled. Everything else helps the curator and can be completed later from the publication.",
     "correctionIntro": "Tell us what is wrong and what it should be. Refer to a study number or a tool name when you can.",
     "toolIntro": "A tool that is missing from the inventory, or a profile to update. Repository and website links let the tracker follow it.",
@@ -569,28 +802,85 @@
     "thanksText": "Your proposal is in the curation queue. It will appear in the observatory once a curator has verified it.",
     "duplicate": "It looks similar to an existing record, which the curator will check:",
     "another": "Submit another",
-    "how": { "title": "How it works", "s1": "You submit a proposal; duplicates are flagged automatically.", "s2": "A curator verifies it against the publication, completes the fields and approves or declines it.", "s3": "Approved studies enter the inventory with their source marked as a contribution." },
-    "criteria": { "title": "What belongs in the inventory", "c1": "A named energy modelling tool, or ad hoc GIS analysis or system dynamics, applied to a community or territorial energy system.", "c2": "All modelled countries are African.", "c3": "Peer-reviewed articles, theses, reports and proceedings in English or French.", "c4": "Not: single private facilities modelling their own supply; purely top-down macroeconomic models.", "more": "Full eligibility criteria" },
-    "bulk": { "title": "Many studies at once?", "text": "Curators import extraction exports from" }
+    "how": {
+      "title": "How it works",
+      "s1": "You submit a proposal; duplicates are flagged automatically.",
+      "s2": "A curator verifies it against the publication, completes the fields and approves or declines it.",
+      "s3": "Approved studies enter the inventory with their source marked as a contribution."
+    },
+    "criteria": {
+      "title": "What belongs in the inventory",
+      "c1": "A named energy modelling tool, or ad hoc GIS analysis or system dynamics, applied to a community or territorial energy system.",
+      "c2": "All modelled countries are African.",
+      "c3": "Peer-reviewed articles, theses, reports and proceedings in English or French.",
+      "c4": "Not: single private facilities modelling their own supply; purely top-down macroeconomic models.",
+      "more": "Full eligibility criteria"
+    },
+    "bulk": {
+      "title": "Many studies at once?",
+      "text": "Curators import extraction exports from"
+    },
+    "step": {
+      "kind": "What are you proposing?",
+      "study": "The study",
+      "correction": "The correction",
+      "tool": "The tool"
+    },
+    "requiredNote": "Fields marked * are required.",
+    "received": "Proposal received",
+    "reference": "Reference"
   },
   "contact": {
     "title": "Contact",
     "lede": "A real person reads every message, in English or French.",
-    "institutions": { "title": "Institutions and partners", "text": "AISESA members, ministries, utilities and research groups who want to anchor the observatory, add a national inventory or run a modelling capacity assessment." },
-    "community": { "title": "Modellers and authors", "text": "A study of yours is missing or mis-described? The contribution form is the fastest route; a curator will come back to you.", "cta": "Open the contribution form" },
-    "code": { "title": "Code and data", "text": "Bugs, feature requests and questions about the API or the data exports live in the public issue tracker.", "cta": "Open an issue on GitHub" },
+    "institutions": {
+      "title": "Institutions and partners",
+      "text": "AISESA members, ministries, utilities and research groups who want to anchor the observatory, add a national inventory or run a modelling capacity assessment."
+    },
+    "community": {
+      "title": "Modellers and authors",
+      "text": "A study of yours is missing or mis-described? The contribution form is the fastest route; a curator will come back to you.",
+      "cta": "Open the contribution form"
+    },
+    "code": {
+      "title": "Code and data",
+      "text": "Bugs, feature requests and questions about the API or the data exports live in the public issue tracker.",
+      "cta": "Open an issue on GitHub"
+    },
     "email": "For anything else, write to",
     "emailSoon": "A contact address will be published here once the institutional mailbox is set up. Until then, use the contribution form or GitHub.",
-    "response": "We answer within ten working days."
+    "response": "We answer within ten working days.",
+    "byEmail": "By e-mail"
   },
   "pages": {
-    "about": { "title": "About EnerMod Africa", "description": "An observatory born from a PRISMA systematic review, delivered for AISESA Cluster 1 at MINES Paris-PSL, and designed to be maintained by its community." },
-    "methodology": { "title": "Methodology and scores", "description": "How studies were selected and extracted, how empty data is treated, where every indicator comes from, and exactly how each score is computed." },
-    "research": { "title": "Research hub", "description": "Publications, open data and API, and the mechanisms that keep the inventory alive: contributions, discovery, survey and tool tracker." },
-    "privacy": { "title": "Privacy", "description": "What the observatory stores, why, and what it never does." },
-    "legal": { "title": "Legal notice", "description": "Publisher, hosting, licences and liability." },
-    "contact": { "title": "Contact", "description": "Institutions, modellers, code and data." },
-    "contribute": { "title": "Contribute", "description": "Propose a study, a correction or a tool profile to the EnerMod Africa inventory." }
+    "about": {
+      "title": "About EnerMod Africa",
+      "description": "An observatory born from a PRISMA systematic review, delivered for AISESA Cluster 1 at MINES Paris-PSL, and designed to be maintained by its community."
+    },
+    "methodology": {
+      "title": "Methodology and scores",
+      "description": "How studies were selected and extracted, how empty data is treated, where every indicator comes from, and exactly how each score is computed."
+    },
+    "research": {
+      "title": "Research hub",
+      "description": "Publications, open data and API, and the mechanisms that keep the inventory alive: contributions, discovery, survey and tool tracker."
+    },
+    "privacy": {
+      "title": "Privacy",
+      "description": "What the observatory stores, why, and what it never does."
+    },
+    "legal": {
+      "title": "Legal notice",
+      "description": "Publisher, hosting, licences and liability."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Institutions, modellers, code and data."
+    },
+    "contribute": {
+      "title": "Contribute",
+      "description": "Propose a study, a correction or a tool profile to the EnerMod Africa inventory."
+    }
   },
   "auth": {
     "signInTitle": "Welcome back",
@@ -608,37 +898,67 @@
     "magicInvalid": "This link is invalid or has expired. Ask for a new one.",
     "magicAgain": "Send another link",
     "noAccount": "No account yet?",
-    "haveAccount": "Already have an account?"
+    "haveAccount": "Already have an account?",
+    "backToSignIn": "Ask for a new link"
   },
   "admin": {
     "title": "Curation",
     "noAccessTitle": "Curators only",
     "noAccessText": "{email} does not have the curator role. Ask an administrator to grant it, or go back to the observatory.",
     "backHome": "Back to the site",
-    "nav": { "overview": "Overview", "contributions": "Contributions", "discovery": "Discovery", "imports": "Imports and tracker", "analytics": "Usage", "users": "People" },
+    "nav": {
+      "overview": "Overview",
+      "contributions": "Contributions",
+      "discovery": "Discovery",
+      "imports": "Imports and tracker",
+      "analytics": "Usage",
+      "users": "People"
+    },
     "overview": {
       "title": "Curation overview",
       "lede": "What waits for a decision, what the pipelines did, how the observatory is used.",
       "pending": "Pending contributions",
       "pendingHint": "proposals waiting for a curator",
       "candidates": "New discovery candidates",
-      "candidatesHint": "{n} marked relevant, ready for Krinea",
+      "candidatesHint": "{n, number} marked relevant, ready for Krinea",
       "visitors": "Visitors (30 days)",
-      "visitorsHint": "{n} usage events",
+      "visitorsHint": "{n, plural, one {# usage event} other {# usage events}}",
       "users": "Accounts",
       "metricsAt": "tool metrics refreshed {d}",
       "noMetrics": "tool metrics never refreshed",
       "discovery": "Discovery pipeline",
       "lastRun": "Last run {d}: {status}, {n} new candidates out of {f} works fetched.",
       "noRun": "The discovery pipeline has not run yet.",
-      "jobs": "Recent jobs"
+      "jobs": "Recent jobs",
+      "lastRunLabel": "Last run",
+      "runResult": "{n, plural, one {# new candidate} other {# new candidates}} out of {f, number} works fetched"
     },
-    "jobs": { "kind": "Job", "status": "Status", "when": "Created", "result": "Result" },
+    "jobs": {
+      "kind": "Job",
+      "status": "Status",
+      "when": "Created",
+      "result": "Result",
+      "kinds": {
+        "discovery": "Discovery",
+        "metrics": "Tool metrics",
+        "survey_sync": "Survey sync"
+      },
+      "empty": "No job yet."
+    },
     "contributions": {
       "title": "Contributions",
       "lede": "Proposals from the form, from Krinea exports, from the survey and from discovery. Approve to publish, reject with a note.",
-      "status": { "pending": "Pending", "approved": "Approved", "rejected": "Rejected", "all": "All" },
-      "kind": { "study": "Study", "correction": "Correction", "tool": "Tool" },
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "all": "All"
+      },
+      "kind": {
+        "study": "Study",
+        "correction": "Correction",
+        "tool": "Tool"
+      },
       "empty": "Nothing here.",
       "pick": "Select a contribution to review it.",
       "anonymous": "anonymous",
@@ -657,7 +977,22 @@
       "approveHint": "Approving creates the study, its tool and country links and its power pools, and recomputes the counters. Fix the errors listed above first.",
       "approveToolHint": "Approving creates or updates the tool profile.",
       "approveCorrectionHint": "Approving records the decision; apply the change itself through the edit endpoints or the workbook.",
-      "reviewed": "Reviewed {d}"
+      "reviewed": "Reviewed {d}",
+      "state": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "source": {
+        "form": "Form",
+        "krinea": "Krinea",
+        "survey": "Survey",
+        "discovery": "Discovery"
+      },
+      "errors": "To fix before approval",
+      "message": "Message from the contributor",
+      "decision": "Decision",
+      "noteLabel": "Review note"
     },
     "discovery": {
       "title": "Discovery",
@@ -666,14 +1001,20 @@
       "runSince": "Run since last run",
       "runFull": "Full sweep (since 2000)",
       "runHint": "Leave the date empty to continue from the last run. A full sweep looks for studies the original review may have missed; it takes a few minutes.",
-      "runDone": "Discovery finished: {n} new candidates.",
+      "runDone": "Discovery finished: {n, plural, one {# new candidate} other {# new candidates}}.",
       "runQueued": "Discovery queued; the worker will run it.",
       "exportRis": "Export relevant as RIS",
-      "status": { "new": "To screen", "relevant": "Relevant", "irrelevant": "Irrelevant", "imported": "Imported", "known": "Already in corpus" },
-      "count": "{n} candidates",
+      "status": {
+        "new": "To screen",
+        "relevant": "Relevant",
+        "irrelevant": "Irrelevant",
+        "imported": "Imported",
+        "known": "Already in corpus"
+      },
+      "count": "{n, plural, one {# candidate} other {# candidates}}",
       "empty": "No candidate in this list.",
       "emptyHint": "Run the discovery pipeline, or change the filter.",
-      "cited": "{n} citations",
+      "cited": "{n, plural, one {# citation} other {# citations}}",
       "matches": "matches",
       "abstract": "Abstract",
       "markRelevant": "Relevant",
@@ -683,24 +1024,46 @@
       "runs": "Runs",
       "noRuns": "No run yet.",
       "sinceLabel": "since",
-      "fetched": "{f} fetched, {n} new, {k} known",
+      "fetched": "{f, number} fetched, {n, number} new, {k, number} known",
       "workflowTitle": "Suggested workflow",
       "w1": "Run the pipeline; works already in the corpus are set aside automatically.",
       "w2": "Screen the new candidates on title and abstract: relevant or irrelevant.",
       "w3": "Export the relevant ones as RIS and import them into a Krinea review for full-text screening and 51-field extraction.",
-      "w4": "Import Krinea's extraction export on the Imports page; each row becomes a pending contribution."
+      "w4": "Import Krinea's extraction export on the Imports page; each row becomes a pending contribution.",
+      "runTitle": "Run the pipeline",
+      "noDate": "n.d.",
+      "pager": "Page {page} of {pages}"
     },
     "imports": {
       "title": "Imports and tool tracker",
       "lede": "Bulk sources of proposals, and the refresh of repository metrics.",
-      "krinea": { "title": "Krinea extraction export", "text": "The energy-modelling extraction template (51 fields) ships with", "s1": "In Krinea, verify the extractions of the included studies.", "s2": "Export the extractions (CSV or Excel, values sheet).", "s3": "Upload the file here: each row becomes a pending contribution, studies flagged 'none' (no ESM tool) are skipped." },
-      "survey": { "title": "Validation survey", "text": "Responses of the survey sent to modelling teams (CSV or Excel). Columns are matched by name; adjust the mapping if needed.", "mappingPlaceholder": "Optional mapping, e.g. {\"full_title\": \"Title of the study\", \"link_doi\": \"DOI\"}", "sync": "Sync from the configured URL", "syncHint": "Uses SURVEY_CSV_URL (a published Google Sheet works)." },
-      "metrics": { "title": "Tool tracker", "text": "Fetch stars, forks, open issues, contributors and last commit for every tool with a repository URL (GitHub). Runs monthly when METRICS_AUTO is on.", "run": "Refresh repository metrics" },
+      "krinea": {
+        "title": "Krinea extraction export",
+        "text": "The energy-modelling extraction template (51 fields) ships with",
+        "s1": "In Krinea, verify the extractions of the included studies.",
+        "s2": "Export the extractions (CSV or Excel, values sheet).",
+        "s3": "Upload the file here: each row becomes a pending contribution, studies flagged 'none' (no ESM tool) are skipped."
+      },
+      "survey": {
+        "title": "Validation survey",
+        "text": "Responses of the survey sent to modelling teams (CSV or Excel). Columns are matched by name; adjust the mapping if needed.",
+        "mappingPlaceholder": "E.g. '{'\"full_title\": \"Title of the study\", \"link_doi\": \"DOI\"'}'",
+        "sync": "Sync from the configured URL",
+        "syncHint": "Uses SURVEY_CSV_URL (a published Google Sheet works)."
+      },
+      "metrics": {
+        "title": "Tool tracker",
+        "text": "Fetch stars, forks, open issues, contributors and last commit for every tool with a repository URL (GitHub). Runs monthly when METRICS_AUTO is on.",
+        "run": "Refresh repository metrics"
+      },
       "import": "Import",
       "queued": "Queued; the worker will run it.",
-      "metricsDone": "Metrics refreshed for {n} tools.",
-      "result": "{kind}: {rows} rows read, {created} contributions created.",
-      "mappingUsed": "Mapping used"
+      "metricsDone": "Metrics refreshed for {n, plural, one {# tool} other {# tools}}.",
+      "result": "{kind}: {rows, plural, one {# row} other {# rows}} read, {created, plural, one {# contribution} other {# contributions}} created.",
+      "mappingUsed": "Mapping used",
+      "file": "Export file",
+      "responses": "Responses file",
+      "mapping": "Column mapping (JSON, optional)"
     },
     "analytics": {
       "title": "Usage of the observatory",
@@ -710,7 +1073,7 @@
       "pageViews": "Page views",
       "recommender": "Recommender runs",
       "chat": "Assistant questions",
-      "chatFailed": "{n} failed",
+      "chatFailed": "{n, number} failed",
       "downloads": "Downloads",
       "daily": "Events per day",
       "pages": "Most visited pages",
@@ -719,7 +1082,16 @@
       "questions": "Recent assistant questions",
       "noQuestions": "No question yet.",
       "citations": "citations",
-      "failed": "failed"
+      "failed": "Failed",
+      "period": "Period",
+      "nothing": "Nothing recorded in this period.",
+      "col": {
+        "question": "Question",
+        "answer": "Answer",
+        "locale": "Language",
+        "when": "Asked"
+      },
+      "nCitations": "{n, plural, one {# citation} other {# citations}}"
     },
     "users": {
       "title": "People",
@@ -730,41 +1102,330 @@
       "role": "Role",
       "joined": "Joined",
       "lastLogin": "Last sign-in",
-      "roles": { "contributor": "Contributor", "curator": "Curator", "admin": "Administrator" },
-      "hint": "E-mails listed in ADMIN_EMAILS become administrators automatically when they sign in."
+      "roles": {
+        "contributor": "Contributor",
+        "curator": "Curator",
+        "admin": "Administrator"
+      },
+      "hint": "E-mails listed in ADMIN_EMAILS become administrators automatically when they sign in.",
+      "roleOf": "Role of {email}"
+    },
+    "sections": "Curation sections",
+    "signedInAs": "Signed in as {email}, {role}",
+    "jobStatus": {
+      "queued": "Queued",
+      "running": "Running",
+      "done": "Done",
+      "failed": "Failed"
     }
   },
   "labels": {
     "notAssessed": "not assessed",
-    "level": { "full": "Whole energy-system", "light": "Focused", "unspecified": "Unspecified" },
-    "scale": { "national": "National", "subnational": "Sub-national", "regional": "Regional", "continental": "Continental", "global": "Global" },
-    "open_source": { "open": "Open", "proprietary": "Proprietary", "mixed": "Mixed" },
-    "origin": { "african_led": "African-led", "mixed": "Mixed", "non_african": "Non-African" },
-    "ownership": { "yes": "African-led", "partial": "Mixed team", "no": "Non-African" },
-    "grey": { "yes": "Grey literature", "no": "Peer-reviewed" },
-    "source": { "review": "Systematic review", "contribution": "Community contribution", "krinea": "Krinea extraction", "survey": "Survey", "discovery": "Discovery" },
-    "region": { "north": "North Africa", "west": "West Africa", "east": "East Africa", "central": "Central Africa", "southern": "Southern Africa" },
-    "governance": { "strong": "Strong", "moderate": "Moderate", "weak": "Weak" },
-    "data": { "good": "Good", "limited": "Limited", "none": "None" },
-    "yesno": { "yes": "Yes", "no": "No", "partial": "Partial" },
-    "category": { "long_term_planning": "Long-term planning", "rural_electrification": "Rural electrification", "microgrid": "Mini-grid", "dispatch": "Dispatch", "nexus": "Nexus", "economic": "Economic", "geospatial": "Geospatial", "other": "Other" },
-    "approach": { "bottom_up": "Bottom-up", "top_down": "Top-down", "hybrid": "Hybrid" },
-    "method": { "optimization": "Optimisation", "simulation": "Simulation", "accounting": "Accounting", "hybrid": "Hybrid", "multi_criteria": "Multi-criteria" },
-    "math": { "linear_programming": "Linear programming", "mixed_integer_programming": "Mixed-integer programming", "dynamic_programming": "Dynamic programming", "stochastic": "Stochastic", "other": "Other" },
-    "feature": { "informal_economy": "Informal economy", "biomass_charcoal": "Biomass and charcoal", "power_reliability": "Power reliability", "urbanization": "Urbanisation", "clean_cooking": "Clean cooking" },
-    "tech": { "solar": "Solar", "wind": "Wind", "hydro": "Hydro", "biomass": "Biomass", "nuclear": "Nuclear", "geothermal": "Geothermal", "fossil": "Fossil fuels", "h2": "Hydrogen", "coal": "Coal" },
-    "license": { "open_source": "Open source", "free": "Free", "freemium": "Freemium", "proprietary": "Proprietary", "internal": "In-house", "varies": "Varies" },
-    "type": { "capacity_expansion": "Capacity expansion", "production_cost": "Production cost", "geospatial_electrification": "Geospatial electrification", "reliability": "Reliability", "nexus": "Nexus", "demand_forecast": "Demand forecast", "system_dynamics": "System dynamics", "hybrid_optimization": "Hybrid optimisation", "simulation": "Simulation", "accounting": "Accounting", "hydrological": "Hydrological", "other": "Other" },
-    "programming": { "none": "None", "basic": "Basic", "advanced": "Advanced" },
-    "learning": { "low": "Low", "medium": "Medium", "high": "High", "not_applicable": "Not applicable" },
-    "horizon": { "short_term": "Short term", "medium_term": "Medium term", "long_term": "Long term" },
-    "toolscale": { "facility": "Facility", "community": "Community", "subnational": "Sub-national", "national": "National", "regional": "Regional", "continental": "Continental", "global": "Global", "varies": "Varies" },
-    "data_intensity": { "low": "Low", "medium": "Medium", "high": "High" },
-    "quality": { "low": "Low", "medium": "Medium", "high": "High" },
-    "financing": { "no": "No", "basic": "Basic", "advanced": "Advanced" },
-    "os": { "windows": "Windows", "linux": "Linux", "macos": "macOS", "mac": "macOS", "web": "Web", "any": "Any", "cross_platform": "Cross-platform" },
-    "bestfor": { "national_planning": "national planning", "electrification_planning": "electrification planning", "geospatial_analysis": "geospatial analysis", "project_prefeasibility": "project pre-feasibility", "minigrid_hybrid_design": "mini-grid and hybrid design", "regional_trade": "regional trade", "power_system_operation": "power system operation", "grid_reliability": "grid reliability", "resource_assessment": "resource assessment", "nexus_water_land": "water-energy-land nexus", "demand_forecasting": "demand forecasting", "emissions_air_quality": "emissions and air quality", "buildings_thermal": "buildings and thermal", "what_if_scenarios": "what-if scenarios" },
-    "sector": { "electricity": "Electricity", "full_energy": "Full energy system", "power_heat": "Power and heat", "other": "Other" },
-    "theme": { "powering_livelihoods": "Powering livelihoods", "inclusive_industrialisation": "Inclusive industrialisation", "urban_transitions": "Urban transitions", "cross_cutting": "Cross-cutting", "none": "None" }
+    "level": {
+      "full": "Whole energy-system",
+      "light": "Focused",
+      "unspecified": "Unspecified"
+    },
+    "scale": {
+      "national": "National",
+      "subnational": "Sub-national",
+      "regional": "Regional",
+      "continental": "Continental",
+      "global": "Global"
+    },
+    "open_source": {
+      "open": "Open",
+      "proprietary": "Proprietary",
+      "mixed": "Mixed"
+    },
+    "origin": {
+      "african_led": "African-led",
+      "mixed": "Mixed",
+      "non_african": "Non-African"
+    },
+    "ownership": {
+      "yes": "African-led",
+      "partial": "Mixed team",
+      "no": "Non-African"
+    },
+    "grey": {
+      "yes": "Grey literature",
+      "no": "Peer-reviewed"
+    },
+    "source": {
+      "review": "Systematic review",
+      "contribution": "Community contribution",
+      "krinea": "Krinea extraction",
+      "survey": "Survey",
+      "discovery": "Discovery"
+    },
+    "region": {
+      "north": "North Africa",
+      "west": "West Africa",
+      "east": "East Africa",
+      "central": "Central Africa",
+      "southern": "Southern Africa"
+    },
+    "governance": {
+      "strong": "Strong",
+      "moderate": "Moderate",
+      "weak": "Weak"
+    },
+    "data": {
+      "good": "Good",
+      "limited": "Limited",
+      "none": "None"
+    },
+    "yesno": {
+      "yes": "Yes",
+      "no": "No",
+      "partial": "Partial"
+    },
+    "category": {
+      "long_term_planning": "Long-term planning",
+      "rural_electrification": "Rural electrification",
+      "microgrid": "Mini-grid",
+      "dispatch": "Dispatch",
+      "nexus": "Nexus",
+      "economic": "Economic",
+      "geospatial": "Geospatial",
+      "other": "Other"
+    },
+    "approach": {
+      "bottom_up": "Bottom-up",
+      "top_down": "Top-down",
+      "hybrid": "Hybrid"
+    },
+    "method": {
+      "optimization": "Optimisation",
+      "simulation": "Simulation",
+      "accounting": "Accounting",
+      "hybrid": "Hybrid",
+      "multi_criteria": "Multi-criteria"
+    },
+    "math": {
+      "linear_programming": "Linear programming",
+      "mixed_integer_programming": "Mixed-integer programming",
+      "dynamic_programming": "Dynamic programming",
+      "stochastic": "Stochastic",
+      "other": "Other"
+    },
+    "feature": {
+      "informal_economy": "Informal economy",
+      "biomass_charcoal": "Biomass and charcoal",
+      "power_reliability": "Power reliability",
+      "urbanization": "Urbanisation",
+      "clean_cooking": "Clean cooking"
+    },
+    "tech": {
+      "solar": "Solar",
+      "wind": "Wind",
+      "hydro": "Hydro",
+      "biomass": "Biomass",
+      "nuclear": "Nuclear",
+      "geothermal": "Geothermal",
+      "fossil": "Fossil fuels",
+      "h2": "Hydrogen",
+      "coal": "Coal"
+    },
+    "license": {
+      "open_source": "Open source",
+      "free": "Free",
+      "freemium": "Freemium",
+      "proprietary": "Proprietary",
+      "internal": "In-house",
+      "varies": "Varies"
+    },
+    "type": {
+      "capacity_expansion": "Capacity expansion",
+      "production_cost": "Production cost",
+      "geospatial_electrification": "Geospatial electrification",
+      "reliability": "Reliability",
+      "nexus": "Nexus",
+      "demand_forecast": "Demand forecast",
+      "system_dynamics": "System dynamics",
+      "hybrid_optimization": "Hybrid optimisation",
+      "simulation": "Simulation",
+      "accounting": "Accounting",
+      "hydrological": "Hydrological",
+      "other": "Other"
+    },
+    "programming": {
+      "none": "None",
+      "basic": "Basic",
+      "advanced": "Advanced"
+    },
+    "learning": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "not_applicable": "Not applicable"
+    },
+    "horizon": {
+      "short_term": "Short term",
+      "medium_term": "Medium term",
+      "long_term": "Long term"
+    },
+    "toolscale": {
+      "facility": "Facility",
+      "community": "Community",
+      "subnational": "Sub-national",
+      "national": "National",
+      "regional": "Regional",
+      "continental": "Continental",
+      "global": "Global",
+      "varies": "Varies"
+    },
+    "data_intensity": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "quality": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "financing": {
+      "no": "No",
+      "basic": "Basic",
+      "advanced": "Advanced"
+    },
+    "os": {
+      "windows": "Windows",
+      "linux": "Linux",
+      "macos": "macOS",
+      "mac": "macOS",
+      "web": "Web",
+      "any": "Any",
+      "cross_platform": "Cross-platform"
+    },
+    "bestfor": {
+      "national_planning": "national planning",
+      "electrification_planning": "electrification planning",
+      "geospatial_analysis": "geospatial analysis",
+      "project_prefeasibility": "project pre-feasibility",
+      "minigrid_hybrid_design": "mini-grid and hybrid design",
+      "regional_trade": "regional trade",
+      "power_system_operation": "power system operation",
+      "grid_reliability": "grid reliability",
+      "resource_assessment": "resource assessment",
+      "nexus_water_land": "water-energy-land nexus",
+      "demand_forecasting": "demand forecasting",
+      "emissions_air_quality": "emissions and air quality",
+      "buildings_thermal": "buildings and thermal",
+      "what_if_scenarios": "what-if scenarios"
+    },
+    "sector": {
+      "electricity": "Electricity",
+      "full_energy": "Full energy system",
+      "power_heat": "Power and heat",
+      "other": "Other"
+    },
+    "theme": {
+      "powering_livelihoods": "Powering livelihoods",
+      "inclusive_industrialisation": "Inclusive industrialisation",
+      "urban_transitions": "Urban transitions",
+      "cross_cutting": "Cross-cutting",
+      "none": "None"
+    }
+  },
+  "ui": {
+    "brand": {
+      "subline": "Energy Modelling Observatory"
+    },
+    "beta": {
+      "tag": "Beta",
+      "text": "Data and features are evolving"
+    },
+    "study": {
+      "no": "No.",
+      "mixedTeam": "Mixed team",
+      "mixedLicence": "Mixed licence"
+    },
+    "filters": {
+      "title": "Filters",
+      "reset": "Reset",
+      "button": "{n, plural, =0 {Filters} other {Filters (#)}}",
+      "done": "Show results",
+      "from": "from",
+      "to": "to",
+      "more": "Show {n} more",
+      "less": "Show fewer"
+    },
+    "map": {
+      "aria": "Map of Africa",
+      "perClass": "number of countries per class",
+      "nCountries": "{n, plural, one {# country} other {# countries}}",
+      "noData": "Not in the inventory",
+      "none": "No studies",
+      "islands": "Island states, as dots",
+      "cancer": "Tropic of Cancer",
+      "equator": "Equator",
+      "capricorn": "Tropic of Capricorn",
+      "westernSahara": "Western Sahara",
+      "most": "{value}, the most",
+      "world": "World map of author countries",
+      "worldNone": "No author"
+    },
+    "chart": {
+      "yearToDate": "{year}, year to date",
+      "byYear": "Studies by publication year",
+      "median": "median {value}",
+      "ofAssessed": "{positive} of {assessed} assessed studies",
+      "nStudies": "{n, plural, one {# study} other {# studies}}",
+      "otherRegions": "Other regions",
+      "scatter": "Readiness against gap score, one panel per region",
+      "axes": "{x} across, {y} up"
+    }
+  },
+  "notFound": {
+    "kicker": "Error 404",
+    "title": "This page does not exist.",
+    "lede": "The address may be mistyped, or the page may have moved. Every study, country and tool in the inventory can be reached from the observatory.",
+    "home": "Back to the home page",
+    "observatory": "or explore the observatory",
+    "next": "Where to go next"
+  },
+  "reading": {
+    "toc": "On this page",
+    "headline": {
+      "methodology": "How every figure is computed",
+      "research": "Publications, open data and a living inventory"
+    },
+    "prisma": {
+      "aria": "PRISMA 2020 flow of the systematic review",
+      "identified": "Identified in OpenAlex and Scopus",
+      "sources": "OpenAlex {openalex} · Scopus {scopus}",
+      "duplicates": "duplicates removed",
+      "screened": "Screened on title and abstract",
+      "screenedExcluded": "excluded",
+      "sought": "Sought for full text",
+      "notRetrieved": "not retrieved",
+      "assessed": "Full texts assessed for eligibility",
+      "assessedExcluded": "excluded, with reasons",
+      "showReasons": "Show the {n} reasons",
+      "hideReasons": "Hide the reasons",
+      "other": "from other methods",
+      "otherDetail": "{n} records from the pilot inventory ({inventory}) and citation searching ({citations}); {excluded} excluded",
+      "included": "Included in the inventory",
+      "includedDetail": "{databases} from databases · {other} from other methods",
+      "caption": "The PRISMA 2020 flow of the review, drawn as a single-line diagram: the main feeder runs down from the database searches, each exclusion branches off to a terminal, and the studies found by other methods join it before inclusion.",
+      "reasons": {
+        "scope": "Not energy focus, out of scope",
+        "private": "Single private facility sizing study",
+        "custom": "Custom algorithm (Python, MATLAB, MILP…)",
+        "telecom": "HOMER for telecom or commercial sites",
+        "duplicate": "Duplicate of an initial study",
+        "etap": "ETAP reliability technical study",
+        "notAfrica": "Not only Africa",
+        "platform": "Data or training platform",
+        "global": "Global studies",
+        "sdNoSoftware": "System dynamics, no software named",
+        "language": "Language other than English or French",
+        "sdOneMarket": "System dynamics, Africa as one market",
+        "deprecated": "Online tool deprecated"
+      }
+    }
   }
 }

@@ -6,7 +6,38 @@ A study is included when it applies a technology-explicit energy modelling tool,
 
 Searches ran on OpenAlex (breadth) and Scopus (curated coverage) on 5 May 2026, with one Boolean query in four blocks: energy vocabulary AND geography (Africa and the 54 countries) AND modelling methods AND named instruments. They returned 9,582 records; after removal of 1,823 duplicates, 7,759 unique records were screened on title and abstract, 1,452 were sought for full text, and 1,053 studies were included. Grey documents (theses, reports, proceedings) entered through OpenAlex and through the pilot inventory and citation searching.
 
-![PRISMA 2020 flow diagram](/brand/prisma_flow.png)
+```prisma
+identified: 9582
+identified.openalex: 6559
+identified.scopus: 3023
+duplicates: 1823
+screened: 7759
+screened.excluded: 6307
+sought: 1452
+sought.notRetrieved: 18
+assessed: 1434
+assessed.excluded: 409
+reason.scope: 107
+reason.private: 100
+reason.custom: 73
+reason.telecom: 55
+reason.duplicate: 20
+reason.etap: 16
+reason.notAfrica: 14
+reason.platform: 9
+reason.global: 6
+reason.sdNoSoftware: 5
+reason.language: 2
+reason.sdOneMarket: 1
+reason.deprecated: 1
+other: 32
+other.inventory: 24
+other.citations: 8
+other.excluded: 4
+included: 1053
+included.databases: 1025
+included.other: 28
+```
 
 The discovery pipeline of this hub re-runs the same four blocks on OpenAlex (see [Research](/research)); new matches never enter the inventory without a curator's verification.
 

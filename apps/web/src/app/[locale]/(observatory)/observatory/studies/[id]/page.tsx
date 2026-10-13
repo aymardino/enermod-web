@@ -31,7 +31,7 @@ export default function StudyPage() {
   if (isLoading) return <div className="mx-auto max-w-5xl px-4 py-8"><Skeleton className="h-10 w-2/3" /><Skeleton className="mt-6 h-64" /></div>;
   if (error || !s) return <div className="mx-auto max-w-5xl px-4 py-8"><EmptyState title={error instanceof ApiError && error.status === 404 ? t("notFound") : c("error")} action={<Button asChild><Link href="/observatory/studies">{t("back")}</Link></Button>} /></div>;
   const str = (k: string) => (s[k] as string | null | undefined) ?? "";
-  const na = <span className="italic text-muted-foreground">{t("notExtracted")}</span>;
+  const na = <span className="text-muted-foreground">{t("notExtracted")}</span>;
   const show = (k: string) => (str(k) ? str(k) : na);
   const techs = TECH.filter((k) => str(k).toLowerCase() === "yes");
   const policy = [["sdg_7", "SDG 7"], ["sdg_13", "SDG 13"], ["ndc_mention", "NDC"], ["agenda_2063", "Agenda 2063"]].filter(([k]) => str(k).toLowerCase() === "yes").map(([, l]) => l);
@@ -71,7 +71,7 @@ export default function StudyPage() {
               <Row k={t("horizon")} v={str("time_horizon_start") || str("time_horizon_end") ? `${str("time_horizon_start") || "?"} → ${str("time_horizon_end") || "?"}` : na} />
               <Row k={t("technologies")} v={techs.length ? techs.map((k) => label("tech", k)).join(", ") : na} />
               <Row k={t("features")} v={<ul className="flex flex-wrap gap-1.5">{FEATURES.map((k) => <li key={k}><Badge variant={str(k).toLowerCase() === "yes" ? "brand" : str(k).toLowerCase() === "partial" ? "secondary" : "outline"}>{label("feature", k)}: {label("yesno", str(k))}</Badge></li>)}</ul>} />
-              <Row k={t("policy")} v={policy.length ? policy.join(", ") : <span className="italic text-muted-foreground">{t("noneRecorded")}</span>} />
+              <Row k={t("policy")} v={policy.length ? policy.join(", ") : <span className="text-muted-foreground">{t("noneRecorded")}</span>} />
               <Row k={t("theme")} v={list("theme", str("aisesa_theme"))} />
               <Row k={t("coc")} v={show("cost_of_capital")} />
               <Row k={t("financing")} v={`${label("yesno", str("financing_modelling"))}${str("financing_mechanism") ? ` · ${str("financing_mechanism")}` : ""}`} />

@@ -35,7 +35,7 @@ function Contribute({ kind, study, tool }: { kind: "study" | "correction" | "too
   const t = useTranslations("contribute");
   const nav = useTranslations("nav");
   return (
-    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] pt-10 max-md:px-4 max-md:pb-14 max-md:pt-8">
+    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 max-md:pb-14">
       <PageHead
         kicker={nav("contribute")}
         title={t("title")}

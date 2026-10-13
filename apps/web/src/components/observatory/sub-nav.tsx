@@ -14,7 +14,7 @@ export function ObservatoryNav() {
   const isActive = (href: string) =>
     href === "/observatory" ? pathname === "/observatory" || pathname.startsWith("/observatory/countries") : pathname.startsWith(href);
   return (
-    <div className="border-b border-border bg-muted lg:sticky lg:top-[73px] lg:z-30">
+    <div className="border-b border-border bg-white lg:sticky lg:top-[76px] lg:z-30">
       <div className="mx-auto w-full max-w-[1248px] px-8 max-md:px-4 2xl:max-w-[1400px]">
         <nav aria-label={t("sections")} className="tabrow gap-[26px] bg-none">
           {OBSERVATORY_SECTIONS.map((s) => {

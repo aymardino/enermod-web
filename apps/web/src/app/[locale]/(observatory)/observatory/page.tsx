@@ -22,7 +22,7 @@ import { useRecentStudies } from "@/components/observatory/home-live";
 
 type Scope = "all" | "full" | "light";
 const CURRENT_YEAR = new Date().getFullYear();
-const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] pt-10 max-md:px-4 2xl:max-w-[1400px]";
+const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]";
 const GRID = "grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-12 max-lg:grid-cols-[minmax(0,1fr)]";
 
 /** Studies of a country for the scope. */

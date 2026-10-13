@@ -11,7 +11,7 @@ export default function ObservatoryLayout({ children }: { children: React.ReactN
     <>
       <SiteHeader wide />
       <ObservatoryNav />
-      <main id="main" className="flex-1">{children}</main>
+      <main id="main" className="flex-1 bg-muted">{children}</main>
       <SiteFooter wide />
       <LayoutAssistant />
       <PageViewTracker />

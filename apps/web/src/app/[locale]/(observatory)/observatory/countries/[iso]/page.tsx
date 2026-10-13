@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { api, ApiError, type CountryDetail } from "@/lib/api";
 import { useLabel } from "@/lib/labels";
@@ -18,7 +17,7 @@ import { Block, PageHead } from "@/components/observatory/page-head";
 import { StudyCard, StudyLedger, countryInfo } from "@/components/observatory/study-card";
 
 /** Page container of the observatory: 1248px, 1400px from 2xl, 32px gutters (16px on phones). */
-const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] pt-10 max-md:px-4 2xl:max-w-[1400px]";
+const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]";
 /** Two ruled blocks side by side, one column below 1024px. */
 const PAIR = "grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-12 max-lg:grid-cols-[minmax(0,1fr)]";
 /** "not ranked", "not assessed" set as a KPI value: italic serif, muted, never a figure. */
@@ -29,6 +28,7 @@ const EMPTY = "text-[15px] text-muted-foreground";
 export default function CountryPage() {
   const { iso } = useParams<{ iso: string }>();
   const t = useTranslations("observatory.country");
+  const nav = useTranslations("nav");
   const c = useTranslations("common");
   const label = useLabel();
   const locale = useLocale();
@@ -36,12 +36,6 @@ export default function CountryPage() {
   const { data: d, error, isLoading } = useQuery<CountryDetail>({ queryKey: ["country", iso], queryFn: () => api.get(`/countries/${iso}`), retry: false });
   useEffect(() => { if (d) track("country_view", d.iso_code); }, [d]);
 
-  const back = (
-    <Link href="/observatory/map" className="inline-flex min-h-6 items-center gap-1.5 text-[13px] text-muted-foreground no-underline hover:text-foreground">
-      <ArrowLeft aria-hidden="true" strokeWidth={1.5} className="size-3.5" />
-      {t("back")}
-    </Link>
-  );
 
   if (isLoading) {
     return (
@@ -75,9 +69,8 @@ export default function CountryPage() {
 
   return (
     <div className={WRAP}>
-      {back}
       <PageHead
-        className="mt-5"
+        crumbs={[{ label: nav("observatory"), href: "/observatory" }, { label: nav("obs.map"), href: "/observatory/map" }, { label: name }]}
         kicker={kicker}
         title={name}
         lede={

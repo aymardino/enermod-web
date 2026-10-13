@@ -8,7 +8,7 @@ importers:
 
   .:
     dependencies:
-      '@fontsource-variable/source-sans-3':
+      '@fontsource-variable/roboto':
         specifier: 5.2.8
         version: 5.2.8
       '@radix-ui/react-avatar':
@@ -292,8 +292,8 @@ packages:
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
-  '@fontsource-variable/source-sans-3@5.2.8':
-    resolution: {integrity: sha512-iRQD4k06Wxm1668+AbPBoVo+CbgRsOz2E0/XibDJ7kAm9UhdhmNmsMTvs9KEl/mQxUj/487tr9w47NoM/TMhZQ==}
+  '@fontsource-variable/roboto@5.2.8':
+    resolution: {integrity: sha512-UBhCzUXpkZZqBhTnkIhkM3USlSuu2Da6k4mjiRaEnZtvMOMWcQVOV6oV2cY00plUuJZrsnTRtt3ZRRJF09gV5w==}
 
   '@formatjs/fast-memoize@3.1.7':
     resolution: {integrity: sha512-zXfhLpvA6T7+efdt9JLbBwZ00tT7NsBMDVnDu8rpHeNNv8KfRZAMo2gkG0k9lK/Nzc//3kJ9pImsfuJxk3KhUA==}
@@ -3504,7 +3504,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@fontsource-variable/source-sans-3@5.2.8': {}
+  '@fontsource-variable/roboto@5.2.8': {}
 
   '@formatjs/fast-memoize@3.1.7': {}
 

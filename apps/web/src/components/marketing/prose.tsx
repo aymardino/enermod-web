@@ -1,8 +1,8 @@
+import { PageBanner } from "@/components/marketing/page-banner";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Kicker } from "@/components/observatory/page-head";
 import { Caption } from "@/components/observatory/kpi";
 import { cn } from "@/lib/utils";
 
@@ -301,7 +301,7 @@ function Contents({ items, label }: { items: TocItem[]; label: string }) {
 /** Shared reading layout for the Markdown pages. The contents sit in the 176px margin from
  *  1024px. `aside` (the live figures) takes the spare width right of the 680px measure from 1280px
  *  (sticky), and follows the article below that. */
-export function ProseLayout({ kicker, numeral, title, lede, meta, toc, tocLabel, aside, children }: {
+export function ProseLayout({ kicker, title, lede, meta, toc, tocLabel, aside, children }: {
   kicker: React.ReactNode;
   numeral?: string;
   title: React.ReactNode;
@@ -315,12 +315,16 @@ export function ProseLayout({ kicker, numeral, title, lede, meta, toc, tocLabel,
   const hasToc = toc.length > 0;
   const rail = hasToc && !!aside;
   return (
+    <>
+    <PageBanner crumbs={[{ label: kicker }]} title={title} lede={lede}>
+      {meta && <div className="mt-3 text-[14px] leading-[1.45] text-white/70">{meta}</div>}
+    </PageBanner>
     <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] pt-12 max-md:px-4 max-md:pb-14 max-md:pt-9">
       <div
         className={cn(
-          "grid grid-cols-[minmax(0,1fr)] gap-x-12",
-          hasToc && "lg:grid-cols-[176px_minmax(0,680px)]",
-          rail && "xl:grid-cols-[176px_minmax(0,680px)_minmax(0,1fr)]",
+          "grid grid-cols-[minmax(0,1fr)] gap-x-10",
+          hasToc && "lg:grid-cols-[190px_minmax(0,720px)]",
+          rail && "xl:grid-cols-[190px_minmax(0,680px)_minmax(270px,1fr)]",
         )}
       >
         {hasToc && (
@@ -330,26 +334,17 @@ export function ProseLayout({ kicker, numeral, title, lede, meta, toc, tocLabel,
             </div>
           </aside>
         )}
-        <article className="min-w-0 max-w-[680px]">
-          <header>
-            <Kicker numeral={numeral}>{kicker}</Kicker>
-            <h1 className="mt-3.5 text-balance font-display text-[36px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[48px]">{title}</h1>
-            {lede && (
-              <div className="mt-4 font-display text-[18px] leading-[1.5] text-ink-2 md:text-[20px] [&_a]:underline [&_a]:decoration-link [&_a]:decoration-1 [&_a]:underline-offset-3 [&_a:hover]:text-link [&_p+p]:mt-3 [&_strong]:font-semibold">
-                {lede}
-              </div>
-            )}
-            {meta && <div className="mt-3 font-display text-[14.5px] leading-[1.45] text-muted-foreground">{meta}</div>}
-          </header>
-          <div className="prose-enermod mt-11 max-md:mt-9 [&_blockquote_em]:not-italic [&_h2]:scroll-mt-28 [&_h3]:scroll-mt-28">{children}</div>
-          {aside && <div className={cn("mt-14 max-w-[360px]", rail && "xl:hidden")}>{aside}</div>}
+        <article className="min-w-0 max-w-[720px]">
+          <div className="prose-enermod [&_blockquote_em]:not-italic [&_h2]:scroll-mt-28 [&_h3]:scroll-mt-28">{children}</div>
+          {aside && <div className={cn("mt-14 max-w-[380px] rounded-lg border border-border bg-card p-5 shadow-card", rail && "xl:hidden")}>{aside}</div>}
         </article>
         {rail && (
           <aside className="min-w-0 max-xl:hidden">
-            <div className="sticky top-24 pt-[3px]">{aside}</div>
+            <div className="sticky top-28 rounded-lg border border-border bg-card p-5 shadow-card">{aside}</div>
           </aside>
         )}
       </div>
     </div>
+    </>
   );
 }

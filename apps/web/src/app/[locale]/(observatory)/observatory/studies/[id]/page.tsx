@@ -12,6 +12,7 @@ import { track } from "@/lib/track";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState, Skeleton } from "@/components/ui/misc";
+import { PageHead } from "@/components/observatory/page-head";
 
 const TECH = ["solar", "wind", "hydro", "biomass", "nuclear", "geothermal", "fossil", "h2", "coal"];
 const FEATURES = ["informal_economy", "biomass_charcoal", "clean_cooking", "power_reliability", "urbanization"];
@@ -23,6 +24,7 @@ function Row({ k, v }: { k: string; v: React.ReactNode }) {
 export default function StudyPage() {
   const { id } = useParams<{ id: string }>();
   const t = useTranslations("observatory.study");
+  const nav = useTranslations("nav");
   const c = useTranslations("common");
   const label = useLabel();
   const list = useListLabel();
@@ -36,23 +38,25 @@ export default function StudyPage() {
   const techs = TECH.filter((k) => str(k).toLowerCase() === "yes");
   const policy = [["sdg_7", "SDG 7"], ["sdg_13", "SDG 13"], ["ndc_mention", "NDC"], ["agenda_2063", "Agenda 2063"]].filter(([k]) => str(k).toLowerCase() === "yes").map(([, l]) => l);
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
-      <Link href="/observatory/studies" className="text-sm text-muted-foreground hover:text-foreground">← {t("back")}</Link>
-      <div className="mt-3 flex flex-wrap gap-1.5">
-        <Badge variant={s.level === "full" ? "brand" : "secondary"}>{label("level", s.level)}</Badge>
-        {s.scale && <Badge variant="outline">{label("scale", s.scale)}</Badge>}
-        {s.open_source && <Badge variant="outline">{label("open_source", s.open_source)}</Badge>}
-        {s.grey_literature === "yes" && <Badge variant="outline">{label("grey", "yes")}</Badge>}
-        <Badge variant="outline">{label("source", s.source)}</Badge>
-        <span className="ml-auto font-mono text-xs text-muted-foreground">#{s.study_id}</span>
-      </div>
-      <h1 className="mt-3 font-display text-3xl font-semibold leading-tight tracking-tight md:text-4xl">{s.full_title || s.model_name}</h1>
-      <p className="mt-2 text-muted-foreground">{s.authors}{s.year ? ` · ${s.year}` : ""}{s.model_name ? ` · ${s.model_name}` : ""}</p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {s.link && <Button variant="outline" size="sm" asChild><a href={s.link} target="_blank" rel="noreferrer"><ExternalLink />{t("openSource")}</a></Button>}
-        <Button variant="ghost" size="sm" asChild><Link href={`/contribute?kind=correction&study=${s.study_id}`}><Flag />{t("suggest")}</Link></Button>
-      </div>
-      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4">
+      <PageHead
+        crumbs={[{ label: nav("observatory"), href: "/observatory" }, { label: nav("obs.studies"), href: "/observatory/studies" }, { label: `#${s.study_id}` }]}
+        title={s.full_title || s.model_name}
+        lede={[s.authors, s.year, s.model_name].filter(Boolean).join(" · ")}
+      >
+        <div className="mt-5 flex flex-wrap gap-2">
+          <span className="rounded-full bg-white/15 px-3 py-1 text-[13px] font-medium text-white">{label("level", s.level)}</span>
+          {s.scale && <span className="rounded-full bg-white/15 px-3 py-1 text-[13px] font-medium text-white">{label("scale", s.scale)}</span>}
+          {s.open_source && <span className="rounded-full bg-white/15 px-3 py-1 text-[13px] font-medium text-white">{label("open_source", s.open_source)}</span>}
+          {s.grey_literature === "yes" && <span className="rounded-full bg-white/15 px-3 py-1 text-[13px] font-medium text-white">{label("grey", "yes")}</span>}
+          <span className="rounded-full bg-white/15 px-3 py-1 text-[13px] font-medium text-white">{label("source", s.source)}</span>
+        </div>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {s.link && <Button size="sm" className="bg-white text-brand-800 hover:bg-brand-50" asChild><a href={s.link} target="_blank" rel="noreferrer"><ExternalLink />{t("openSource")}</a></Button>}
+          <Button variant="outline" size="sm" className="border-white/70 bg-transparent text-white hover:bg-white/10" asChild><Link href={`/contribute?kind=correction&study=${s.study_id}`}><Flag />{t("suggest")}</Link></Button>
+        </div>
+      </PageHead>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div className="space-y-8">
           <section><h2 className="font-display text-xl font-semibold">{t("objective")}</h2><p className="mt-2 leading-relaxed">{show("study_objective")}</p></section>
           <section><h2 className="font-display text-xl font-semibold">{t("keyResult")}</h2><p className="mt-2 leading-relaxed">{show("key_result")}</p></section>

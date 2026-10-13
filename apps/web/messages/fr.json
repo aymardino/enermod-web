@@ -85,7 +85,11 @@
     "home": "EnerMod Africa, accueil",
     "partner": "Une activité du Cluster 1 d’AISESA · MINES Paris-PSL · The Transition Institute 1.5",
     "sourceCode": "Code source",
-    "sections": "Sections de l’observatoire"
+    "sections": "Sections de l’observatoire",
+    "search": "Rechercher dans les études",
+    "searchPlaceholder": "Études, outils, pays…",
+    "breadcrumb": "Fil d’Ariane",
+    "crumbHome": "Accueil"
   },
   "home": {
     "eyebrow": "Revue systématique PRISMA · 54 pays · données ouvertes",
@@ -229,7 +233,10 @@
       "o2Title": "Données ouvertes et API",
       "o2Text": "Chaque table se télécharge sous CC BY 4.0, et chaque page repose sur une API JSON.",
       "o2Link": "Données et API"
-    }
+    },
+    "open": "Ouvrir",
+    "trendTitle": "L’activité de modélisation s’accélère",
+    "trendLede": "Études par année de publication depuis 2001. Les études du système énergétique complet forment la base de chaque barre, les études ciblées sont au-dessus."
   },
   "observatory": {
     "dashboard": {

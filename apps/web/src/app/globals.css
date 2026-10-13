@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@fontsource-variable/source-sans-3/wght.css";
+@import "@fontsource-variable/roboto/wght.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -138,9 +138,9 @@
   --color-seq-outside-1: var(--seq-outside-1); --color-seq-outside-2: var(--seq-outside-2); --color-seq-outside-3: var(--seq-outside-3);
   --color-seq-outside-4: var(--seq-outside-4); --color-seq-outside-5: var(--seq-outside-5);
 
-  --font-sans: "Source Sans 3 Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --font-display: "Source Sans 3 Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --font-serif: "Source Sans 3 Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-sans: "Roboto Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Roboto Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-serif: "Roboto Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --radius: 6px;
@@ -154,8 +154,9 @@
 @layer base {
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
-  body { @apply bg-background text-foreground font-sans antialiased; font-size: 16px; line-height: 1.55; font-kerning: normal; }
-  h1, h2, h3 { font-family: var(--font-display); font-weight: 650; letter-spacing: -0.01em; }
+  html, body { overflow-x: clip; }
+  body { @apply bg-background text-foreground font-sans antialiased; font-size: 16px; line-height: 1.6; font-kerning: normal; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.005em; }
   ::selection { background: var(--brand-200); color: var(--brand-950); }
   :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
   /* interactive elements change colour in 150 ms, nothing else animates by default (§11) */
@@ -193,6 +194,8 @@
 
 /* ── Shared components (§7). Utilities (Tailwind classes) still override these. ── */
 @layer components {
+  /* Page banner inside a centred container: stretch to the viewport edges (html/body clip the overflow). */
+  .page-banner { margin-inline: calc(50% - 50vw); }
   /* Plate (§7.3, §9.1): a framed figure on sheet, opened by the 5px graduated band */
   .plate { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card);
            color: var(--card-foreground); padding: 18px 18px 16px; box-shadow: var(--shadow-card); }
@@ -204,8 +207,9 @@
   /* KPI strip (§7.4): one ruled strip, cells aligned through subgrid. Column counts come from
      --kpi-cols / --kpi-cols-md / --kpi-cols-sm (set by <KpiStrip>); hairlines sit in the gaps. */
   .kpis { position: relative; display: grid; grid-template-columns: repeat(var(--kpi-cols, 5), minmax(0, 1fr));
-          column-gap: 40px; border-bottom: 1px solid var(--border); overflow: clip; }
-  .kpis::before { content: ""; position: absolute; z-index: 1; inset-inline: 0; top: 0; height: 1px; background: var(--rule); }
+          column-gap: 40px; overflow: clip; padding: 4px 24px; border: 1px solid var(--border); border-radius: var(--radius-lg);
+          background: var(--card); box-shadow: var(--shadow-card); }
+  .kpis::before { content: ""; position: absolute; z-index: 1; inset-inline: 0; top: 0; height: 4px; background: var(--primary); }
   .kpi { display: flex; flex-direction: column; min-width: 0; border-top: 1px solid var(--rule); padding: 12px 0 8px; }
   .kpis > .kpi { position: relative; display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; align-content: start;
                  border-top: 0; padding: 15px 0 17px; }
@@ -215,7 +219,7 @@
   .kpis > .kpi::after { content: ""; position: absolute; top: 0; left: -40px; right: 0; height: 1px; background: var(--border); }
   .kpis > a.kpi:focus-visible { outline-offset: -2px; }
   .kpi-l { font-size: 13px; font-weight: 600; line-height: 1.35; color: var(--muted-foreground); }
-  .kpi-v { margin-top: 8px; font-size: 34px; font-weight: 700; line-height: 1; letter-spacing: -.02em; color: var(--foreground); overflow-wrap: anywhere; }
+  .kpi-v { margin-top: 8px; font-size: 34px; font-weight: 700; line-height: 1; letter-spacing: -.02em; color: var(--brand-800); overflow-wrap: anywhere; }
   .kpi-v small { font-size: 20px; font-weight: 500; letter-spacing: -.01em; color: var(--muted-foreground); }
   .kpi-h { margin-top: 7px; font-size: 13px; line-height: 1.4; color: var(--muted-foreground); }
   .kpis[data-size="sm"] .kpi-v { font-size: 20px; line-height: 1.2; letter-spacing: -.01em; }

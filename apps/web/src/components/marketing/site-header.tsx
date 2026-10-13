@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Code, Menu } from "lucide-react";
+import { Code, Menu, Search } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { AisesaLogo, EnermodWordmark } from "@/components/brand/logo";
 import { LanguageSwitch } from "@/components/marketing/language-switch";
@@ -34,12 +34,10 @@ function currentFor(pathname: string, href: string): "page" | "true" | undefined
   return pathname.startsWith(`${href}/`) ? "true" : undefined;
 }
 
-/** Site header, three layers:
- *  1. utility strip (34px, scrolls away): AISESA logo + partner sentence, Source code, EN / FR, Sign in or account;
- *  2. masthead (72px, 60px on phones), sticky: the lockup and the right-aligned underlined nav;
- *  3. the graduated neatline, sticky with the masthead (sticky stack 78px, 66px on phones).
- *  Below 1024px the nav becomes an outline "Menu" button opening a full-height sheet.
- *  `wide` widens the containers to 1400px at 2xl, as the observatory's data pages do. */
+/** Site header, institutional layout:
+ *  1. a thin white utility bar: partner line, contact, source code, EN / FR, sign in;
+ *  2. a full-width green bar, sticky: the white lockup, the main navigation and a search box that
+ *     opens the study explorer. Below 1024px the navigation moves into the "Menu" sheet. */
 export function SiteHeader({ wide = false }: { wide?: boolean }) {
   const t = useTranslations("nav");
   const c = useTranslations("common");
@@ -59,30 +57,28 @@ export function SiteHeader({ wide = false }: { wide?: boolean }) {
         {t("skip")}
       </a>
 
-      {/* 1 · utility strip */}
-      <div className="border-b border-brand-100 bg-brand-50 text-[13px] text-brand-900">
-        <div className={cn(wrap, "flex h-[34px] items-center justify-between gap-4")}>
+      {/* 1 · utility bar */}
+      <div className="border-b border-border bg-white text-[13px] text-ink-2">
+        <div className={cn(wrap, "flex h-9 items-center justify-between gap-4")}>
           <p className="flex min-w-0 items-center gap-2.5">
             <AisesaLogo height={20} priority />
             <span className="truncate max-md:hidden">{t("partner")}</span>
           </p>
-          <nav aria-label={t("utilities")} className="flex flex-none items-center gap-2.5">
+          <nav aria-label={t("utilities")} className="flex flex-none items-center gap-2">
+            <Link href="/contact" className={cn(stripLink, "max-md:hidden")}>{t("contact")}</Link>
             <a href={REPO_URL} target="_blank" rel="noreferrer" className={cn(stripLink, "max-md:hidden")}>
-              <Code className="size-[15px]" strokeWidth={1.5} aria-hidden="true" />
+              <Code className="size-[15px]" strokeWidth={1.75} aria-hidden="true" />
               {t("sourceCode")}
             </a>
+            <span aria-hidden="true" className="h-4 w-px bg-border max-md:hidden" />
             <LanguageSwitch />
-            {curator && (
-              <Link href="/admin" className={cn(stripLink, "hidden lg:inline-flex xl:hidden")}>
-                {t("admin")}
-              </Link>
-            )}
+            <span aria-hidden="true" className="h-4 w-px bg-border" />
             {me ? (
-              <Link href="/contribute" className={cn(stripLink, "max-w-[16em]")}>
-                <span className="min-w-0 truncate">{me.name || c("account")}</span>
+              <Link href={curator ? "/admin" : "/contribute"} className={cn(stripLink, "max-w-[16em] font-medium")}>
+                <span className="min-w-0 truncate">{curator ? t("admin") : me.name || c("account")}</span>
               </Link>
             ) : (
-              <Link href="/sign-in" className={stripLink}>
+              <Link href="/sign-in" className={cn(stripLink, "font-medium")}>
                 {c("signIn")}
               </Link>
             )}
@@ -90,14 +86,14 @@ export function SiteHeader({ wide = false }: { wide?: boolean }) {
         </div>
       </div>
 
-      {/* 2 · masthead and 3 · neatline, sticky together */}
-      <header className="sticky top-0 z-40 bg-background">
-        <div className={cn(wrap, "flex h-[72px] items-center justify-between gap-6 max-md:h-[60px]")}>
+      {/* 2 · green bar */}
+      <header className="sticky top-0 z-40 bg-brand-700 text-white shadow-[0_2px_8px_rgb(0_0_0/0.12)]">
+        <div className={cn(wrap, "flex h-[76px] items-center justify-between gap-6 max-md:h-16")}>
           <Link href="/" aria-label={t("home")} className="flex min-w-0 items-center no-underline">
-            <EnermodWordmark />
+            <EnermodWordmark inverse />
           </Link>
-          <div className="flex flex-none items-center gap-6">
-            <nav aria-label={t("main")} className={cn("hidden items-center lg:flex", fr ? "gap-[22px]" : "gap-7")}>
+          <div className="flex flex-none items-center gap-5">
+            <nav aria-label={t("main")} className={cn("hidden items-center lg:flex", fr ? "gap-5" : "gap-7")}>
               {NAV.map((n) => {
                 const current = currentFor(pathname, n.href);
                 return (
@@ -106,8 +102,8 @@ export function SiteHeader({ wide = false }: { wide?: boolean }) {
                     href={n.href}
                     aria-current={current}
                     className={cn(
-                      "whitespace-nowrap border-b-2 py-1.5 text-[16px] font-semibold no-underline",
-                      current ? "border-primary text-primary" : "border-transparent text-foreground hover:border-brand-200 hover:text-primary",
+                      "whitespace-nowrap border-b-[3px] py-2 text-[15px] font-medium uppercase tracking-[0.02em] text-white no-underline",
+                      current ? "border-white" : "border-transparent hover:border-white/50",
                     )}
                   >
                     {t(n.key)}
@@ -115,17 +111,32 @@ export function SiteHeader({ wide = false }: { wide?: boolean }) {
                 );
               })}
             </nav>
-            {curator && (
-              <Button variant="outline" size="sm" className="hidden xl:inline-flex" asChild>
-                <Link href="/admin">{t("admin")}</Link>
-              </Button>
-            )}
+            <HeaderSearch />
             <MobileMenu />
           </div>
         </div>
-        <div className="neatline" aria-hidden="true" />
       </header>
     </>
+  );
+}
+
+/** Search box of the green bar: a GET form to the study explorer, which reads `q` from the URL. */
+function HeaderSearch() {
+  const t = useTranslations("nav");
+  const locale = useLocale();
+  const action = locale === "fr" ? "/fr/observatory/studies" : "/observatory/studies";
+  return (
+    <form action={action} method="get" role="search" className="relative hidden xl:block">
+      <label htmlFor="site-search" className="sr-only">{t("search")}</label>
+      <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+      <input
+        id="site-search"
+        name="q"
+        type="search"
+        placeholder={t("searchPlaceholder")}
+        className="h-10 w-[230px] rounded-full border-0 bg-white pl-10 pr-4 text-[14.5px] text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      />
+    </form>
   );
 }
 
@@ -150,7 +161,7 @@ function MobileMenu() {
   return (
     <Dialog open={open} onOpenChange={(v) => setOpenAt(v ? here : null)}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="lg:hidden">
+        <Button variant="outline" size="sm" className="border-white/70 bg-transparent text-white hover:bg-white/10 lg:hidden">
           <Menu strokeWidth={1.5} aria-hidden="true" />
           {t("menu")}
         </Button>

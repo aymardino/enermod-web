@@ -16,6 +16,7 @@ import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { Sparkline } from "@/components/observatory/charts";
 import { ChipGroup } from "@/components/observatory/filters";
 import { Callout, Kpi } from "@/components/observatory/kpi";
+import { PageHead } from "@/components/observatory/page-head";
 
 type Sort = "n_studies" | "recent" | "views" | "stars" | "name";
 
@@ -43,13 +44,12 @@ export default function ToolsPage() {
   const tracked = (data?.items ?? []).filter((x) => x.metrics).length;
   const popular = [...(data?.items ?? [])].sort((a, b) => b.views_30d - a.views_30d).filter((x) => x.views_30d > 0).slice(0, 5);
   return (
-    <div className="mx-auto max-w-6xl 2xl:max-w-[1400px] px-4 py-8 sm:px-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div><h1 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{t("title")}</h1><p className="mt-2 max-w-3xl text-muted-foreground">{t("lede")}</p></div>
-        <Button variant="outline" asChild><a href={api.url("/export/tools.csv")} onClick={() => track("download", "tools.csv")}><Download />{t("download")}</a></Button>
-      </div>
+    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]">
+      <PageHead section="tools" title={t("title")} lede={t("lede")}>
+        <Button variant="outline" className="mt-7 border-white bg-white text-brand-800 hover:bg-brand-50" asChild><a href={api.url("/export/tools.csv")} onClick={() => track("download", "tools.csv")}><Download />{t("download")}</a></Button>
+      </PageHead>
       {data && (
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Kpi label={t("inventory")} value={data.n_tools} hint={t("inventoryHint", { n: data.n_used })} tone="brand" />
           <Kpi label={t("openTools")} value={open} hint={t("openToolsHint")} />
           <Kpi label={t("tracked")} value={tracked} hint={t("trackedHint")} />

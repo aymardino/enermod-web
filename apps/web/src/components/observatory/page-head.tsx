@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
 import { BetaBanner } from "@/components/observatory/kpi";
+import { PageBanner, type Crumb } from "@/components/marketing/page-banner";
 import { cn } from "@/lib/utils";
 
 /** The observatory's pages, indexed by italic roman numerals. `key` is the message key
@@ -34,10 +35,10 @@ export function SectionKicker({ section, className }: { section: ObservatorySect
   return <Kicker numeral={s.numeral} className={className}>{t(s.key)}</Kicker>;
 }
 
-/** Observatory page head: kicker with the page numeral and name (or a custom `kicker`,
- *  e.g. "NGA · WAPP · West Africa"), the Beta banner, the 44px h1 and the sublede on the left;
- *  `aside` (scope tabs with counts, actions) bottom-right. Single column below 768px. */
-export function PageHead({ section, kicker, beta = false, title, lede, aside, children, className }: {
+/** Page head: the full-width green banner (breadcrumb, eyebrow, title, lede, Beta note), then
+ *  `aside` (scope tabs, actions) at the top of the content. `section` builds the breadcrumb
+ *  (Observatory › page); `crumbs` overrides it. Sits inside the page container (it bleeds out). */
+export function PageHead({ section, kicker, beta = false, title, lede, aside, children, crumbs, className }: {
   section?: ObservatorySectionKey;
   kicker?: React.ReactNode;
   /** true for the shared Beta sentence, or a custom sentence */
@@ -46,19 +47,27 @@ export function PageHead({ section, kicker, beta = false, title, lede, aside, ch
   lede?: React.ReactNode;
   aside?: React.ReactNode;
   children?: React.ReactNode;
+  crumbs?: Crumb[];
   className?: string;
 }) {
+  const nav = useTranslations("nav");
+  const s = section ? OBSERVATORY_SECTIONS.find((x) => x.key === section) : undefined;
+  const trail: Crumb[] | undefined =
+    crumbs ??
+    (s
+      ? s.key === "dashboard"
+        ? [{ label: nav("observatory") }]
+        : [{ label: nav("observatory"), href: "/observatory" }, { label: nav(`obs.${s.key}`) }]
+      : undefined);
   return (
-    <header className={cn("grid grid-cols-[minmax(0,1fr)_auto] items-end gap-x-10 gap-y-5 max-md:grid-cols-[minmax(0,1fr)]", className)}>
-      <div className="min-w-0">
-        {kicker ? <Kicker className="mb-3.5">{kicker}</Kicker> : section ? <SectionKicker section={section} className="mb-3.5" /> : null}
-        {beta && <BetaBanner text={typeof beta === "string" ? beta : undefined} className="mb-3.5" />}
-        <h1 className="text-balance font-display text-[34px] font-bold leading-[1.08] tracking-[-0.018em] md:text-[44px]">{title}</h1>
-        {lede && <p className="mt-3 max-w-[44em] font-display text-[17px] leading-[1.5] text-ink-2 md:text-[18.5px]">{lede}</p>}
+    <>
+      <PageBanner bleed wide crumbs={trail} eyebrow={kicker} title={title} lede={lede} className={className}>
+        {beta && <BetaBanner text={typeof beta === "string" ? beta : undefined} className="mt-5 text-amber-100 [&>span:first-child]:bg-amber-100 [&>span:first-child]:text-amber-700" />}
         {children}
-      </div>
-      {aside && <div className="min-w-0 max-md:w-full">{aside}</div>}
-    </header>
+      </PageBanner>
+      {aside ? <div className="mt-8 min-w-0">{aside}</div> : null}
+      <div aria-hidden="true" className="h-8 max-md:h-6" />
+    </>
   );
 }
 
@@ -78,12 +87,12 @@ export function Block({ title, description, actions, children, className, conten
   const Comp = as;
   const Title = titleAs;
   return (
-    <Comp id={id} className={cn("min-w-0 border-t-2 border-rule pt-3.5", className)}>
+    <Comp id={id} className={cn("min-w-0 rounded-lg border border-border bg-card p-5 shadow-card md:p-6", className)}>
       {(title || description || actions) && (
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            {title && <Title className="font-display text-[23px] font-semibold leading-[1.2] tracking-[-0.005em]">{title}</Title>}
-            {description && <p className="mt-1 max-w-[46em] text-[13px] leading-[1.5] text-muted-foreground">{description}</p>}
+            {title && <Title className="text-[20px] font-bold leading-[1.25]">{title}</Title>}
+            {description && <p className="mt-1 max-w-[46em] text-[14px] leading-[1.5] text-muted-foreground">{description}</p>}
           </div>
           {actions && <div className="-mt-0.5 flex shrink-0 items-center gap-1">{actions}</div>}
         </div>

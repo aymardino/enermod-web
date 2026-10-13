@@ -10,13 +10,13 @@ import { api, ApiError, type ToolDetail } from "@/lib/api";
 import { useLabel, useListLabel } from "@/lib/labels";
 import { track } from "@/lib/track";
 import { formatDate } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState, Skeleton } from "@/components/ui/misc";
 import { AfricaMap } from "@/components/observatory/africa-map";
 import { OriginBar, RowBars, YearBars } from "@/components/observatory/charts";
 import { Kpi, Section } from "@/components/observatory/kpi";
 import { StudyCard } from "@/components/observatory/study-card";
+import { PageHead } from "@/components/observatory/page-head";
 
 const URL_RE = /https?:\/\/[^\s;,)\]]+/g;
 function sources(text: string): { label: string; url: string }[] {
@@ -40,6 +40,7 @@ export default function ToolPage() {
   const { name } = useParams<{ name: string }>();
   const decoded = decodeURIComponent(name);
   const t = useTranslations("observatory.tool");
+  const nav = useTranslations("nav");
   const c = useTranslations("common");
   const locale = useLocale();
   const label = useLabel();
@@ -51,21 +52,24 @@ export default function ToolPage() {
   const src = sources(d.info_source);
   const m = d.metrics;
   return (
-    <div className="mx-auto max-w-6xl 2xl:max-w-[1400px] px-4 py-8 sm:px-6">
-      <Link href="/observatory/tools" className="text-sm text-muted-foreground hover:text-foreground">← {t("back")}</Link>
-      <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <div className="flex flex-wrap gap-1.5"><Badge variant={d.license === "open_source" ? "brand" : "outline"}>{label("license", d.license)}</Badge><Badge variant="outline">{label("type", d.type)}</Badge>{d.free_for_developing === "yes" && d.license !== "open_source" && <Badge variant="secondary">{t("freeLic")}</Badge>}</div>
-          <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight md:text-4xl">{d.tool_name}</h1>
-          <p className="mt-1 text-muted-foreground">{d.full_name}{d.origin_institution ? ` · ${d.origin_institution}` : ""}</p>
+    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]">
+      <PageHead
+        crumbs={[{ label: nav("observatory"), href: "/observatory" }, { label: nav("obs.tools"), href: "/observatory/tools" }, { label: d.tool_name }]}
+        title={d.tool_name}
+        lede={<>{d.full_name}{d.origin_institution ? ` · ${d.origin_institution}` : ""}</>}
+      >
+        <div className="mt-5 flex flex-wrap gap-2">
+          <span className="rounded-full bg-white/15 px-3 py-1 text-[13px] font-medium text-white">{label("license", d.license)}</span>
+          <span className="rounded-full bg-white/15 px-3 py-1 text-[13px] font-medium text-white">{label("type", d.type)}</span>
+          {d.free_for_developing === "yes" && d.license !== "open_source" && <span className="rounded-full bg-white/15 px-3 py-1 text-[13px] font-medium text-white">{t("freeLic")}</span>}
         </div>
-        <div className="flex flex-wrap gap-2">
-          {d.website_url && <Button variant="outline" size="sm" asChild><a href={d.website_url} target="_blank" rel="noreferrer"><ExternalLink />{t("website")}</a></Button>}
-          {d.repo_url && <Button variant="outline" size="sm" asChild><a href={d.repo_url} target="_blank" rel="noreferrer"><GitBranch />{t("repository")}</a></Button>}
-          <Button variant="ghost" size="sm" asChild><Link href={`/contribute?kind=correction&tool=${encodeURIComponent(d.tool_name)}`}><Flag />{t("suggest")}</Link></Button>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {d.website_url && <Button size="sm" className="bg-white text-brand-800 hover:bg-brand-50" asChild><a href={d.website_url} target="_blank" rel="noreferrer"><ExternalLink />{t("website")}</a></Button>}
+          {d.repo_url && <Button size="sm" className="bg-white text-brand-800 hover:bg-brand-50" asChild><a href={d.repo_url} target="_blank" rel="noreferrer"><GitBranch />{t("repository")}</a></Button>}
+          <Button variant="outline" size="sm" className="border-white/70 bg-transparent text-white hover:bg-white/10" asChild><Link href={`/contribute?kind=correction&tool=${encodeURIComponent(d.tool_name)}`}><Flag />{t("suggest")}</Link></Button>
         </div>
-      </div>
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      </PageHead>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Kpi label={t("africaStudies")} value={d.n_studies} hint={t("africaStudiesHint", { n: d.countries.length })} tone="brand" />
         <Kpi label={t("programming")} value={label("programming", d.programming_required)} hint={`${t("learning")}: ${label("learning", d.learning_curve)}`} />
         <Kpi label={t("horizon")} value={<span className="text-xl">{list("horizon", d.time_horizon)}</span>} hint={`${t("scale")}: ${list("toolscale", d.scale)}`} />

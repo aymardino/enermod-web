@@ -16,6 +16,7 @@ import { Skeleton } from "@/components/ui/misc";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { Callout, Section } from "@/components/observatory/kpi";
 import { AssistantWidget } from "@/components/assistant/assistant-widget";
+import { PageHead } from "@/components/observatory/page-head";
 
 type Answers = { objective: string; scale: string; budget: string; capacity: string; horizon: string; data: string; extras: string[] };
 const EMPTY: Answers = { objective: "", scale: "", budget: "", capacity: "", horizon: "", data: "", extras: [] };
@@ -60,11 +61,10 @@ export default function RecommenderPage() {
   };
   const top3 = res?.results.slice(0, 3) ?? [];
   return (
-    <div className="mx-auto max-w-6xl 2xl:max-w-[1400px] px-4 py-8 sm:px-6">
-      <h1 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{t("title")}</h1>
-      <p className="mt-2 max-w-3xl text-muted-foreground">{t("lede")}</p>
-      {!opts.data ? <Skeleton className="mt-8 h-64" /> : (
-        <form className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-card" onSubmit={(e) => { e.preventDefault(); run.mutate(); }}>
+    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]">
+      <PageHead section="recommender" title={t("title")} lede={t("lede")} />
+      {!opts.data ? <Skeleton className="h-64" /> : (
+        <form className="rounded-2xl border border-border bg-card p-5 shadow-card" onSubmit={(e) => { e.preventDefault(); run.mutate(); }}>
           <div className="grid gap-5 md:grid-cols-2">
             <Pick label={`1. ${r("q.objective")}`} value={a.objective} onChange={setObjective} options={opts.data.objectives} render={(v) => r(`objective.${v}`)} placeholder={c("choose")} />
             <Pick label={`4. ${r("q.capacity")}`} value={a.capacity} onChange={(v) => setA({ ...a, capacity: v })} options={opts.data.capacities} render={(v) => r(`capacity.${v}`)} placeholder={c("choose")} />

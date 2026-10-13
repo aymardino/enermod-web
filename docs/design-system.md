@@ -1,7 +1,9 @@
 # EnerMod Africa design system
 
-A clear, professional research-observatory look: white pages, the AISESA green for the brand,
-one familiar sans-serif typeface, and colour in charts and maps only where it carries data.
+A conventional institutional layout, in the manner of the IAEA or US DOE websites: a full-width
+green header bar, a green banner with breadcrumb and title on every page, content in white cards
+on a light grey background, a dark green footer in columns, Roboto throughout, and colour in charts
+and maps only where it carries data.
 It replaces the look inherited from Krinea (teal green, Inter, white cards on off-white) so the
 two products no longer resemble each other.
 
@@ -9,13 +11,14 @@ Tokens live in `apps/web/src/app/globals.css`; components in `apps/web/src/compo
 
 ## 1. Principles
 
-1. **White and calm.** White page, slate text, light grey bands (`bg-muted`) to separate home
-   sections, hairline borders. No textures, gradients or decorative imagery.
+1. **Full width and familiar.** Header, banners, home sections and footer run edge to edge;
+   content sits in a 1248px container (1400px on wide observatory pages). Observatory pages use
+   white cards on light grey (`bg-muted`); home sections alternate white and light grey.
 2. **AISESA green is the brand.** Buttons, links, active navigation, eyebrow labels, the logo
    mark, the top strip (light green) and the footer (deep green) use the green of the AISESA
    logo (`#217842`). The AISESA logo itself keeps its own colours.
-3. **One typeface.** Source Sans 3 for everything (headings bold, body regular), self-hosted
-   through `@fontsource-variable/source-sans-3`. Tabular figures in tables and axes.
+3. **One typeface.** Roboto for everything (headings bold, body regular), self-hosted through
+   `@fontsource-variable/roboto`. Tabular figures in tables and axes.
 4. **Data colours have one meaning each** (section 4) and never decorate the interface.
 5. **Readable in English and French**, WCAG 2.1 AA contrast, no horizontal scroll at 390 px.
 
@@ -71,20 +74,25 @@ Maps use the Lambert azimuthal equal-area projection (precomputed by
 fixed classes with a stepped legend, island states as dots and a hatch for missing data.
 Country links on maps do not prefetch.
 
-## 5. Components
+## 5. Layout and components
 
-- **Buttons**: green filled (primary), outlined (secondary), ghost, link; 38px default, 46px large.
-- **Header**: light green top strip (AISESA logo, partner line, source code, EN / FR, sign in),
-  white masthead with the EnerMod mark (white Africa on a green rounded square) and the
-  navigation (active item green and underlined). The observatory adds a grey tab bar.
-- **Footer**: deep green, white text, partner logos on a white panel.
-- **Home**: title, map and live figures, then sections alternating white and light grey:
-  questions (cards), inventory, latest studies, page cards, how the inventory stays alive
-  (process diagram), partners.
-- **Observatory pages**: eyebrow, title, lede, scope tabs, KPI strip, titled blocks with charts,
-  maps and ruled tables; studies as entries with tags and keys.
-- **Reading pages**: contents column, 680px text column, live figures column.
-- **Forms**: labelled fields, chips for choices, green submit button.
+- **Header**: a thin white utility bar (AISESA logo and partner line, contact, source code,
+  EN / FR, sign in), then a sticky full-width green bar (`brand-700`) with the white EnerMod
+  lockup, the main navigation in uppercase and a search box that opens the study explorer.
+  The observatory adds a white tab bar.
+- **Page banner** (`components/marketing/page-banner.tsx`, used by `PageHead` and the reading
+  layout): deep green band with breadcrumb, eyebrow, white title, accent bar, lede, optional
+  actions; the continent in watermark. Inside a page container it bleeds to the viewport edges.
+- **Home**: green hero (title, lede, two buttons, the live map in a white card), key figures in a
+  white card overlapping the hero, six illustrated entry cards, the publication trend, the
+  inventory, the latest studies, how the inventory stays alive, partners.
+- **Observatory pages**: banner, scope tabs, KPI strip in a card (green top edge), titled blocks
+  as white cards with charts, maps and tables; studies as entries with tags and keys.
+- **Reading pages**: banner, contents column, 680–720px text column, live figures card.
+- **Footer**: deep green band with link columns (bold white headings) and a contribute button,
+  then a darker band with the institutions, licences, partner logos on white and the language.
+- **Buttons**: green filled (primary), outlined (secondary), white on green surfaces; 38px
+  default, 46px large. Photos can be added later as banner backgrounds.
 
 ## 6. Checks before release
 

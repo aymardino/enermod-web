@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { EmptyState, Skeleton } from "@/components/ui/misc";
 import { ChipGroup, Toggle, YearRange } from "@/components/observatory/filters";
 import { StudyCard } from "@/components/observatory/study-card";
+import { PageHead } from "@/components/observatory/page-head";
 
 export default function StudiesPage() {
   return <Suspense fallback={<div className="mx-auto max-w-6xl px-4 py-8"><Skeleton className="h-96" /></div>}><Studies /></Suspense>;
@@ -61,12 +62,11 @@ function Studies() {
   const f = facets.data;
   const reset = () => { setQ(""); setLevels([]); setScales([]); setApproaches([]); setMethods([]); setLics([]); setCats([]); setCountries([]); setTools([]); setFeatures([]); setTechs([]); setFlags({ sdg7: false, sdg13: false, ndc: false, local: false, grey: false }); setYears(null); };
   return (
-    <div className="mx-auto max-w-6xl 2xl:max-w-[1400px] px-4 py-8 sm:px-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div><h1 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{t("title")}</h1><p className="mt-2 max-w-3xl text-muted-foreground">{t("lede")}</p></div>
-        <Button variant="outline" asChild><a href={api.url("/export/studies.csv")} onClick={() => track("download", "studies.csv")}><Download />{t("download")}</a></Button>
-      </div>
-      <div className="mt-6 grid gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
+    <div className="mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]">
+      <PageHead section="studies" title={t("title")} lede={t("lede")}>
+        <Button variant="outline" className="mt-7 border-white bg-white text-brand-800 hover:bg-brand-50" asChild><a href={api.url("/export/studies.csv")} onClick={() => track("download", "studies.csv")}><Download />{t("download")}</a></Button>
+      </PageHead>
+      <div className="grid gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
         <aside className="space-y-5 rounded-2xl border border-border bg-card p-4 shadow-card lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:self-start">
           <div className="flex items-center justify-between"><p className="text-sm font-semibold">{t("filters")}</p><button type="button" onClick={reset} className="text-xs text-primary hover:underline">{c("reset")}</button></div>
           {f && <YearRange min={f.year_min} max={f.year_max} value={years} onChange={setYears} label={t("year")} />}

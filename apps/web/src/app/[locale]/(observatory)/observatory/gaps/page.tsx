@@ -18,7 +18,7 @@ import { Block, PageHead } from "@/components/observatory/page-head";
 import { countryInfo } from "@/components/observatory/study-card";
 
 /** Page container of the observatory: 1248px, 1400px from 2xl, 32px gutters (16px on phones). */
-const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] pt-10 max-md:px-4 2xl:max-w-[1400px]";
+const WRAP = "mx-auto w-full max-w-[1248px] px-8 pb-[72px] max-md:px-4 2xl:max-w-[1400px]";
 /** Two ruled blocks side by side, one column below 1024px. */
 const PAIR = "grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-12 max-lg:grid-cols-[minmax(0,1fr)]";
 

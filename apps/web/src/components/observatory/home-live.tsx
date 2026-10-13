@@ -1,5 +1,6 @@
 "use client";
 
+import { FileText, Globe2, Users, Wrench } from "lucide-react";
 import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@/i18n/navigation";
@@ -40,7 +41,7 @@ function nameOf(c: CountrySummary, locale: string) {
 }
 
 /** Fig. 1: the equal-area plate of studies per country, with its stepped legend and caption. */
-export function HeroMap({ className }: { className?: string }) {
+export function HeroMap({ className, compact = false }: { className?: string; compact?: boolean }) {
   const t = useTranslations("home");
   const td = useTranslations("observatory.dashboard");
   const tc = useTranslations("ui.chart");
@@ -69,8 +70,8 @@ export function HeroMap({ className }: { className?: string }) {
       legendTitle={td("mapTitle")}
       formatValue={(v) => tc("nStudies", { n: v })}
       callout
-      fig={1}
-      caption={t("fig1", { from: String(ov.year_min), to: String(ov.year_max) })}
+      fig={compact ? undefined : 1}
+      caption={compact ? undefined : t("fig1", { from: String(ov.year_min), to: String(ov.year_max) })}
       ariaLabel={t("mapAria")}
     />
   );
@@ -125,7 +126,7 @@ export function HeroFigures({ className }: { className?: string }) {
 }
 
 /** Fig. 1b, the data horizon: studies per publication year and scope, full width. */
-export function HeroHorizon({ className }: { className?: string }) {
+export function HeroHorizon({ className, bare = false }: { className?: string; bare?: boolean }) {
   const t = useTranslations("home");
   const td = useTranslations("observatory.dashboard");
   const c = useTranslations("common");
@@ -136,9 +137,9 @@ export function HeroHorizon({ className }: { className?: string }) {
   const complete = rows.filter((r) => py === null || r.year < py).sort((a, b) => a.year - b.year);
   const [r1, r2] = complete.slice(-2);
   return (
-    <figure className={cn("mt-11 min-w-0 border-t border-rule pt-3.5", className)}>
+    <figure className={cn("min-w-0", !bare && "mt-11 border-t border-rule pt-3.5", className)}>
       <div className="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1.5">
-        <p className="text-[13px] font-semibold leading-[1.4]">{t("horizonTitle")}</p>
+        <p className={cn("leading-[1.4]", bare ? "text-[15px] font-bold" : "text-[13px] font-semibold")}>{t("horizonTitle")}</p>
         <YearLegend labels={labels} partialYear={py} />
       </div>
       {d ? (
@@ -156,7 +157,7 @@ export function HeroHorizon({ className }: { className?: string }) {
         <Skeleton className="mt-2.5 h-[196px] w-full max-md:h-[170px]" />
       )}
       {r1 && r2 && (
-        <Caption fig="Fig. 1b">
+        <Caption fig={bare ? undefined : "Fig. 1b"}>
           {t("fig1b", {
             n1: r1.full + r1.light,
             y1: String(r1.year),
@@ -275,4 +276,42 @@ export function RecordCount() {
   const t = useTranslations("home.living");
   const d = useOverview();
   return d ? <>{t("records", { n: d.n_studies })}</> : null;
+}
+
+/** Key figures band of the home page: four large numbers in a white card. */
+export function HeroStats({ className }: { className?: string }) {
+  const t = useTranslations("home");
+  const td = useTranslations("observatory.dashboard");
+  const f = useFormatter();
+  const d = useOverview();
+  const items = d
+    ? [
+        { icon: FileText, value: f.number(d.n_studies), label: t("kpis.studies"), hint: t("figs.studiesHint", { from: String(d.year_min), to: String(d.year_max), full: d.n_full, light: d.n_light }) },
+        { icon: Globe2, value: `${f.number(d.countries_covered)}/${f.number(d.n_countries)}`, label: t("kpis.countries"), hint: td("countriesHint", { n: d.n_countries }) },
+        { icon: Wrench, value: f.number(d.n_tools), label: t("kpis.tools"), hint: td("toolsUsed", { n: d.n_tools_used }) },
+        { icon: Users, value: f.number(d.origin.african_led_pct / 100, { style: "percent", maximumFractionDigits: 0 }), label: t("kpis.africanLed"), hint: t("kpis.africanLedHint", { full: d.african_led_full_pct, light: d.african_led_light_pct }) },
+      ]
+    : [];
+  return (
+    <div className={cn("rounded-xl border border-border bg-card shadow-[0_12px_32px_-12px_rgb(16_24_40/0.25)]", className)}>
+      {d ? (
+        <dl className="grid grid-cols-4 divide-x divide-border max-lg:grid-cols-2 max-lg:divide-x-0 max-md:grid-cols-1">
+          {items.map((it) => (
+            <div key={it.label} className="flex gap-4 p-6 max-lg:border-b max-lg:border-border max-md:p-5">
+              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700">
+                <it.icon className="size-5" />
+              </span>
+              <div className="min-w-0">
+                <dt className="text-[14px] font-medium text-muted-foreground">{it.label}</dt>
+                <dd className="mt-1 text-[34px] font-bold leading-none text-brand-800">{it.value}</dd>
+                <dd className="mt-2 text-[13px] leading-[1.45] text-muted-foreground">{it.hint}</dd>
+              </div>
+            </div>
+          ))}
+        </dl>
+      ) : (
+        <Skeleton className="h-[132px] w-full" />
+      )}
+    </div>
+  );
 }

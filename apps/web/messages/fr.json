@@ -236,7 +236,9 @@
     },
     "open": "Ouvrir",
     "trendTitle": "L’activité de modélisation s’accélère",
-    "trendLede": "Études par année de publication depuis 2001. Les études du système énergétique complet forment la base de chaque barre, les études ciblées sont au-dessus."
+    "trendLede": "Études par année de publication depuis 2001. Les études du système énergétique complet forment la base de chaque barre, les études ciblées sont au-dessus.",
+    "partnersPhotoAlt": "Participants du 3e Congrès AISESA à Kampala, septembre 2026",
+    "partnersPhotoCredit": "3e Congrès AISESA, Kampala, septembre 2026"
   },
   "observatory": {
     "dashboard": {
@@ -1433,6 +1435,11 @@
         "sdOneMarket": "Dynamique des systèmes, l’Afrique comme marché unique",
         "deprecated": "Outil en ligne obsolète"
       }
+    },
+    "photo": {
+      "credit": "Photo : AISESA, 3e Congrès AISESA, Kampala, septembre 2026",
+      "talkAlt": "Présentation de la cartographie des outils de modélisation énergétique au 3e Congrès AISESA à Kampala",
+      "groupAlt": "Participants du 3e Congrès AISESA à Kampala"
     }
   }
 }

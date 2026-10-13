@@ -75,6 +75,13 @@ export default async function ContentPage({ params }: { params: Promise<{ locale
       toc={extractHeadings(body, lang)}
       tocLabel={r("toc")}
       aside={live ? <LiveFigures /> : undefined}
+      image={
+        slug === "about"
+          ? { src: "/images/aisesa-congress-talk.jpg", alt: r("photo.talkAlt"), credit: r("photo.credit"), position: "center 30%" }
+          : slug === "research"
+            ? { src: "/images/aisesa-congress-group.jpg", alt: r("photo.groupAlt"), credit: r("photo.credit"), position: "center 62%" }
+            : undefined
+      }
     >
       <Markdown source={body} locale={lang} />
     </ProseLayout>

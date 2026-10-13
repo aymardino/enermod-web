@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -9,15 +10,20 @@ const AFRICA = "M28.3 22.3L28.1 23L28.7 24.6L28.7 26.1L28.2 26.8L26.4 28L26.5 29
 
 export type Crumb = { label: React.ReactNode; href?: string };
 
+/** A banner photo: `src` under /public, `credit` printed small in the corner, `position` = CSS
+ *  object-position (which part of the photo stays visible when cropped). */
+export type BannerImage = { src: string; alt?: string; credit?: string; position?: string };
+
 /** Full-width page banner, institutional style: deep green band, breadcrumb, eyebrow, white title,
  *  lede, optional extra content; the continent in watermark on the right. `bleed` stretches it to the
  *  viewport edges when it sits inside a centred page container. `wide` matches the 1400px container. */
-export function PageBanner({ crumbs, eyebrow, title, lede, children, bleed = false, wide = false, className }: {
+export function PageBanner({ crumbs, eyebrow, title, lede, children, image, bleed = false, wide = false, className }: {
   crumbs?: Crumb[];
   eyebrow?: React.ReactNode;
   title: React.ReactNode;
   lede?: React.ReactNode;
   children?: React.ReactNode;
+  image?: BannerImage;
   bleed?: boolean;
   wide?: boolean;
   className?: string;
@@ -25,11 +31,22 @@ export function PageBanner({ crumbs, eyebrow, title, lede, children, bleed = fal
   const t = useTranslations("nav");
   return (
     <header className={cn("relative isolate overflow-hidden bg-brand-900 text-white", bleed && "page-banner", className)}>
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(120%_140%_at_85%_0%,var(--brand-700)_0%,transparent_60%)]" />
-      <svg aria-hidden="true" viewBox="6 6 28 28" className="pointer-events-none absolute -right-10 top-1/2 -z-10 h-[150%] -translate-y-1/2 opacity-[0.09] max-md:hidden">
-        <path d={AFRICA} fill="#ffffff" />
-      </svg>
-      <div className={cn("mx-auto w-full max-w-[1248px] px-8 py-12 max-md:px-4 max-md:py-9", wide && "2xl:max-w-[1400px]")}>
+      {image ? (
+        <>
+          <Image src={image.src} alt={image.alt ?? ""} fill priority sizes="100vw" className="-z-20 object-cover" style={{ objectPosition: image.position ?? "center" }} />
+          {/* readable text: deep green on the left fading to a light tint on the right */}
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(10_39_22/0.94)_0%,rgb(18_63_37/0.82)_45%,rgb(18_63_37/0.35)_100%)] max-md:bg-[rgb(10_39_22/0.82)]" />
+          {image.credit && <p className="absolute bottom-2 right-3 z-10 text-[11.5px] text-white/70">{image.credit}</p>}
+        </>
+      ) : (
+        <>
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(120%_140%_at_85%_0%,var(--brand-700)_0%,transparent_60%)]" />
+          <svg aria-hidden="true" viewBox="6 6 28 28" className="pointer-events-none absolute -right-10 top-1/2 -z-10 h-[150%] -translate-y-1/2 opacity-[0.09] max-md:hidden">
+            <path d={AFRICA} fill="#ffffff" />
+          </svg>
+        </>
+      )}
+      <div className={cn("mx-auto w-full max-w-[1248px] px-8 py-12 max-md:px-4 max-md:py-9", image && "py-16 md:py-20", wide && "2xl:max-w-[1400px]")}>
         {crumbs && crumbs.length > 0 && (
           <nav aria-label={t("breadcrumb")} className="mb-5">
             <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[14px] text-white/75">

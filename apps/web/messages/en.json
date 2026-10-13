@@ -236,7 +236,9 @@
     },
     "open": "Open",
     "trendTitle": "Modelling activity is accelerating",
-    "trendLede": "Studies per publication year since 2001. Whole energy-system studies form the base of each bar, focused studies sit above."
+    "trendLede": "Studies per publication year since 2001. Whole energy-system studies form the base of each bar, focused studies sit above.",
+    "partnersPhotoAlt": "Participants of the 3rd AISESA Congress in Kampala, September 2026",
+    "partnersPhotoCredit": "3rd AISESA Congress, Kampala, September 2026"
   },
   "observatory": {
     "dashboard": {
@@ -1433,6 +1435,11 @@
         "sdOneMarket": "System dynamics, Africa as one market",
         "deprecated": "Online tool deprecated"
       }
+    },
+    "photo": {
+      "credit": "Photo: AISESA, 3rd AISESA Congress, Kampala, September 2026",
+      "talkAlt": "Presentation of the mapping of energy modelling tools at the 3rd AISESA Congress in Kampala",
+      "groupAlt": "Participants of the 3rd AISESA Congress in Kampala"
     }
   }
 }

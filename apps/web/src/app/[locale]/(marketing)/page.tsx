@@ -1,4 +1,5 @@
 import type * as React from "react";
+import Image from "next/image";
 import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { ArrowRight, BarChart3, BookOpen, Compass, Database, Gauge, Map, RefreshCw, Users, Wrench } from "lucide-react";
@@ -168,16 +169,30 @@ function Home() {
         </ul>
       </Section>
 
-      <section className="border-t border-border bg-muted py-14 max-md:py-10">
-        <div className={cn(WRAP, "grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-center gap-x-12 gap-y-8 max-lg:grid-cols-1")}>
-          <div>
+      <section className="border-t border-border bg-muted py-16 max-md:py-12">
+        <div className={cn(WRAP, "grid grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] items-center gap-x-14 gap-y-10 max-lg:grid-cols-1")}>
+          <div className="min-w-0">
             <p className="text-[13px] font-bold uppercase tracking-[0.08em] text-primary">{t("sec.deliveredBy")}</p>
-            <h2 className="mt-2 text-[24px] font-bold leading-[1.25]">{t("partnersTitle")}</h2>
-            <p className="mt-3 text-[16.5px] leading-[1.6] text-ink-2">{t("partnersText")}</p>
+            <h2 className="mt-2 text-[26px] font-bold leading-[1.25]">{t("partnersTitle")}</h2>
+            <span aria-hidden="true" className="mt-4 block h-1 w-14 rounded-full bg-primary" />
+            <p className="mt-5 text-[16.5px] leading-[1.6] text-ink-2">{t("partnersText")}</p>
+            <div className="mt-7 inline-flex rounded-xl border border-border bg-white px-6 py-5">
+              <PartnerLogos height={48} className="gap-x-8" />
+            </div>
           </div>
-          <div className="justify-self-end rounded-xl border border-border bg-white px-6 py-5 max-lg:justify-self-start">
-            <PartnerLogos height={52} className="gap-x-8" />
-          </div>
+          <figure className="min-w-0">
+            <div className="relative aspect-[3/2] overflow-hidden rounded-xl shadow-[0_16px_40px_-16px_rgb(16_24_40/0.35)]">
+              <Image
+                src="/images/aisesa-congress-group.jpg"
+                alt={t("partnersPhotoAlt")}
+                fill
+                sizes="(min-width: 1024px) 620px, 100vw"
+                className="object-cover"
+                style={{ objectPosition: "center 70%" }}
+              />
+            </div>
+            <figcaption className="mt-2.5 text-[13.5px] text-muted-foreground">{t("partnersPhotoCredit")}</figcaption>
+          </figure>
         </div>
       </section>
     </>

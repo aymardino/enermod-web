@@ -1,7 +1,7 @@
 """Shared UI theme for the AISESA observatory.
 
-THEME PHILOSOPHY (openmod / OET style)
---------------------------------------
+THEME PHILOSOPHY
+----------------
 Streamlit's NATIVE Light/Dark theme paints the page, so the built-in switcher in
 the "⋮" menu flips everything instantly. There is intentionally NO config.toml
 [theme] block: a single [theme] block turns the app into one fixed "Custom Theme"

@@ -44,7 +44,8 @@ Sign in with an e-mail listed in `ADMIN_EMAILS` to reach the curation area at `/
   tools, gap and readiness scores per country; gap analysis (African-specific features,
   leadership, financing assumptions); readiness ranking; the full inventory with faceted filters
   and a page per study, tool and country; the tool recommender with its score breakdown; CSV,
-  JSON and zip exports. Scores and figures are those of the thesis (tests check them).
+  JSON and zip exports. On the seed data, scores and figures match the thesis (tests check them);
+  they change as curators add studies.
 - **Contributions.** Visitors propose studies, corrections and tools; curators verify, edit and
   approve; approved studies enter the inventory with their source marked.
 - **Discovery.** The review's OpenAlex search strategy re-runs on demand or weekly, matches

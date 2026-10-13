@@ -5,7 +5,7 @@
   },
   "common": {
     "appName": "EnerMod Africa",
-    "tagline": "Who models Africa's energy future, with which tools, for which countries, and with what blind spots?",
+    "tagline": "An open inventory of energy modelling studies on African countries, kept up to date by curators and contributors.",
     "signIn": "Sign in",
     "signUp": "Create an account",
     "signOut": "Sign out",
@@ -322,8 +322,8 @@
       "nTools": "{n, plural, one {# tool} other {# tools}}"
     },
     "map": {
-      "title": "Which African countries are modelled?",
-      "lede": "Studies per country, with filters by model scope, scale and period. A study counts once for every country it models, so continental studies contribute to every cell they cover.",
+      "title": "Studies per country",
+      "lede": "The number of studies that model each country, with filters by model scope, scale and period. A study counts once for every country it models, so continental studies contribute to every cell they cover.",
       "metric": "Colour by",
       "metrics": {
         "studies": "Studies",
@@ -361,7 +361,7 @@
       "rankingAria": "Top 15 countries for the selected metric"
     },
     "gaps": {
-      "title": "What do the models leave out?",
+      "title": "What the models leave out",
       "lede": "African energy systems have features that many global models were not built to capture: large informal economies, charcoal and biomass, unreliable supply, rapid urbanisation. This page shows how often the studies take them into account.",
       "scope": "Model scope",
       "scopeHelp": "Focused models leave methodological fields empty because those fields do not apply to them, not because less effort went into extraction.",
@@ -412,7 +412,7 @@
       "institutions": "Institutions"
     },
     "readiness": {
-      "title": "Which countries are best prepared to use models?",
+      "title": "Country readiness to use models",
       "lede": "Readiness combines institutional capacity, data availability, climate commitments and electrification: the conditions a country needs to run, maintain and use models for policy.",
       "headline": "{n} countries score below 4/10. Readiness gaps concentrate less around electrification and more around governance frameworks and data transparency.",
       "average": "Average readiness",
@@ -521,7 +521,7 @@
       "noTool": "No named tool",
       "countries": "Countries",
       "pools": "Power pools",
-      "provenance": "This record was produced by the AI-assisted extraction pipeline and verified by hand against the source text. Blank fields mean not assessed, never no.",
+      "provenance": "Every record is checked by hand against the source publication before it is published. A blank field means “not assessed”, never “no”.",
       "methodLink": "How records are extracted"
     },
     "tools": {
@@ -649,7 +649,7 @@
       "total": "Total"
     },
     "recommender": {
-      "title": "Which tool fits your context?",
+      "title": "Choosing a modelling tool",
       "lede": "Answer six questions on your objective, scale, budget, team, time horizon and data, and add other requirements if needed. The recommender then ranks the publicly available tools in the inventory.",
       "run": "Get recommendations",
       "weightsHint": "A transparent heuristic to shortlist candidates, not a verdict.",
@@ -860,7 +860,7 @@
   },
   "contact": {
     "title": "Contact",
-    "lede": "A real person reads every message, in English or French.",
+    "lede": "You can write to us in English or French.",
     "institutions": {
       "title": "Institutions and partners",
       "text": "AISESA members, ministries, utilities and research groups who want to anchor the observatory, add a national inventory or run a modelling capacity assessment."

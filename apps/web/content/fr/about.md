@@ -1,14 +1,12 @@
 ## Contexte
 
-EnerMod Africa est la face publique d'une mission menée au sein de l'**African Institute for Sustainable Energy and Systems Analysis (AISESA)**, une initiative conçue pour construire, en Afrique, les connaissances et la capacité d'analyse nécessaires à des décisions énergétiques fondées sur les faits. AISESA organise son agenda de recherche en grappes thématiques ; la première est consacrée aux trajectoires d'énergie propre pour le développement durable, et son activité d'ouverture (Activité 1) consiste à cartographier les outils de modélisation énergétique et les capacités d'analyse qui existent déjà sur le continent. Cet observatoire livre cette activité.
+L'**African Institute for Sustainable Energy and Systems Analysis (AISESA)** est une initiative qui construit, en Afrique, les connaissances et la capacité d'analyse nécessaires à des décisions énergétiques fondées sur les faits. AISESA organise son agenda de recherche en grappes thématiques ; la première est consacrée aux trajectoires d'énergie propre pour le développement durable, et son activité d'ouverture (Activité 1) consiste à cartographier les outils de modélisation énergétique et les capacités d'analyse qui existent déjà sur le continent. EnerMod Africa réalise cette cartographie et la tient à jour.
 
 Le travail a été accueilli au **Centre de Mathématiques Appliquées (CMA) de MINES Paris-PSL** à Sophia Antipolis, au sein de **The Transition Institute 1.5 (TTI.5)**, sous la direction de la Prof. Nadia Maïzi, comme mission d'entreprise du Mastère Spécialisé Optimisation des Systèmes Énergétiques (OSE). La coordination avec la communauté AISESA a été continue, en particulier avec la coordination du Cluster 1 à l'université Makerere, et les résultats ont été présentés au 3e Congrès AISESA à Kampala en septembre 2026.
 
-## Une question directrice
+## La mission initiale
 
-*Qui modélise l'avenir énergétique de l'Afrique, avec quels outils, pour quels pays, et avec quels angles morts ?*
-
-Y répondre a demandé trois livrables :
+La mission visait à établir qui modélise les systèmes énergétiques des pays africains, avec quels outils, et ce que les modèles laissent de côté. Elle a abouti à trois réalisations :
 
 1. une **revue systématique PRISMA 2020** de la littérature publiée, étape initiale, avec des recherches dans OpenAlex et Scopus le 5 mai 2026 : 7 759 notices uniques triées, 1 452 textes intégraux évalués, et un corpus initial de 1 053 études (2001 à 2026) mobilisant 101 outils distincts ;
 2. un **outil d'extraction assisté par IA** qui convertit chaque document en un enregistrement structuré de 51 champs, chaque enregistrement étant vérifié à la main contre le texte source. Cet outil est devenu [Krinea](https://krinea.org), un atelier open source de revue systématique ;

@@ -5,7 +5,7 @@
   },
   "common": {
     "appName": "EnerMod Africa",
-    "tagline": "Qui modélise l’avenir énergétique de l’Afrique, avec quels outils, pour quels pays, et avec quels angles morts ?",
+    "tagline": "Un inventaire ouvert des études de modélisation énergétique sur les pays africains, tenu à jour par des curateurs et des contributeurs.",
     "signIn": "Se connecter",
     "signUp": "Créer un compte",
     "signOut": "Se déconnecter",
@@ -322,8 +322,8 @@
       "nTools": "{n, plural, one {# outil} other {# outils}}"
     },
     "map": {
-      "title": "Quels pays africains sont modélisés ?",
-      "lede": "Études par pays, avec filtres par périmètre du modèle, échelle et période. Une étude compte une fois pour chaque pays qu’elle modélise ; les études continentales contribuent donc à chaque case qu’elles couvrent.",
+      "title": "Études par pays",
+      "lede": "Le nombre d’études qui modélisent chaque pays, avec des filtres par périmètre du modèle, échelle et période. Une étude compte une fois pour chaque pays qu’elle modélise ; les études continentales contribuent donc à chaque case qu’elles couvrent.",
       "metric": "Colorer par",
       "metrics": {
         "studies": "Études",
@@ -361,7 +361,7 @@
       "rankingAria": "Les 15 premiers pays pour la métrique choisie"
     },
     "gaps": {
-      "title": "Que laissent de côté les modèles ?",
+      "title": "Ce que les modèles laissent de côté",
       "lede": "Les systèmes énergétiques africains ont des traits que beaucoup de modèles globaux n’ont pas été conçus pour saisir : économie informelle, charbon de bois et biomasse, alimentation peu fiable, urbanisation rapide. Cette page montre à quelle fréquence les études en tiennent compte.",
       "scope": "Périmètre du modèle",
       "scopeHelp": "Les modèles ciblés laissent vides les champs méthodologiques parce que ceux-ci ne s’appliquent pas, non par moindre effort d’extraction.",
@@ -412,7 +412,7 @@
       "institutions": "Institutions"
     },
     "readiness": {
-      "title": "Quels pays sont les mieux préparés à utiliser les modèles ?",
+      "title": "Préparation des pays à l’utilisation des modèles",
       "lede": "La préparation combine capacité institutionnelle, disponibilité des données, engagements climatiques et électrification : les conditions dont un pays a besoin pour faire tourner, entretenir et utiliser des modèles au service des politiques publiques.",
       "headline": "{n} pays obtiennent moins de 4/10. Les écarts de préparation tiennent moins à l’électrification qu’aux cadres de gouvernance et à la transparence des données.",
       "average": "Préparation moyenne",
@@ -521,7 +521,7 @@
       "noTool": "Aucun outil nommé",
       "countries": "Pays",
       "pools": "Pools énergétiques",
-      "provenance": "Cette fiche a été produite par le pipeline d'extraction assisté par IA et vérifiée à la main contre le texte source. Un champ vide signifie non évalué, jamais non.",
+      "provenance": "Chaque fiche est vérifiée à la main au regard de la publication d’origine avant sa mise en ligne. Un champ vide signifie « non évalué », jamais « non ».",
       "methodLink": "Comment les fiches sont extraites"
     },
     "tools": {
@@ -649,7 +649,7 @@
       "total": "Total"
     },
     "recommender": {
-      "title": "Quel outil convient à votre contexte ?",
+      "title": "Choisir un outil de modélisation",
       "lede": "Répondez à six questions sur votre objectif, l’échelle d’analyse, votre budget, votre équipe, l’horizon temporel et vos données, et ajoutez d’autres exigences si besoin. Le recommandeur classe ensuite les outils de l’inventaire qui sont publiquement disponibles.",
       "run": "Obtenir des recommandations",
       "weightsHint": "Une heuristique transparente pour présélectionner, pas un verdict.",
@@ -860,7 +860,7 @@
   },
   "contact": {
     "title": "Contact",
-    "lede": "Une vraie personne lit chaque message, en français ou en anglais.",
+    "lede": "Vous pouvez nous écrire en français ou en anglais.",
     "institutions": {
       "title": "Institutions et partenaires",
       "text": "Membres d’AISESA, ministères, compagnies d’électricité et groupes de recherche qui veulent ancrer l’observatoire, ajouter un inventaire national ou mener une évaluation des capacités de modélisation."
@@ -883,7 +883,7 @@
   "pages": {
     "about": {
       "title": "À propos d’EnerMod Africa",
-      "description": "EnerMod Africa est une activité du Cluster 1 d’AISESA accueillie à MINES Paris-PSL. L’observatoire est parti d’une revue systématique de la littérature et il est désormais tenu à jour par des curateurs et des contributeurs."
+      "description": "EnerMod Africa est une activité du Cluster 1 d’AISESA accueillie à MINES Paris-PSL. L’observatoire est parti d’une revue systématique de la littérature ; il est désormais tenu à jour par des curateurs et des contributeurs."
     },
     "methodology": {
       "title": "Méthodologie et scores",

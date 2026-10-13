@@ -1,14 +1,12 @@
 ## Background
 
-EnerMod Africa is the public face of a mission carried out within the **African Institute for Sustainable Energy and Systems Analysis (AISESA)**, an initiative designed to build, within Africa, the knowledge and analytical capacity needed for evidence-based energy decisions. AISESA organises its research agenda in thematic clusters; the first cluster is devoted to clean energy pathways for sustainable development, and its opening activity (Activity 1) consists of mapping the energy modelling tools and analytical capacities that already exist across the continent. This observatory delivers that activity.
+The **African Institute for Sustainable Energy and Systems Analysis (AISESA)** is an initiative that builds, within Africa, the knowledge and analytical capacity needed for evidence-based energy decisions. AISESA organises its research agenda in thematic clusters; the first cluster is devoted to clean energy pathways for sustainable development, and its opening activity (Activity 1) consists of mapping the energy modelling tools and analytical capacities that already exist across the continent. EnerMod Africa carries out this mapping and keeps it up to date.
 
 The work was hosted at the **Centre de Mathématiques Appliquées (CMA) of MINES Paris-PSL** in Sophia Antipolis, within **The Transition Institute 1.5 (TTI.5)**, under the supervision of Prof. Nadia Maïzi, as the company mission of the Post-Graduate Master in Energy Systems Optimization (OSE). Coordination with the wider AISESA community ran throughout, in particular with the Cluster 1 coordination at Makerere University, and the results were presented at the 3rd AISESA Congress in Kampala in September 2026.
 
-## One guiding question
+## The initial mission
 
-*Who models Africa's energy future, with which tools, for which countries, and with what blind spots?*
-
-Answering it took three deliverables:
+The mission set out to establish who models the energy systems of African countries, with which tools, and what the models leave out. It produced three outputs:
 
 1. a **PRISMA 2020 systematic review** of the published record, the initial step, with searches in OpenAlex and Scopus on 5 May 2026: 7,759 unique records screened, 1,452 full texts assessed, and an initial corpus of 1,053 studies (2001 to 2026) using 101 distinct tools;
 2. an **AI-assisted extraction tool** that converts each document into a structured record of 51 fields, with every record verified by hand against the source text. That tool has since grown into [Krinea](https://krinea.org), an open-source systematic review workbench;

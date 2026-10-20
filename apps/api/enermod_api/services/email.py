@@ -71,6 +71,8 @@ def send(to: str, subject: str, text: str) -> None:
                            json={"from": s.email_from, "to": [to], "subject": subject, "text": text})
             r.raise_for_status()
         except httpx.HTTPError as e:
+            detail = f"{e.response.status_code} {e.response.text[:300]}" if isinstance(e, httpx.HTTPStatusError) else str(e)
+            log.warning("e-mail via resend to %s failed: %s", to, detail)
             raise EmailError("The e-mail provider refused the message") from e
         return
     if kind == "smtp":
@@ -86,6 +88,7 @@ def send(to: str, subject: str, text: str) -> None:
                 smtp.login(s.smtp_user, s.smtp_password)
                 smtp.send_message(msg)
         except (smtplib.SMTPException, OSError) as e:
+            log.warning("e-mail via smtp %s:%s to %s failed: %s", s.smtp_host, s.smtp_port, to, e)
             raise EmailError(f"The e-mail could not be sent ({type(e).__name__})") from e
         return
     OUTBOX.append({"to": to, "subject": subject, "text": text})

@@ -1,6 +1,13 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+/** A path inside the site to continue to after signing in; anything else (another host, the
+ *  API, control characters) falls back to the contribute page. Mirrors safe_next() in the API. */
+export function safeNext(value: string | null | undefined, fallback = "/contribute"): string {
+  const p = (value ?? "").trim();
+  return /^\/(?!\/)[^\s\\]*$/.test(p) && !p.startsWith("/api") && !/^\/[^?]*:/.test(p) ? p.slice(0, 500) : fallback;
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

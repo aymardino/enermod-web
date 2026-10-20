@@ -41,7 +41,8 @@
     "contribute": "Contribute",
     "contact": "Contact",
     "github": "Source code on GitHub",
-    "menu": "Menu"
+    "menu": "Menu",
+    "retry": "Try again"
   },
   "nav": {
     "observatory": "Observatory",
@@ -933,7 +934,7 @@
     "forgotTitle": "Reset your password",
     "forgotText": "Enter the e-mail address of your account. We will send you a link to choose a new password.",
     "forgotButton": "Send me the link",
-    "forgotSent": "If an account exists for this address, an e-mail with the link is on its way. It is valid for about twenty minutes.",
+    "forgotSent": "If an account exists for this address, an e-mail with the link is on its way.",
     "forgotAgain": "Send it again",
     "newPasswordTitle": "Choose a new password",
     "newPasswordText": "Signed in as {email}. The new password applies at once and signs out your other browsers.",
@@ -945,7 +946,12 @@
     "or": "or",
     "google": "Continue with Google",
     "googleError": "Google sign-in did not go through. Try again, or sign in with your e-mail address.",
-    "toAdmin": "Go to the curation area"
+    "toAdmin": "Go to the curation area",
+    "forgotUnavailable": "Password recovery by e-mail is not available on this server yet. Write to us through the contact page.",
+    "forgotLinkAgain": "Ask for a new reset link",
+    "currentPassword": "Current password",
+    "currentPasswordHint": "Needed to replace an existing password.",
+    "currentPasswordWrong": "The current password is wrong."
   },
   "admin": {
     "title": "Curation",

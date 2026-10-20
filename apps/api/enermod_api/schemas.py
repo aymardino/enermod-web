@@ -43,6 +43,7 @@ class UserOut(BaseModel):
     role: str
     created_at: dt.datetime
     email_verified: bool = False
+    has_password: bool = False
 
 
 class UserUpdate(BaseModel):
@@ -50,6 +51,9 @@ class UserUpdate(BaseModel):
     organisation: str | None = Field(default=None, max_length=300)
     locale: str | None = None
     password: str | None = Field(default=None, min_length=8, max_length=200)
+    # needed to change an existing password unless the session was opened in the last minutes
+    # (the recovery link opens a fresh one)
+    current_password: str | None = Field(default=None, max_length=200)
 
 
 class RoleIn(BaseModel):

@@ -34,7 +34,14 @@ def public_base_url(request: Request | None = None) -> str:
 
 
 def client_ip(request: Request) -> str:
-    fwd = request.headers.get("x-forwarded-for", "")
+    """The connecting client, for rate limits. The edge (Cloudflare in front of Render) sets its
+    own single-valued header; failing that, the right-most X-Forwarded-For entry is the one the
+    last proxy appended. The left-most entry is whatever the client sent and is never used."""
+    h = request.headers
+    edge = h.get("cf-connecting-ip") or h.get("true-client-ip")
+    if edge:
+        return edge.strip()
+    fwd = h.get("x-forwarded-for", "")
     if fwd:
-        return fwd.split(",")[0].strip()
+        return fwd.split(",")[-1].strip()
     return request.client.host if request.client else "0.0.0.0"

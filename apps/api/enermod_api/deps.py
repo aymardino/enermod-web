@@ -66,10 +66,11 @@ class RateLimiter:
         self._hits: dict[str, deque] = defaultdict(deque)
         self._lock = threading.Lock()
 
-    def __call__(self, request: Request) -> None:
+    def __call__(self, request: Request, key: str | None = None) -> None:
+        """Counts one hit for `key` (the client IP when not given) and raises 429 past the limit."""
         if get_settings().is_test and request.headers.get("x-test-ratelimit") != "on":
             return
-        key = client_ip(request)
+        key = key or client_ip(request)
         now = time.time()
         with self._lock:
             q = self._hits[key]

@@ -51,14 +51,14 @@ def main() -> None:
             email = args.email.lower().strip()
             u = db.scalar(select(models.User).where(models.User.email == email))
             if not u:
-                u = models.User(email=email, role=role_for(email))
+                u = models.User(email=email)
                 db.add(u)
                 db.flush()
             u.password_hash = hash_password(pw)
-            u.role = role_for(email, u.role)
             u.is_active = True
             if not u.email_verified_at:
                 u.email_verified_at = models.now()
+            u.role = role_for(email, u.role, verified=True)
             db.execute(delete(models.Session).where(models.Session.user_id == u.id))     # other browsers sign out
             db.commit()
             print(f"password set for {u.email} ({u.role})")

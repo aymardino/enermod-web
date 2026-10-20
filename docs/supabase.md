@@ -4,7 +4,7 @@ The hub needs one PostgreSQL database. Supabase provides it (plus backups, a SQL
 dashboard); the API keeps its own authentication and does not depend on Supabase Auth or
 PostgREST, so the same code runs on Supabase, on any other PostgreSQL, or on SQLite for
 development. The switch is one environment variable. The whole path (table creation, seed,
-the 33 API tests, identical figures) was checked against PostgreSQL 16, see section 6.
+the API test suite, identical figures) was checked against PostgreSQL 16, see section 6.
 
 ## 1. Create the project
 
@@ -89,7 +89,7 @@ the automatic seed off (set on the worker in `render.yaml`, which never seeds).
 ## 6. Testing against PostgreSQL
 
 The test suite runs on SQLite by default. Point it at an empty PostgreSQL database to run the
-same 33 tests there (the database is seeded like production, use a throwaway one):
+same suite there (the database is seeded like production, use a throwaway one):
 
 ```bash
 TEST_DATABASE_URL='postgresql://user:password@host:5432/enermod_test' python -m pytest -q

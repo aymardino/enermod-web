@@ -54,7 +54,7 @@ def test_password_forgot_sends_a_link_that_lands_on_the_password_page():
         r = c.post("/auth/password/forgot", json={"email": "Lost@example.org", "locale": "fr"})
         assert r.status_code == 200 and "dev_link" in r.json()
         link = r.json()["dev_link"]
-        assert "/fr/auth/magic?" in link and "next=%2Faccount%2Fpassword" in link
+        assert "/fr/auth/magic?" in link and "next=%2Faccount%2Fpassword%3Freset%3D1" in link
         token = link.split("token=")[1].split("&")[0]
         r = c.post("/auth/magic-link/verify", json={"token": token})
         assert r.status_code == 200 and r.json()["email"] == "lost@example.org"
@@ -114,7 +114,7 @@ def test_google_sign_in_round_trip(monkeypatch):
         assert r.status_code == 302 and r.headers["location"].endswith("/sign-in?error=google")
         assert c.get("/auth/me").status_code == 401
         r = c.get("/auth/google/callback", params={"code": "abc", "state": state}, follow_redirects=False)
-        assert r.headers["location"].endswith("/sign-in?error=google")       # the nonce cookie is gone
+        assert r.headers["location"].endswith("/fr/sign-in?error=google&next=%2Fobservatory%2Fmap")   # the nonce cookie is gone, next kept
         # a fresh round trip
         r = c.get("/auth/google/start", params={"next": "/observatory/map", "locale": "fr"}, follow_redirects=False)
         state = parse_qs(urlparse(r.headers["location"]).query)["state"][0]
@@ -144,3 +144,89 @@ def test_google_refuses_unverified_email_and_bad_next(monkeypatch):
         monkeypatch.setattr(google_oauth, "fetch_userinfo", lambda token: {"email": "x@example.org", "email_verified": True})
         r = c.get("/auth/google/callback", params={"code": "abc", "state": state}, follow_redirects=False)
         assert r.headers["location"] == "http://localhost:3000/contribute"
+
+
+def test_password_forgot_is_silent_without_an_email_provider(monkeypatch):
+    from enermod_api.services import email as email_service
+
+    monkeypatch.setattr(email_service, "available", lambda: False)
+    with TestClient(app) as c:
+        c.post("/auth/register", json={"email": "quiet@example.org", "password": "first-password"})
+        for who in ("quiet@example.org", "nobody-here@example.org"):
+            r = c.post("/auth/password/forgot", json={"email": who})
+            assert r.status_code == 503 and "dev_link" not in r.json()
+
+
+def test_first_verified_sign_in_drops_an_unverified_password():
+    """Someone registers an address they do not own; when the owner proves it (one-time link or
+    Google), that password and its sessions are gone and the owner sets a new one."""
+    with TestClient(app) as attacker, TestClient(app) as owner:
+        attacker.post("/auth/register", json={"email": "claimed@example.org", "password": "attacker-pass-1"})
+        assert attacker.get("/auth/me").status_code == 200
+        link = owner.post("/auth/magic-link", json={"email": "claimed@example.org"}).json()["dev_link"]
+        r = owner.post("/auth/magic-link/verify", json={"token": link.split("token=")[1].split("&")[0]})
+        assert r.status_code == 200 and r.json()["email_verified"] and not r.json()["has_password"]
+        assert attacker.get("/auth/me").status_code == 401
+        assert attacker.post("/auth/login", json={"email": "claimed@example.org", "password": "attacker-pass-1"}).status_code == 401
+        assert owner.patch("/auth/me", json={"password": "owner-pass-1"}).status_code == 200
+        assert owner.get("/auth/me").json()["has_password"] is True
+
+
+def test_admin_role_needs_a_verified_address():
+    with TestClient(app) as c:
+        assert c.post("/auth/register", json={"email": "admin@example.org", "password": "whoever-knows-it"}).status_code == 409
+        c.post("/auth/logout")
+        r = c.post("/auth/register", json={"email": "second-admin@example.org", "password": "long-enough-pw"})
+        assert r.json()["role"] == "contributor"        # not in ADMIN_EMAILS anyway, and unverified
+
+
+def test_changing_a_password_from_an_old_session_needs_the_current_one():
+    import datetime as dt
+
+    from sqlalchemy import select, update
+
+    from enermod_api import models
+    from enermod_api.db import session_factory
+
+    with TestClient(app) as c:
+        c.post("/auth/register", json={"email": "aged@example.org", "password": "first-password"})
+        assert c.patch("/auth/me", json={"password": "second-password"}).status_code == 200      # fresh session
+        db = session_factory()()
+        try:
+            uid = db.scalar(select(models.User.id).where(models.User.email == "aged@example.org"))
+            db.execute(update(models.Session).where(models.Session.user_id == uid).values(created_at=models.now() - dt.timedelta(hours=2)))
+            db.commit()
+        finally:
+            db.close()
+        r = c.patch("/auth/me", json={"password": "third-password"})
+        assert r.status_code == 403 and r.json()["detail"] == "current_password_required"
+        assert c.patch("/auth/me", json={"password": "third-password", "current_password": "wrong"}).status_code == 403
+        assert c.patch("/auth/me", json={"password": "third-password", "current_password": "second-password"}).status_code == 200
+        c.post("/auth/logout")
+        assert c.post("/auth/login", json={"email": "aged@example.org", "password": "third-password"}).status_code == 200
+
+
+def test_mailed_links_use_base_url_when_it_is_set(monkeypatch):
+    from enermod_api.config import get_settings
+
+    s = get_settings()
+    monkeypatch.setattr(s, "base_url_explicit", True)
+    monkeypatch.setattr(s, "base_url", "https://observatory.example")
+    with TestClient(app) as c:
+        link = c.post("/auth/magic-link", json={"email": "based@example.org"},
+                      headers={"x-enermod-origin": "https://evil.example", "x-enermod-proxy-key": "test-secret"}).json()["dev_link"]
+        assert link.startswith("https://observatory.example/auth/magic?token=")
+
+
+def test_client_ip_never_trusts_the_left_most_forwarded_entry():
+    from starlette.requests import Request
+
+    from enermod_api.urls import client_ip
+
+    def req(headers: dict) -> Request:
+        scope = {"type": "http", "headers": [(k.encode(), v.encode()) for k, v in headers.items()], "client": ("9.9.9.9", 1)}
+        return Request(scope)
+
+    assert client_ip(req({"x-forwarded-for": "1.1.1.1, 203.0.113.7"})) == "203.0.113.7"
+    assert client_ip(req({"cf-connecting-ip": "198.51.100.2", "x-forwarded-for": "1.1.1.1, 203.0.113.7"})) == "198.51.100.2"
+    assert client_ip(req({})) == "9.9.9.9"

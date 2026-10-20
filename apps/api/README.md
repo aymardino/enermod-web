@@ -8,7 +8,7 @@ usage events, assistant logs and a job queue.
 ```bash
 pip install -e ".[ai,dev]"
 uvicorn enermod_api.main:app --reload        # http://localhost:8000/docs
-python -m pytest -q                          # 33 tests, SQLite, no network
+python -m pytest -q                          # the full suite, SQLite, no network
 python -m enermod_api.seed --reset           # reload data/enermod.db (or --workbook data/Models_Africa_v2.xlsm)
 python -m enermod_api.manage promote you@example.org admin
 python -m enermod_api.manage discover --since 2026-05-05

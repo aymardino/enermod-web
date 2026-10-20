@@ -63,7 +63,7 @@ Sign in with an e-mail listed in `ADMIN_EMAILS` to reach the curation area at `/
 ## Tests and checks
 
 ```bash
-cd apps/api && python -m pytest -q      # 33 tests: thesis figures, API, auth, contributions, discovery (mocked), imports, chat (stubbed), metrics
+cd apps/api && python -m pytest -q      # the API suite: thesis figures, API, auth, contributions, discovery (mocked), imports, chat (stubbed), metrics
 cd apps/web && pnpm lint && pnpm build
 ```
 

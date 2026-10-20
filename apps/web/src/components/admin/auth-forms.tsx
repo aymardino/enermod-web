@@ -5,8 +5,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Link, useRouter } from "@/i18n/navigation";
-import { api, ApiError } from "@/lib/api";
+import { api, ApiError, type User } from "@/lib/api";
 import { useMe } from "@/lib/auth";
+import { safeNext } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { FieldHint, Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -66,7 +67,8 @@ function GoogleButton({ next }: { next: string }) {
   );
 }
 
-export function AuthForm({ mode, next = "/contribute", error }: { mode: "sign-in" | "sign-up"; next?: string; error?: string }) {
+export function AuthForm({ mode, next: rawNext, error }: { mode: "sign-in" | "sign-up"; next?: string; error?: string }) {
+  const next = safeNext(rawNext);
   const t = useTranslations("auth");
   const c = useTranslations("common");
   const locale = useLocale();
@@ -84,9 +86,11 @@ export function AuthForm({ mode, next = "/contribute", error }: { mode: "sign-in
     e.preventDefault();
     setBusy(true);
     try {
-      if (mode === "sign-up") await api.post("/auth/register", { email, password, name, organisation: org, locale });
-      else await api.post("/auth/login", { email, password });
-      await qc.invalidateQueries({ queryKey: ["me"] });
+      const user = mode === "sign-up"
+        ? await api.post<User>("/auth/register", { email, password, name, organisation: org, locale })
+        : await api.post<User>("/auth/login", { email, password });
+      // the answer is the session: seeded here, so the next page never sees a stale "visitor"
+      qc.setQueryData(["me"], user);
       router.push(next);
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : c("error"));
@@ -136,7 +140,7 @@ export function AuthForm({ mode, next = "/contribute", error }: { mode: "sign-in
         <div>
           <div className="flex items-baseline justify-between gap-4">
             <Label htmlFor="password">{t("password")}</Label>
-            {mode === "sign-in" && (
+            {mode === "sign-in" && emailLinks && (
               <Link href="/forgot-password" className="link mb-[9px] inline-flex min-h-6 items-center text-[13px]">{t("forgot")}</Link>
             )}
           </div>
@@ -189,6 +193,7 @@ export function ForgotPasswordForm() {
   const t = useTranslations("auth");
   const c = useTranslations("common");
   const locale = useLocale();
+  const providers = useProviders();
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState<string | null>(null);
@@ -209,7 +214,9 @@ export function ForgotPasswordForm() {
   return (
     <div>
       <AuthHead title={t("forgotTitle")}>{t("forgotText")}</AuthHead>
-      {sent === null ? (
+      {providers.data?.email === false ? (
+        <div className="mt-6"><Note tone="warn">{t("forgotUnavailable")}</Note></div>
+      ) : sent === null ? (
         <form onSubmit={submit} className="mt-6 space-y-5">
           <div><Label htmlFor="email">{t("email")}</Label><Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" /></div>
           <Button type="submit" size="lg" className="w-full" disabled={busy}>{t("forgotButton")}</Button>
@@ -234,13 +241,17 @@ export function ForgotPasswordForm() {
 
 /** Set a new password for the signed-in account (PATCH /auth/me). Visitors are sent to sign in
  *  and come back here. */
-export function NewPasswordForm() {
+export function NewPasswordForm({ reset = false }: { reset?: boolean }) {
   const t = useTranslations("auth");
   const c = useTranslations("common");
   const router = useRouter();
-  const { data: me, isLoading } = useMe();
+  const qc = useQueryClient();
+  const { data: me, isLoading, isError, refetch } = useMe();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [current, setCurrent] = useState("");
+  // the recovery link opens a fresh session, so the old password is not asked unless the API insists
+  const [askCurrent, setAskCurrent] = useState(!reset);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const redirected = useRef(false);
@@ -260,21 +271,45 @@ export function NewPasswordForm() {
     }
     setBusy(true);
     try {
-      await api.patch("/auth/me", { password });
+      const user = await api.patch<User>("/auth/me", { password, current_password: needCurrent ? current : undefined });
+      qc.setQueryData(["me"], user);
       setDone(true);
     } catch (err) {
-      toast.error(err instanceof ApiError ? err.message : c("error"));
+      if (err instanceof ApiError && err.status === 403 && err.message === "current_password_required") {
+        setAskCurrent(true);
+        toast.error(current ? t("currentPasswordWrong") : t("currentPasswordHint"));
+      } else {
+        toast.error(err instanceof ApiError ? err.message : c("error"));
+      }
     } finally {
       setBusy(false);
     }
   }
 
+  const needCurrent = askCurrent && !!me?.has_password;
   const mismatch = confirm.length > 0 && password !== confirm;
   return (
     <div>
-      <AuthHead title={t("newPasswordTitle")}>{me ? t("newPasswordText", { email: me.email }) : t("signInFirst")}</AuthHead>
+      <AuthHead title={t("newPasswordTitle")}>
+        {isLoading ? c("loading") : me ? t("newPasswordText", { email: me.email }) : me === null ? t("signInFirst") : null}
+      </AuthHead>
+      {isError && (
+        <div className="mt-6">
+          <Note tone="warn">
+            <p>{c("error")}</p>
+            <button type="button" className="link mt-1.5 inline-flex min-h-6 items-center font-sans text-[13.5px] not-italic" onClick={() => refetch()}>{c("retry")}</button>
+          </Note>
+        </div>
+      )}
       {me && !done && (
         <form onSubmit={submit} className="mt-6 space-y-5">
+          {needCurrent && (
+            <div>
+              <Label htmlFor="current-password">{t("currentPassword")}</Label>
+              <Input id="current-password" type="password" required value={current} onChange={(e) => setCurrent(e.target.value)} autoComplete="current-password" aria-describedby="current-password-hint" />
+              <FieldHint id="current-password-hint">{t("currentPasswordHint")}</FieldHint>
+            </div>
+          )}
           <div>
             <Label htmlFor="new-password">{t("newPassword")}</Label>
             <Input id="new-password" type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" aria-describedby="new-password-hint" />

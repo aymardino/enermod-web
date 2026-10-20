@@ -36,7 +36,10 @@ def admin(client):
     with TestClient(app) as c:
         r = c.post("/auth/register", json={"email": "admin@example.org", "password": "secret-pass-1", "name": "Ada"})
         assert r.status_code == 201, r.text
-        assert r.json()["role"] == "admin"
+        assert r.json()["role"] == "contributor"          # ADMIN_EMAILS counts once the address is verified
+        link = c.post("/auth/magic-link", json={"email": "admin@example.org"}).json()["dev_link"]
+        r = c.post("/auth/magic-link/verify", json={"token": link.split("token=")[1].split("&")[0]})
+        assert r.status_code == 200 and r.json()["role"] == "admin" and r.json()["email_verified"]
         yield c
 
 

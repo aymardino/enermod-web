@@ -41,7 +41,8 @@
     "contribute": "Contribuer",
     "contact": "Contact",
     "github": "Code source sur GitHub",
-    "menu": "Menu"
+    "menu": "Menu",
+    "retry": "Réessayer"
   },
   "nav": {
     "observatory": "Observatoire",
@@ -933,7 +934,7 @@
     "forgotTitle": "Réinitialiser votre mot de passe",
     "forgotText": "Indiquez l’adresse e-mail de votre compte. Nous vous enverrons un lien pour choisir un nouveau mot de passe.",
     "forgotButton": "M’envoyer le lien",
-    "forgotSent": "Si un compte existe pour cette adresse, un e-mail avec le lien est en route. Il est valable une vingtaine de minutes.",
+    "forgotSent": "Si un compte existe pour cette adresse, un e-mail avec le lien est en route.",
     "forgotAgain": "Renvoyer le lien",
     "newPasswordTitle": "Choisir un nouveau mot de passe",
     "newPasswordText": "Connecté en tant que {email}. Le nouveau mot de passe s’applique tout de suite et déconnecte vos autres navigateurs.",
@@ -945,7 +946,12 @@
     "or": "ou",
     "google": "Continuer avec Google",
     "googleError": "La connexion avec Google n’a pas abouti. Réessayez, ou connectez-vous avec votre adresse e-mail.",
-    "toAdmin": "Aller à l’espace de curation"
+    "toAdmin": "Aller à l’espace de curation",
+    "forgotUnavailable": "La récupération du mot de passe par e-mail n’est pas encore disponible sur ce serveur. Écrivez-nous via la page contact.",
+    "forgotLinkAgain": "Demander un nouveau lien de réinitialisation",
+    "currentPassword": "Mot de passe actuel",
+    "currentPasswordHint": "Nécessaire pour remplacer un mot de passe existant.",
+    "currentPasswordWrong": "Le mot de passe actuel est incorrect."
   },
   "admin": {
     "title": "Curation",

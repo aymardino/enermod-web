@@ -24,9 +24,13 @@ const STREAM_TIMEOUT_MS = 10 * 60_000;
 const RETRYABLE = new Set(["ECONNREFUSED", "ECONNRESET", "ENOTFOUND", "EAI_AGAIN", "ETIMEDOUT", "EHOSTUNREACH", "ENETUNREACH",
   "UND_ERR_SOCKET", "UND_ERR_CONNECT_TIMEOUT"]);
 
+/** The address the visitor used. Only `Host` is trusted: the platform routes the request on it,
+ *  while `X-Forwarded-Host` can be set by the client and would end up in the links of the e-mails
+ *  the API sends (sign-in and password-reset links). Local hosts stay on http. */
 function publicOrigin(req: NextRequest): string {
-  const proto = req.headers.get("x-forwarded-proto")?.split(",")[0].trim() || "http";
-  const host = req.headers.get("x-forwarded-host")?.split(",")[0].trim() || req.headers.get("host") || "localhost:3000";
+  const host = (req.headers.get("host") || "localhost:3000").trim();
+  const local = /^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/.test(host);
+  const proto = local ? req.headers.get("x-forwarded-proto")?.split(",")[0].trim() || "http" : "https";
   return `${proto}://${host}`;
 }
 
@@ -50,7 +54,7 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   });
   headers.set("x-enermod-origin", publicOrigin(req));
   headers.set("x-enermod-proxy-key", process.env.PROXY_KEY ?? process.env.SECRET_KEY ?? "dev-secret-change-me");
-  headers.set("x-forwarded-host", req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? "");
+  headers.set("x-forwarded-host", req.headers.get("host") ?? "");
   const ip = req.headers.get("x-forwarded-for") ?? "";
   if (ip) headers.set("x-forwarded-for", ip);
 
@@ -88,7 +92,7 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
     } catch (err) {
       lastError = err;
       const code = errorCode(err);
-      console.error(`[api proxy] ${req.method} ${target} -> ${code}${attempt < RETRY_DELAYS_MS.length && retryable ? " (retrying)" : ""}`);
+      console.error(`[api proxy] ${req.method} ${base}/${path.join("/")} -> ${code}${attempt < RETRY_DELAYS_MS.length && retryable ? " (retrying)" : ""}`);
       if (!retryable || !RETRYABLE.has(code) || attempt === RETRY_DELAYS_MS.length) break;
       await sleep(RETRY_DELAYS_MS[attempt]);
     }

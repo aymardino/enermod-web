@@ -5,7 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, Link } from "@/i18n/navigation";
-import { api } from "@/lib/api";
+import { api, type User } from "@/lib/api";
+import { safeNext } from "@/lib/utils";
 import { AuthHead } from "@/components/admin/auth-forms";
 
 export default function MagicPage() {
@@ -18,20 +19,23 @@ function Magic() {
   const router = useRouter();
   const qc = useQueryClient();
   const [failed, setFailed] = useState(() => !params.get("token"));
+  // a password-reset link lands on the account page; it must only ever act for the account
+  // the link was mailed to, so an invalid one is never rescued by a session already open
+  const reset = (params.get("next") ?? "").startsWith("/account/password");
   const started = useRef(false);
   useEffect(() => {
     if (started.current) return;
     started.current = true;
     const token = params.get("token");
-    // only a path inside the site, never another host
-    const next = params.get("next") ?? "";
-    const target = /^\/(?!\/)[^\s\\]*$/.test(next) && !next.startsWith("/api") ? next : "/contribute";
-    const done = async () => { await qc.invalidateQueries({ queryKey: ["me"] }); router.replace(target); };
+    const target = safeNext(params.get("next"));
+    const done = (user: User) => { qc.setQueryData(["me"], user); router.replace(target); };
     if (!token) return;
-    api.post("/auth/magic-link/verify", { token }).then(done).catch(async () => {
-      try { await api.get("/auth/me"); await done(); } catch { setFailed(true); }
+    api.post<User>("/auth/magic-link/verify", { token }).then(done).catch(async () => {
+      if (reset) { setFailed(true); return; }
+      // a sign-in link opened twice: the first click already signed this browser in
+      try { done(await api.get<User>("/auth/me")); } catch { setFailed(true); }
     });
-  }, [params, router, qc]);
+  }, [params, router, qc, reset]);
   return (
     <div>
       <AuthHead title={t("signInTitle")} />
@@ -46,7 +50,7 @@ function Magic() {
       </div>
       {failed && (
         <p className="mt-5 text-[14px]">
-          <Link href="/sign-in" className="link inline-flex min-h-6 items-center font-medium">{t("backToSignIn")}</Link>
+          <Link href={reset ? "/forgot-password" : "/sign-in"} className="link inline-flex min-h-6 items-center font-medium">{t(reset ? "forgotLinkAgain" : "backToSignIn")}</Link>
         </p>
       )}
     </div>

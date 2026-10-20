@@ -196,7 +196,14 @@ whether or not the address has an account. "Continue with Google" is a server-si
 Connect flow in the API (`/auth/google/start`, `/auth/google/callback` behind the web proxy):
 a signed, time-limited `state` plus a nonce cookie, only verified Google e-mails, the same
 `users` row as the password account with that e-mail. A `manage.py set-password` command
-covers the owner without an e-mail provider.
+covers the owner without an e-mail provider. Two rules protect the accounts: the admin role
+from `ADMIN_EMAILS` is granted only at a verified sign-in (link, Google, set-password), and
+the first verified sign-in drops a password and sessions set before it, so an address
+registered by someone else cannot keep a way in. Changing an existing password needs the
+current one unless the session is a few minutes old (the recovery link opens a fresh one).
+The web proxy derives the public address from `Host` only, so a forged `X-Forwarded-Host`
+cannot steer the mailed links elsewhere; rate limits key on the edge's client IP and on the
+address.
 
 **Why.** The lost-password case came up before any e-mail provider was configured. Reusing
 `login_tokens` avoids a schema change on the live Supabase database; Google covers people who

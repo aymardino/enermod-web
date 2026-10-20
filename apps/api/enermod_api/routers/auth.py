@@ -1,11 +1,14 @@
 """Accounts: register, password login, magic links, password recovery, Google sign-in, profile."""
 from __future__ import annotations
 
+import datetime as dt
+import hashlib
+import hmac
 import logging
 import re
 from urllib.parse import quote, urlencode
 
-from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request, Response
 from fastapi.responses import RedirectResponse
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session as DBSession
@@ -24,12 +27,28 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 OAUTH_COOKIE = "enermod_oauth"        # the nonce that ties a Google round trip to this browser
 DEFAULT_NEXT = "/contribute"
-# one-time links are mailed, so a client may ask for a handful per hour and no more
+PASSWORD_PAGE = "/account/password?reset=1"
+FRESH_SESSION = dt.timedelta(minutes=15)   # a session this young may change the password without the old one
+# one-time links are mailed: a handful per client and per address an hour, no more
 link_limit = rate_limit(10, "sign-in link")
+address_limit = rate_limit(3, "sign-in link")
 
 
-def role_for(email: str, current: str = "contributor") -> str:
-    return "admin" if email.lower() in get_settings().admin_emails else current
+def role_for(email: str, current: str = "contributor", verified: bool = False) -> str:
+    """Administrators come from ADMIN_EMAILS, but only once the address is proven to be theirs
+    (a one-time link, Google, or the set-password command); a role already held is kept."""
+    return "admin" if verified and email.lower() in get_settings().admin_emails else current
+
+
+def claim_verified(db: DBSession, user: models.User, now: dt.datetime) -> None:
+    """First proof that the address belongs to this person. A password or sessions set before
+    it may belong to whoever registered the address unverified, so they are dropped; the owner
+    sets a password on the account page afterwards."""
+    if user.email_verified_at is not None:
+        return
+    user.password_hash = None
+    db.execute(delete(models.Session).where(models.Session.user_id == user.id))
+    user.email_verified_at = now
 
 
 def safe_next(path: str | None) -> str:
@@ -56,7 +75,7 @@ def start_session(db: DBSession, user: models.User, request: Request, response: 
     db.add(models.Session(user_id=user.id, token_hash=token_hash(token),
                           user_agent=request.headers.get("user-agent", "")[:300], expires_at=expires_in(days=s.session_days)))
     user.last_login_at = models.now()
-    user.role = role_for(user.email, user.role)
+    user.role = role_for(user.email, user.role, verified=user.email_verified_at is not None)
     db.commit()
     response.set_cookie(s.cookie_name, token, max_age=s.session_days * 86400, httponly=True, samesite="lax",
                         secure=s.cookie_secure, path="/")
@@ -65,7 +84,8 @@ def start_session(db: DBSession, user: models.User, request: Request, response: 
 
 def user_out(user: models.User) -> schemas.UserOut:
     return schemas.UserOut(id=user.id, email=user.email, name=user.name, organisation=user.organisation, locale=user.locale,
-                           role=user.role, created_at=user.created_at, email_verified=user.email_verified_at is not None)
+                           role=user.role, created_at=user.created_at, email_verified=user.email_verified_at is not None,
+                           has_password=user.password_hash is not None)
 
 
 @router.post("/register", response_model=schemas.UserOut, status_code=201)
@@ -74,7 +94,7 @@ def register(body: schemas.RegisterIn, request: Request, response: Response, db:
     if db.scalar(select(models.User).where(models.User.email == email)):
         raise HTTPException(409, "An account already exists for this email")
     user = models.User(email=email, name=body.name.strip(), organisation=body.organisation.strip(),
-                       password_hash=hash_password(body.password), locale=locale_of(body.locale), role=role_for(email))
+                       password_hash=hash_password(body.password), locale=locale_of(body.locale))
     db.add(user)
     db.flush()
     start_session(db, user, request, response)
@@ -120,6 +140,7 @@ def issue_link(db: DBSession, request: Request, email: str, locale: str, next_pa
 def magic_link(body: schemas.MagicLinkIn, request: Request, db: DBSession = Depends(get_db)):
     s = get_settings()
     email = body.email.lower().strip()
+    address_limit(request, key=email)
     url = issue_link(db, request, email, locale_of(body.locale))
     try:
         email_service.send_magic_link(email, url, locale_of(body.locale))
@@ -131,21 +152,29 @@ def magic_link(body: schemas.MagicLinkIn, request: Request, db: DBSession = Depe
     return out
 
 
+def _mail_reset(email: str, url: str, locale: str) -> None:
+    try:
+        email_service.send_password_reset(email, url, locale)
+    except email_service.EmailError as e:
+        log.error("password-reset e-mail to %s not sent: %s", email, e)
+
+
 @router.post("/password/forgot", dependencies=[Depends(link_limit)])
-def password_forgot(body: schemas.MagicLinkIn, request: Request, db: DBSession = Depends(get_db)):
+def password_forgot(body: schemas.MagicLinkIn, request: Request, tasks: BackgroundTasks, db: DBSession = Depends(get_db)):
     """Mails a one-time link that signs the person in and lands on the "new password" page.
-    The answer is the same whether or not an account exists, so addresses cannot be probed."""
+    The answer, and its timing, are the same whether or not an account exists, so addresses
+    cannot be probed: the message goes out after the response."""
     s = get_settings()
+    if not email_service.available():
+        raise HTTPException(503, "Password recovery by e-mail is not available on this server")
     email = body.email.lower().strip()
+    address_limit(request, key=email)
     locale = locale_of(body.locale)
     user = db.scalar(select(models.User).where(models.User.email == email))
     url = ""
     if user and user.is_active:
-        url = issue_link(db, request, email, locale, next_path="/account/password")
-        try:
-            email_service.send_password_reset(email, url, locale)
-        except email_service.EmailError as e:
-            raise HTTPException(502, str(e))
+        url = issue_link(db, request, email, locale, next_path=PASSWORD_PAGE)
+        tasks.add_task(_mail_reset, email, url, locale)
     out = {"ok": True}
     if s.debug and url:
         out["dev_link"] = url
@@ -161,13 +190,12 @@ def magic_verify(body: schemas.TokenIn, request: Request, response: Response, db
     lt.used_at = now
     user = db.scalar(select(models.User).where(models.User.email == lt.email))
     if not user:
-        user = models.User(email=lt.email, name="", password_hash=None, role=role_for(lt.email))
+        user = models.User(email=lt.email, name="", password_hash=None)
         db.add(user)
         db.flush()
     if not user.is_active:
         raise HTTPException(403, "This account is disabled")
-    if not user.email_verified_at:
-        user.email_verified_at = now
+    claim_verified(db, user, now)
     start_session(db, user, request, response)
     return user_out(user)
 
@@ -178,6 +206,11 @@ def google_redirect_uri(request: Request) -> str:
     return f"{public_base_url(request)}/api/auth/google/callback"
 
 
+def _nonce_digest(nonce: str) -> str:
+    # the state travels in URLs and logs: it carries a digest of the cookie, never the cookie
+    return hashlib.sha256(nonce.encode()).hexdigest()
+
+
 @router.get("/google/start")
 def google_start(request: Request, next: str | None = None, locale: str | None = None):
     """Sends the browser to Google. `next` is the page to continue to afterwards."""
@@ -185,7 +218,7 @@ def google_start(request: Request, next: str | None = None, locale: str | None =
         raise HTTPException(404, "Google sign-in is not configured on this server")
     s = get_settings()
     nonce = new_token(16)
-    state = google_oauth.make_state(safe_next(next), nonce, locale_of(locale))
+    state = google_oauth.make_state(safe_next(next), _nonce_digest(nonce), locale_of(locale))
     resp = RedirectResponse(google_oauth.authorize_url(google_redirect_uri(request), state), status_code=302)
     resp.set_cookie(OAUTH_COOKIE, nonce, max_age=google_oauth.STATE_MAX_AGE, httponly=True, samesite="lax",
                     secure=s.cookie_secure, path="/")
@@ -199,16 +232,21 @@ def google_callback(request: Request, db: DBSession = Depends(get_db), code: str
     base = public_base_url(request)
     data = google_oauth.read_state(state) or {}
     locale = locale_of(data.get("l"))
+    next_path = safe_next(data.get("n")) if data else DEFAULT_NEXT
 
     def failed(reason: str) -> RedirectResponse:
         log.warning("google sign-in failed: %s", reason)
-        r = RedirectResponse(f"{base}{site_path(locale, '/sign-in')}?error=google", status_code=302)
+        q = {"error": "google"}
+        if next_path != DEFAULT_NEXT:
+            q["next"] = next_path
+        r = RedirectResponse(f"{base}{site_path(locale, '/sign-in')}?{urlencode(q, quote_via=quote)}", status_code=302)
         r.delete_cookie(OAUTH_COOKIE, path="/")
         return r
 
     if not google_oauth.configured():
         return failed("not configured")
-    if not data or not data.get("c") or data.get("c") != request.cookies.get(OAUTH_COOKIE):
+    cookie = request.cookies.get(OAUTH_COOKIE, "")
+    if not data or not cookie or not hmac.compare_digest(str(data.get("c", "")), _nonce_digest(cookie)):
         return failed("state mismatch")
     if error or not code:
         return failed(error or "no code")
@@ -224,17 +262,15 @@ def google_callback(request: Request, db: DBSession = Depends(get_db), code: str
     now = models.now()
     user = db.scalar(select(models.User).where(models.User.email == email))
     if not user:
-        user = models.User(email=email, name=str(info.get("name", ""))[:200], password_hash=None, role=role_for(email),
-                           locale=locale)
+        user = models.User(email=email, name=str(info.get("name", ""))[:200], password_hash=None, locale=locale)
         db.add(user)
         db.flush()
     elif not user.name and info.get("name"):
         user.name = str(info["name"])[:200]
     if not user.is_active:
         return failed("account disabled")
-    if not user.email_verified_at:
-        user.email_verified_at = now
-    resp = RedirectResponse(f"{base}{site_path(locale, safe_next(data.get('n')))}", status_code=302)
+    claim_verified(db, user, now)
+    resp = RedirectResponse(f"{base}{site_path(locale, next_path)}", status_code=302)
     resp.delete_cookie(OAUTH_COOKIE, path="/")
     start_session(db, user, request, resp)
     return resp
@@ -261,9 +297,16 @@ def update_me(body: schemas.UserUpdate, request: Request, user: models.User = De
     if body.locale in ("en", "fr"):
         user.locale = body.locale
     if body.password:
+        sid = getattr(request.state, "session_id", None)
+        if user.password_hash:
+            # an old session alone cannot replace a password: the current one, or a session just
+            # opened by the recovery link (or a fresh sign-in), is needed
+            sess = db.get(models.Session, sid) if sid else None
+            fresh = sess is not None and (models.now() - sess.created_at) < FRESH_SESSION
+            if not fresh and not verify_password(body.current_password or "", user.password_hash):
+                raise HTTPException(403, "current_password_required")
         user.password_hash = hash_password(body.password)
         # a new password signs every other browser out; this one keeps its session
-        sid = getattr(request.state, "session_id", None)
         db.execute(delete(models.Session).where(models.Session.user_id == user.id, models.Session.id != sid))
     db.commit()
     return user_out(user)

@@ -52,7 +52,7 @@ export function qs(params: Record<string, string | number | boolean | string[] |
 }
 
 // ── Types mirroring the API responses ────────────────────────────────────────────
-export type User = { id: string; email: string; name: string; organisation: string; locale: string; role: string; created_at: string; email_verified: boolean };
+export type User = { id: string; email: string; name: string; organisation: string; locale: string; role: string; created_at: string; email_verified: boolean; has_password: boolean };
 
 export type Origin = { assessed: number; african_led: number; mixed: number; non_african: number; african_led_pct: number; mixed_pct: number; non_african_pct: number };
 export type YearRow = { year: number; studies: number; full: number; light: number };

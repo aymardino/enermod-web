@@ -66,27 +66,46 @@ dashboard (`enermod-api` → Environment); the API restarts by itself.
 | Brevo (free plan, SMTP relay) | a sender address without owning a domain, 300 messages a day | `EMAIL_PROVIDER=smtp`, `SMTP_HOST=smtp-relay.brevo.com`, `SMTP_PORT=587`, `SMTP_USER=<the login shown in Brevo → SMTP & API>`, `SMTP_PASSWORD=<SMTP key>`, `EMAIL_FROM=EnerMod Africa <a sender validated in Brevo>` |
 | Resend | once the site has its own domain (DNS records to add) | `EMAIL_PROVIDER=resend`, `RESEND_API_KEY=re_…`, `EMAIL_FROM=EnerMod Africa <no-reply@your.domain>` |
 
-Gmail: the account needs 2-step verification, then Google Account → Security → *App
-passwords* gives the 16-character password; `EMAIL_FROM` must be that Gmail address (Gmail
-rewrites any other sender). Whatever the provider, `BASE_URL` is not needed on Render: the
-links in the messages use the address the site was opened on. Test it from `/sign-in` with
-"E-mail me a link"; a failure shows "E-mail is not configured" or "could not be sent" and the
-API log has the SMTP error.
+Gmail: the account needs 2-step verification, then https://myaccount.google.com/apppasswords
+(Google Account → Security → *App passwords*) gives the 16-character password; `EMAIL_FROM`
+must be that Gmail address (Gmail rewrites any other sender). The links in the messages use the
+address the site was opened on (the web proxy passes the `Host` it was reached on); set
+`BASE_URL` on `enermod-api` to pin them to one address, which is required once the site has a
+custom domain (step 6). Test it from `/sign-in`: the section "Or get a sign-in link by e-mail"
+appears only once the provider is complete (`/api/auth/providers` answers `"email": true`); if
+it is missing, `EMAIL_PROVIDER` is not `smtp` or `resend`, or one of `SMTP_HOST`, `SMTP_USER`,
+`SMTP_PASSWORD` (or `RESEND_API_KEY`) is empty. Once it shows, a failed send answers "The
+e-mail could not be sent (…)" and the API log has the provider's error.
 
 **Sign in with Google.** In Google Cloud console (any project): *APIs & Services → OAuth
 consent screen* (External, the app name and your contact e-mail; publish it, or add testers
 while it is in testing), then *Credentials → Create credentials → OAuth client ID → Web
-application* with the authorised redirect URI
-`https://enermod-web.onrender.com/api/auth/google/callback` (add the custom domain's as well,
-later). Put the client id and secret in `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` on
-`enermod-api`. The "Continue with Google" button appears on `/sign-in` and `/sign-up` as soon
-as both are set. A Google account whose e-mail matches an existing account signs in to that
-account; a new e-mail creates a contributor account (an `ADMIN_EMAILS` address becomes admin).
+application* with the authorised redirect URI, character for character,
+`https://enermod-web.onrender.com/api/auth/google/callback` (no trailing slash; the scopes step
+needs nothing beyond the default e-mail and profile). While the consent screen is "in
+testing", only the test users listed there can sign in; publishing lifts that. Put the client
+id and secret in `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` on `enermod-api`. The "Continue
+with Google" button appears on `/sign-in` and `/sign-up` as soon as both are set. A Google
+account whose e-mail matches an existing account signs in to that account; a new e-mail
+creates a contributor account (an `ADMIN_EMAILS` address becomes admin). The redirect URI must
+be the address the API builds: the one the site was opened on, or `BASE_URL` once it is set,
+so with a custom domain register `https://your.domain/api/auth/google/callback`, set
+`BASE_URL`, and redirect the onrender.com address to the domain (a sign-in started on one host
+and finished on the other fails with `?error=google`).
+
+**Who becomes an administrator.** An `ADMIN_EMAILS` address gets the admin role at its first
+*verified* sign-in: a one-time e-mail link, Google, or the `set-password` command below. A
+password registration alone does not prove the address, so it stays a contributor until
+then, and a password set before that first proof is dropped when the address is claimed.
 
 **Lost password, no e-mail provider yet.** From the Render dashboard open `enermod-api` →
 *Shell* and run `python -m enermod_api.manage set-password you@example.org`; it asks for the
-new password, signs the other browsers out and keeps the account's role. The same command
-creates the account when it does not exist.
+new password, signs the other browsers out and grants the admin role to an `ADMIN_EMAILS`
+address. The same command creates the account when it does not exist. No Shell tab (free
+instances have none)? Run it from your machine against the database:
+`cd apps/api && pip install -e . && DATABASE_URL='<the Supabase session-pooler string>'
+python -m enermod_api.manage set-password you@example.org` (`--password <value>` skips the
+prompt for scripts, and then sits in the shell history).
 
 ## Docker compose on one machine
 
@@ -139,7 +158,7 @@ path of the shared seed database. `docker build -f legacy/streamlit/Dockerfile -
 
 ## Checks before going live
 
-- `cd apps/api && python -m pytest -q` (38 tests) and `cd apps/web && pnpm build`. Before a
+- `cd apps/api && python -m pytest -q` (the full suite) and `cd apps/web && pnpm build`. Before a
   release, run the suite once against PostgreSQL too: `TEST_DATABASE_URL=postgresql://... python -m pytest -q`
   on a throwaway database (`docs/supabase.md`, section 6).
 - Sign in with an `ADMIN_EMAILS` address, open `/admin`, run a discovery and a metrics refresh.

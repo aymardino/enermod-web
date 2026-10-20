@@ -72,6 +72,10 @@ class Settings:
         self.smtp_password = os.environ.get("SMTP_PASSWORD", "")
         self.smtp_starttls = _bool(os.environ.get("SMTP_STARTTLS"), True)
         self.smtp_tls = os.environ.get("SMTP_TLS", "").strip().lower()
+        # Sign in with Google: an OAuth "Web application" client whose authorised redirect URI is
+        # <public web URL>/api/auth/google/callback. Empty = the button is not shown.
+        self.google_client_id = os.environ.get("GOOGLE_CLIENT_ID", "")
+        self.google_client_secret = os.environ.get("GOOGLE_CLIENT_SECRET", "")
         # Assistant
         self.ai_provider = os.environ.get("AI_PROVIDER", "auto")                     # auto | claude | gemini | deepseek | none
         self.ai_model = os.environ.get("AI_MODEL", "")                               # empty = provider default

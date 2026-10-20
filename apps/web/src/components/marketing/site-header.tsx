@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Code, Menu, Search } from "lucide-react";
+import { Code, KeyRound, Menu, Search } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { AisesaLogo, EnermodWordmark } from "@/components/brand/logo";
 import { LanguageSwitch } from "@/components/marketing/language-switch";
@@ -77,9 +77,15 @@ export function SiteHeader({ wide = false }: { wide?: boolean }) {
             <LanguageSwitch />
             <span aria-hidden="true" className="h-4 w-px bg-border" />
             {me ? (
-              <Link href={curator ? "/admin" : "/contribute"} className={cn(stripLink, "max-w-[16em] font-medium")}>
-                <span className="min-w-0 truncate">{curator ? t("admin") : me.name || c("account")}</span>
-              </Link>
+              <>
+                <Link href={curator ? "/admin" : "/contribute"} className={cn(stripLink, "max-w-[16em] font-medium")}>
+                  <span className="min-w-0 truncate">{curator ? t("admin") : me.name || c("account")}</span>
+                </Link>
+                <Link href="/account/password" className={cn(stripLink, "max-md:hidden")} title={t("password")}>
+                  <KeyRound className="size-[15px]" strokeWidth={1.75} aria-hidden="true" />
+                  <span className="sr-only">{t("password")}</span>
+                </Link>
+              </>
             ) : (
               <Link href="/sign-in" className={cn(stripLink, "font-medium")}>
                 {c("signIn")}
@@ -217,9 +223,12 @@ function MobileMenu() {
           <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 text-[14px]">
             <LanguageSwitch />
             {me ? (
-              <Link href="/contribute" onClick={close} className="link inline-flex min-h-7 max-w-full items-center">
-                <span className="min-w-0 truncate">{me.name || c("account")}</span>
-              </Link>
+              <span className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1">
+                <Link href="/contribute" onClick={close} className="link inline-flex min-h-7 max-w-full items-center">
+                  <span className="min-w-0 truncate">{me.name || c("account")}</span>
+                </Link>
+                <Link href="/account/password" onClick={close} className="inline-flex min-h-7 items-center text-muted-foreground no-underline hover:text-foreground">{t("password")}</Link>
+              </span>
             ) : (
               <Link href="/sign-in" onClick={close} className="link inline-flex min-h-7 items-center">{c("signIn")}</Link>
             )}

@@ -91,7 +91,8 @@
     "breadcrumb": "Fil d’Ariane",
     "crumbHome": "Accueil",
     "beta": "Bêta",
-    "betaTitle": "La plateforme est en version bêta : les données et les fonctionnalités évoluent encore."
+    "betaTitle": "La plateforme est en version bêta : les données et les fonctionnalités évoluent encore.",
+    "password": "Changer de mot de passe"
   },
   "home": {
     "title": "Qui modélise l’avenir énergétique de l’Afrique ?",
@@ -927,7 +928,24 @@
     "magicAgain": "Envoyer un autre lien",
     "noAccount": "Pas encore de compte ?",
     "haveAccount": "Déjà un compte ?",
-    "backToSignIn": "Demander un nouveau lien"
+    "backToSignIn": "Demander un nouveau lien",
+    "forgot": "Mot de passe oublié ?",
+    "forgotTitle": "Réinitialiser votre mot de passe",
+    "forgotText": "Indiquez l’adresse e-mail de votre compte. Nous vous enverrons un lien pour choisir un nouveau mot de passe.",
+    "forgotButton": "M’envoyer le lien",
+    "forgotSent": "Si un compte existe pour cette adresse, un e-mail avec le lien est en route. Il est valable une vingtaine de minutes.",
+    "forgotAgain": "Renvoyer le lien",
+    "newPasswordTitle": "Choisir un nouveau mot de passe",
+    "newPasswordText": "Connecté en tant que {email}. Le nouveau mot de passe s’applique tout de suite et déconnecte vos autres navigateurs.",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le nouveau mot de passe",
+    "passwordMismatch": "Les deux mots de passe ne sont pas identiques.",
+    "passwordSaved": "Votre mot de passe a été modifié.",
+    "signInFirst": "Connectez-vous pour changer votre mot de passe.",
+    "or": "ou",
+    "google": "Continuer avec Google",
+    "googleError": "La connexion avec Google n’a pas abouti. Réessayez, ou connectez-vous avec votre adresse e-mail.",
+    "toAdmin": "Aller à l’espace de curation"
   },
   "admin": {
     "title": "Curation",

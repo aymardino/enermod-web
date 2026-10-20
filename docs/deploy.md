@@ -24,8 +24,10 @@ domain is needed to start.
 3. On `enermod-api`, set the environment variables marked `sync: false` that you need:
    `ADMIN_EMAILS` (your address, to reach `/admin`), an assistant key (`ANTHROPIC_API_KEY`,
    `GEMINI_API_KEY` or `DEEPSEEK_API_KEY`), `OPENALEX_MAILTO`, and an e-mail provider
-   (`EMAIL_PROVIDER=smtp` with the `SMTP_*` variables, or `resend`). Without an e-mail provider
-   the magic-link sign-in is unavailable; the password sign-in still works.
+   (`EMAIL_PROVIDER=smtp` with the `SMTP_*` variables, or `resend`; see "E-mail and sign-in
+   providers" below). Without an e-mail provider the sign-in link and the password recovery
+   are unavailable; the password sign-in still works. `GOOGLE_CLIENT_ID` and
+   `GOOGLE_CLIENT_SECRET` turn on "Continue with Google".
 4. On the worker, set the same `OPENALEX_MAILTO` and keys; the blueprint turns on the weekly
    discovery run and the monthly metrics refresh.
 5. First start: the API creates the tables and loads `data/enermod.db` (bundled in the image
@@ -50,6 +52,41 @@ Variants:
   `enermod-web` by hand to the API's public `https://enermod-api.onrender.com`. Expect cold
   starts of about a minute. The database stays on Supabase's free tier.
 - Other regions: change `region` (Frankfurt was chosen for Africa-to-Europe latency and EU hosting).
+
+## E-mail and sign-in providers
+
+Accounts work with a password alone. Two features need an **e-mail provider** on `enermod-api`:
+the sign-in link ("E-mail me a link") and **password recovery** ("Forgot your password?",
+which mails a one-time link to the new-password page). Set the variables in the Render
+dashboard (`enermod-api` → Environment); the API restarts by itself.
+
+| Provider | When | Variables on `enermod-api` |
+| --- | --- | --- |
+| Gmail (an app password) | quickest, no domain needed, a few hundred messages a day | `EMAIL_PROVIDER=smtp`, `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=587`, `SMTP_USER=you@gmail.com`, `SMTP_PASSWORD=<16-character app password>`, `EMAIL_FROM=EnerMod Africa <you@gmail.com>` |
+| Brevo (free plan, SMTP relay) | a sender address without owning a domain, 300 messages a day | `EMAIL_PROVIDER=smtp`, `SMTP_HOST=smtp-relay.brevo.com`, `SMTP_PORT=587`, `SMTP_USER=<the login shown in Brevo → SMTP & API>`, `SMTP_PASSWORD=<SMTP key>`, `EMAIL_FROM=EnerMod Africa <a sender validated in Brevo>` |
+| Resend | once the site has its own domain (DNS records to add) | `EMAIL_PROVIDER=resend`, `RESEND_API_KEY=re_…`, `EMAIL_FROM=EnerMod Africa <no-reply@your.domain>` |
+
+Gmail: the account needs 2-step verification, then Google Account → Security → *App
+passwords* gives the 16-character password; `EMAIL_FROM` must be that Gmail address (Gmail
+rewrites any other sender). Whatever the provider, `BASE_URL` is not needed on Render: the
+links in the messages use the address the site was opened on. Test it from `/sign-in` with
+"E-mail me a link"; a failure shows "E-mail is not configured" or "could not be sent" and the
+API log has the SMTP error.
+
+**Sign in with Google.** In Google Cloud console (any project): *APIs & Services → OAuth
+consent screen* (External, the app name and your contact e-mail; publish it, or add testers
+while it is in testing), then *Credentials → Create credentials → OAuth client ID → Web
+application* with the authorised redirect URI
+`https://enermod-web.onrender.com/api/auth/google/callback` (add the custom domain's as well,
+later). Put the client id and secret in `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` on
+`enermod-api`. The "Continue with Google" button appears on `/sign-in` and `/sign-up` as soon
+as both are set. A Google account whose e-mail matches an existing account signs in to that
+account; a new e-mail creates a contributor account (an `ADMIN_EMAILS` address becomes admin).
+
+**Lost password, no e-mail provider yet.** From the Render dashboard open `enermod-api` →
+*Shell* and run `python -m enermod_api.manage set-password you@example.org`; it asks for the
+new password, signs the other browsers out and keeps the account's role. The same command
+creates the account when it does not exist.
 
 ## Docker compose on one machine
 
@@ -102,7 +139,7 @@ path of the shared seed database. `docker build -f legacy/streamlit/Dockerfile -
 
 ## Checks before going live
 
-- `cd apps/api && python -m pytest -q` (33 tests) and `cd apps/web && pnpm build`. Before a
+- `cd apps/api && python -m pytest -q` (38 tests) and `cd apps/web && pnpm build`. Before a
   release, run the suite once against PostgreSQL too: `TEST_DATABASE_URL=postgresql://... python -m pytest -q`
   on a throwaway database (`docs/supabase.md`, section 6).
 - Sign in with an `ADMIN_EMAILS` address, open `/admin`, run a discovery and a metrics refresh.

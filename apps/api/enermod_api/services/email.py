@@ -21,6 +21,8 @@ _T = {
     "en": {
         "magic_subject": "Your sign-in link for EnerMod Africa",
         "magic_body": "Hello,\n\nClick to sign in to EnerMod Africa (valid for {minutes} minutes):\n{url}\n\nIf you did not request this, ignore this message.",
+        "reset_subject": "Reset your EnerMod Africa password",
+        "reset_body": "Hello,\n\nSomeone asked to reset the password of the EnerMod Africa account for this address. Click to choose a new password (the link is valid for {minutes} minutes):\n{url}\n\nIf you did not ask for this, ignore this message: your password stays the same.",
         "contrib_subject": "New contribution on EnerMod Africa: {kind}",
         "contrib_body": "A new {kind} contribution is waiting for review.\n\n{summary}\n\nReview it: {url}",
         "thanks_subject": "Thank you for your contribution to EnerMod Africa",
@@ -29,6 +31,8 @@ _T = {
     "fr": {
         "magic_subject": "Votre lien de connexion EnerMod Africa",
         "magic_body": "Bonjour,\n\nCliquez pour vous connecter à EnerMod Africa (valable {minutes} minutes) :\n{url}\n\nSi vous n'êtes pas à l'origine de cette demande, ignorez ce message.",
+        "reset_subject": "Réinitialiser votre mot de passe EnerMod Africa",
+        "reset_body": "Bonjour,\n\nUne réinitialisation du mot de passe du compte EnerMod Africa lié à cette adresse a été demandée. Cliquez pour choisir un nouveau mot de passe (le lien est valable {minutes} minutes) :\n{url}\n\nSi vous n'êtes pas à l'origine de cette demande, ignorez ce message : votre mot de passe reste inchangé.",
         "contrib_subject": "Nouvelle contribution sur EnerMod Africa : {kind}",
         "contrib_body": "Une nouvelle contribution ({kind}) attend une relecture.\n\n{summary}\n\nLa relire : {url}",
         "thanks_subject": "Merci pour votre contribution à EnerMod Africa",
@@ -91,6 +95,10 @@ def send(to: str, subject: str, text: str) -> None:
 
 def send_magic_link(to: str, url: str, locale: str = "en") -> None:
     send(to, _t(locale, "magic_subject"), _t(locale, "magic_body", url=url, minutes=get_settings().magic_link_minutes))
+
+
+def send_password_reset(to: str, url: str, locale: str = "en") -> None:
+    send(to, _t(locale, "reset_subject"), _t(locale, "reset_body", url=url, minutes=get_settings().magic_link_minutes))
 
 
 def notify_contribution(kind: str, summary: str, url: str) -> None:

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { LogOut } from "lucide-react";
+import { KeyRound, LogOut } from "lucide-react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { EnermodMark, EnermodWordmark } from "@/components/brand/logo";
 import { LanguageSwitch } from "@/components/marketing/language-switch";
@@ -115,6 +115,12 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               </span>
             </span>
             <LanguageSwitch />
+            <Button variant="ghost" size="sm" asChild className="max-sm:w-8 max-sm:px-0">
+              <Link href="/account/password" aria-label={nav("password")} title={nav("password")}>
+                <KeyRound aria-hidden="true" strokeWidth={1.5} />
+                <span className="max-sm:hidden">{nav("password")}</span>
+              </Link>
+            </Button>
             <Button variant="ghost" size="sm" onClick={leave} className="max-sm:w-8 max-sm:px-0" aria-label={c("signOut")}>
               <LogOut aria-hidden="true" strokeWidth={1.5} />
               <span className="max-sm:hidden">{c("signOut")}</span>

@@ -187,10 +187,27 @@ first version of the platform; its logo stays next to AISESA's.
 **Why.** The owner hands the observatory over to AISESA; "hosted at MINES Paris-PSL" described
 the mission, not who runs the site.
 
+## D-14 · 2026-10-20 · decided · Password recovery through the one-time link; Google sign-in
+
+**Decision.** "Forgot your password?" mails the same one-time link as the e-mail sign-in,
+with a reset wording and a `next` that lands on `/account/password`, where the signed-in
+person chooses a new password (the other sessions are closed). The answer is identical
+whether or not the address has an account. "Continue with Google" is a server-side OpenID
+Connect flow in the API (`/auth/google/start`, `/auth/google/callback` behind the web proxy):
+a signed, time-limited `state` plus a nonce cookie, only verified Google e-mails, the same
+`users` row as the password account with that e-mail. A `manage.py set-password` command
+covers the owner without an e-mail provider.
+
+**Why.** The lost-password case came up before any e-mail provider was configured. Reusing
+`login_tokens` avoids a schema change on the live Supabase database; Google covers people who
+never set a password and is the sign-in most AISESA members already have. Supabase Auth and
+ORCID (P-02) stay proposed: they would move sessions out of the API for little gain today.
+
 ## Proposed (waiting for the owner)
 
 - **P-01** Scopus re-query through an institutional API key, as a second discovery arm.
-- **P-02** Supabase Auth and ORCID sign-in once the community of curators is set up.
+- **P-02** ORCID sign-in (and Supabase Auth, if sessions ever leave the API) once the community
+  of curators is set up; Google sign-in is done (D-14).
 - **P-03** Scheduled e-mail digest to curators (pending contributions, new candidates).
 - **P-04** A corpus-based national modelling capacity index (share of African-led, nationally
   scoped studies) published as a score next to readiness, per the thesis perspectives.

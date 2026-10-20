@@ -23,7 +23,10 @@ function Magic() {
     if (started.current) return;
     started.current = true;
     const token = params.get("token");
-    const done = async () => { await qc.invalidateQueries({ queryKey: ["me"] }); router.replace("/contribute"); };
+    // only a path inside the site, never another host
+    const next = params.get("next") ?? "";
+    const target = /^\/(?!\/)[^\s\\]*$/.test(next) && !next.startsWith("/api") ? next : "/contribute";
+    const done = async () => { await qc.invalidateQueries({ queryKey: ["me"] }); router.replace(target); };
     if (!token) return;
     api.post("/auth/magic-link/verify", { token }).then(done).catch(async () => {
       try { await api.get("/auth/me"); await done(); } catch { setFailed(true); }

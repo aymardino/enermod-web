@@ -56,6 +56,8 @@ Sign in with an e-mail listed in `ADMIN_EMAILS` to reach the curation area at `/
   (stars, forks, issues, contributors, last commit) for open tools.
 - **Assistant.** Answers only from the inventory, cites studies, tools and countries with links;
   Anthropic, Gemini or DeepSeek, whichever key is configured.
+- **Accounts.** Password, one-time e-mail link or Google sign-in; password recovery by e-mail;
+  roles contributor / curator / admin (`ADMIN_EMAILS` bootstraps the administrators).
 - **Usage.** Privacy-friendly events (no cookies, no IP) and a curators' dashboard.
 
 ## Tests and checks

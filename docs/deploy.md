@@ -34,10 +34,14 @@ domain is needed to start.
    at `/app/data`, see `SEED_SQLITE` in `apps/api/Dockerfile`) because the database is empty;
    the API log shows `seeded from /app/data/enermod.db`. A minute later the site is live at
    `https://enermod-web.onrender.com` (the exact name is shown in the dashboard).
-6. Custom domain: add it to `enermod-web` (Settings → Custom domains), then set `BASE_URL` on
-   `enermod-api` to `https://your.domain`. For the canonical URLs and sitemap, rebuild the web
-   image with `NEXT_PUBLIC_SITE_URL` (a Docker build argument; the default is
-   `https://enermod.africa`).
+6. Custom domain (`enermod.africa`): add it to `enermod-web` (Settings → Custom domains; Render
+   adds `www.` and redirects it) and create the DNS records it shows at the registrar (an
+   ALIAS/ANAME, or the A record Render gives, for the root; a CNAME to
+   `enermod-web.onrender.com` for `www`; no AAAA record). Once Render shows the certificate,
+   set `BASE_URL=https://enermod.africa` on `enermod-api` (the links in e-mails and the Google
+   redirect) and `CANONICAL_HOST=enermod.africa` on `enermod-web` (the onrender.com address
+   then redirects to the domain). The canonical URLs and sitemap already use
+   `https://enermod.africa` (`NEXT_PUBLIC_SITE_URL`, a Docker build argument).
 7. If a service failed during the first sync (the web app needs the API's address), run
    **Manual sync** on the blueprint once every service is green.
 

@@ -7,8 +7,8 @@
 #
 # Browsers only talk to `enermod-web`, which proxies `/api/*` to the API over Render's private
 # network, so the deployment works on the default *.onrender.com address with no domain.
-# Custom domain: add it to `enermod-web` (Settings -> Custom domains) and set BASE_URL on
-# `enermod-api` to that https URL. `fromService` values are filled in when the Blueprint syncs;
+# Custom domain: add it to `enermod-web` (Settings -> Custom domains), set BASE_URL on
+# `enermod-api` to that https URL and CANONICAL_HOST on `enermod-web` to its host. `fromService` values are filled in when the Blueprint syncs;
 # if a service failed to build during the first sync, run "Manual sync" once everything is green.
 #
 # Render PostgreSQL instead of Supabase: add
@@ -136,3 +136,7 @@ services:
         fromService: { type: web, name: enermod-api, property: hostport }
       - key: PROXY_KEY
         fromService: { type: web, name: enermod-api, envVarKey: SECRET_KEY }
+      # The one public address (host only, e.g. enermod.africa): other hosts the service answers
+      # on are redirected to it. Set in the dashboard once the custom domain is verified.
+      - key: CANONICAL_HOST
+        sync: false

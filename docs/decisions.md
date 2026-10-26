@@ -240,6 +240,19 @@ for recall and OpenAlex matches acronyms case-insensitively ("times", "message",
 the review's manual screening step has to be reproduced somewhere. The lists are the review's,
 so the aid stays within the documented protocol; it assists, it never decides.
 
+## D-17 · 2026-10-26 · decided · A study is published only with its essentials
+
+**Decision.** Approving a study contribution requires at least one tool, at least one
+country and a scope (`full` or `light`); the review page lists what is missing, offers a
+four-field form for them (tools, countries, scope, scale) next to the JSON editor, and shows
+how many of the 55 fields are filled. The other fields are published empty, as "not
+assessed", until an extraction (Krinea) fills them. A record sent from discovery carries that
+reminder.
+
+**Why.** A discovery candidate reaches the queue with a title, authors, a DOI and an abstract.
+Approved as it was, it became an inventory record invisible on the map, the tool pages and
+the scope filters, and counted in the headline figures the thesis validated.
+
 ## Proposed (waiting for the owner)
 
 - **P-01** Scopus re-query through an institutional API key, as a second discovery arm.

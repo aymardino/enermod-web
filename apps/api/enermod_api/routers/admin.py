@@ -61,8 +61,9 @@ def get_contribution(cid: str, db: DBSession = Depends(get_db)):
         raise HTTPException(404, "Not found")
     out = contribution_out(c, full=True)
     if c.kind == "study":
-        _, errors = contributions.normalize_study_payload(c.payload or {}, get_corpus(db))
+        clean, errors = contributions.normalize_study_payload(c.payload or {}, get_corpus(db))
         out["errors"] = errors
+        out["completeness"] = contributions.completeness(clean)
     return out
 
 

@@ -13,6 +13,10 @@ from enermod_api.services.data import ISO2_TO_ISO3, Corpus, get_corpus, invalida
 
 STUDY_FIELDS = [c for c in models.STUDY_TEXT_FIELDS]
 LIST_FIELDS = ("tools", "countries")
+# Without these a record is invisible on the map, the tool pages and the scope filters, so a
+# study is never published without them (the other 50 fields stay "not assessed" until extracted).
+ESSENTIALS = ("tools", "countries", "extraction_level")
+COUNTED_FIELDS = [f for f in STUDY_FIELDS if f not in ("nb_countries_covered", "contact", "other_references")] + list(LIST_FIELDS) + ["year"]
 YESNO = {"yes", "no", "partial", ""}
 ENUMS = {
     "extraction_level": {"full", "light", ""},
@@ -92,6 +96,21 @@ def normalize_study_payload(payload: dict, corpus: Corpus) -> tuple[dict, list[s
     return clean, errors
 
 
+def essentials_missing(clean: dict) -> list[str]:
+    """The essential fields a normalised study payload still lacks."""
+    missing = [k for k in LIST_FIELDS if not clean.get(k)]
+    if s(clean.get("extraction_level")) not in ("full", "light"):
+        missing.append("extraction_level")
+    return missing
+
+
+def completeness(clean: dict) -> dict:
+    """How much of the record is filled: the extraction has 51 fields, a discovery candidate
+    brings four or five."""
+    filled = sum(1 for k in COUNTED_FIELDS if clean.get(k) not in (None, "", []))
+    return {"filled": filled, "total": len(COUNTED_FIELDS), "missing": essentials_missing(clean)}
+
+
 def find_duplicate(corpus: Corpus, payload: dict) -> tuple[int | None, str]:
     doi = clean_doi(payload.get("link_doi"))
     if doi:
@@ -162,6 +181,11 @@ def approve_study(db: Session, c: models.Contribution, reviewer: models.User, no
     payload, errors = normalize_study_payload(c.payload or {}, corpus)
     if errors:
         raise ValueError("; ".join(errors))
+    missing = essentials_missing(payload)
+    if missing:
+        raise ValueError("required before approval: " + ", ".join(missing))
+    if not s(payload.get("model_name")):
+        payload["model_name"] = ", ".join(payload["tools"])        # the inventory's own name field for the tools
     next_id = (db.scalar(select(func.max(models.Study.study_id))) or 0) + 1
     study = models.Study(study_id=next_id, source=c.source if c.source in ("form", "krinea", "survey", "discovery") else "contribution")
     if study.source == "form":

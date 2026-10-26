@@ -74,3 +74,30 @@ def test_curator_edits(admin, client):
     assert r.status_code == 200
     d = client.get("/studies/3").json()
     assert d["key_result"] == "Edited result" and d["countries"] == ["KE", "TZ"] and d["pools"] == ["EAPP"]
+
+
+def test_a_bare_discovery_record_is_not_published_until_the_essentials_are_filled(client, admin):
+    """A candidate sent to the queue carries a title, authors, a DOI and an abstract: approving it
+    as is would publish a record with no tools, no countries and no scope. The essentials are
+    required; the other fields stay empty ("not assessed") until the Krinea extraction."""
+    r = client.post("/contributions", json={"kind": "study", "payload": {
+        "full_title": "Hourly dispatch reliability of long-term energy projections in the Southern African Power Pool",
+        "authors": "Leoni A., Stevanato N.", "year": 2024, "link_doi": "https://doi.org/10.5194/egusphere-egu24-6025",
+        "study_objective": "Development pathways for Sub-Saharan Africa...", "openalex_id": "W4392599056"}})
+    cid = r.json()["id"]
+    detail = admin.get(f"/admin/contributions/{cid}").json()
+    assert detail["errors"] == []
+    assert detail["completeness"]["missing"] == ["tools", "countries", "extraction_level"]
+    assert detail["completeness"]["filled"] == 5 and detail["completeness"]["total"] > 50
+    r = admin.post(f"/admin/contributions/{cid}/approve", json={})
+    assert r.status_code == 422 and "required before approval: tools, countries, extraction_level" in r.json()["detail"]
+    # the curator fills the essentials (the review page has a small form for them), then approves
+    r = admin.patch(f"/admin/contributions/{cid}", json={"payload": {"tools": "PyPSA, Calliope", "countries": "ZA, Zambia, MZ",
+                                                                      "extraction_level": "full", "scale": "regional"}})
+    assert r.status_code == 200
+    assert admin.get(f"/admin/contributions/{cid}").json()["completeness"]["missing"] == []
+    r = admin.post(f"/admin/contributions/{cid}/approve", json={"note": "essentials checked"})
+    assert r.status_code == 200, r.text
+    d = client.get(f"/studies/{r.json()['study_id']}").json()
+    assert d["tools"] == ["Calliope", "PyPSA"] and d["countries"] == ["MZ", "ZA", "ZM"] and d["extraction_level"] == "full"
+    assert d["model_name"] == "PyPSA, Calliope"

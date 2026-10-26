@@ -11,8 +11,9 @@ import { cn, formatDate } from "@/lib/utils";
 import { AdminPage } from "@/components/admin/admin-shell";
 import { StatusTag, Tag } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/input";
+import { Input, Textarea } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { NativeSelect } from "@/components/ui/select";
 import { EmptyState, PageHeader, Skeleton } from "@/components/ui/misc";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Callout } from "@/components/observatory/kpi";
@@ -32,12 +33,24 @@ export default function ContributionsPage() {
   const detail = useQuery<Contribution>({ queryKey: ["admin-contribution", openId], queryFn: () => api.get(`/admin/contributions/${openId}`), enabled: !!openId });
   const [note, setNote] = useState("");
   const [draft, setDraft] = useState<string>("");
+  // the essentials a study needs before it can be published, edited without touching the JSON
+  const [ess, setEss] = useState<{ tools: string; countries: string; extraction_level: string; scale: string } | null>(null);
   const onError = (e: unknown) => toast.error(e instanceof ApiError ? e.message : c("error"));
   const refresh = () => { qc.invalidateQueries({ queryKey: ["admin-contributions"] }); qc.invalidateQueries({ queryKey: ["admin-contribution", openId] }); qc.invalidateQueries({ queryKey: ["admin-overview"] }); };
   const approve = useMutation({ mutationFn: (id: string) => api.post(`/admin/contributions/${id}/approve`, { note }), onSuccess: () => { toast.success(t("approved")); refresh(); setOpenId(null); }, onError });
   const reject = useMutation({ mutationFn: (id: string) => api.post(`/admin/contributions/${id}/reject`, { note }), onSuccess: () => { toast.success(t("rejected")); refresh(); setOpenId(null); }, onError });
   const save = useMutation({ mutationFn: (id: string) => api.patch(`/admin/contributions/${id}`, { payload: JSON.parse(draft) }), onSuccess: () => { toast.success(c("saved")); refresh(); }, onError: (e) => toast.error(e instanceof SyntaxError ? t("badJson") : e instanceof ApiError ? e.message : c("error")) });
+  const saveEssentials = useMutation({
+    mutationFn: (id: string) => api.patch(`/admin/contributions/${id}`, { payload: ess }),
+    onSuccess: () => { toast.success(c("saved")); setEss(null); refresh(); },
+    onError,
+  });
   const d = detail.data;
+  const missing = d?.completeness?.missing ?? [];
+  const asText = (v: unknown) => (Array.isArray(v) ? v.join(", ") : v == null ? "" : String(v));
+  const essentialsFrom = (payload: Record<string, unknown>) => ({
+    tools: asText(payload.tools), countries: asText(payload.countries), extraction_level: asText(payload.extraction_level), scale: asText(payload.scale),
+  });
 
   const kind = (k: string) => (t.has(`kind.${k}`) ? t(`kind.${k}`) : k);
   const source = (s: string) => (t.has(`source.${s}`) ? t(`source.${s}`) : s);
@@ -190,9 +203,74 @@ export default function ContributionsPage() {
                 </div>
               )}
 
+              {d.kind === "study" && d.status === "pending" && missing.length > 0 && (
+                <div className="mt-6 border-l-2 border-destructive pl-4" role="note">
+                  <p className="sc text-destructive">{t("missing")}</p>
+                  <p className="mt-1.5 max-w-[48em] text-[13.5px] leading-[1.45] text-destructive">{t("missingText")}</p>
+                  <ul className="mt-1.5 space-y-1 text-[13.5px] leading-[1.45] text-destructive">
+                    {missing.map((m) => (
+                      <li key={m} className="flex gap-2">
+                        <X aria-hidden="true" strokeWidth={1.75} className="mt-[3px] size-3.5 shrink-0" />
+                        {m}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {d.kind === "study" && d.status === "pending" && d.source === "discovery" && (
+                <Callout tone="brand" className="mt-6 max-w-[52em]">{t("discoveryHint")}</Callout>
+              )}
+
+              {d.kind === "study" && d.status === "pending" && (
+                <section className="mt-8">
+                  <h3 className="font-display text-[19px] font-semibold leading-[1.25]">{t("essentials")}</h3>
+                  {(() => {
+                    const form = ess ?? essentialsFrom((d.payload ?? {}) as Record<string, unknown>);
+                    const set = (k: keyof typeof form, v: string) => setEss({ ...form, [k]: v });
+                    return (
+                      <div className="mt-3 grid max-w-[52em] gap-4 md:grid-cols-2">
+                        <div className="md:col-span-2">
+                          <Label htmlFor="ess-tools">{t("f.tools")}</Label>
+                          <Input id="ess-tools" value={form.tools} onChange={(e) => set("tools", e.target.value)} />
+                        </div>
+                        <div className="md:col-span-2">
+                          <Label htmlFor="ess-countries">{t("f.countries")}</Label>
+                          <Input id="ess-countries" value={form.countries} onChange={(e) => set("countries", e.target.value)} />
+                        </div>
+                        <div>
+                          <Label htmlFor="ess-level">{t("f.level")}</Label>
+                          <NativeSelect id="ess-level" value={form.extraction_level} onChange={(e) => set("extraction_level", e.target.value)}>
+                            <option value="">{t("unset")}</option>
+                            <option value="full">{t("level.full")}</option>
+                            <option value="light">{t("level.light")}</option>
+                          </NativeSelect>
+                        </div>
+                        <div>
+                          <Label htmlFor="ess-scale">{t("f.scale")}</Label>
+                          <NativeSelect id="ess-scale" value={form.scale} onChange={(e) => set("scale", e.target.value)}>
+                            <option value="">{t("unset")}</option>
+                            {(["national", "subnational", "regional", "continental", "global"] as const).map((v) => (
+                              <option key={v} value={v}>{t(`scale.${v}`)}</option>
+                            ))}
+                          </NativeSelect>
+                        </div>
+                        <div className="md:col-span-2">
+                          <Button size="sm" variant="outline" onClick={() => saveEssentials.mutate(d.id)} disabled={!ess || saveEssentials.isPending}>
+                            {c("save")}
+                          </Button>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </section>
+              )}
+
               {d.kind !== "correction" && (
                 <section className="mt-8">
                   <h3 className="font-display text-[19px] font-semibold leading-[1.25]">{t("payload")}</h3>
+                  {d.completeness && (
+                    <p className="mt-1 text-[13px] tabular-nums text-muted-foreground">{t("completeness", { filled: d.completeness.filled, total: d.completeness.total })}</p>
+                  )}
                   <dl className="mt-3 grid grid-cols-[minmax(0,13em)_minmax(0,1fr)] border-b-2 border-t border-rule text-[14px] max-md:grid-cols-[minmax(0,1fr)]">
                     {fields.map(([k, v]) => (
                       <div key={k} className="contents">
@@ -221,7 +299,7 @@ export default function ContributionsPage() {
                     <Textarea id="review-note" placeholder={t("notePlaceholder")} value={note} onChange={(e) => setNote(e.target.value)} />
                   </div>
                   <div className="mt-4 flex flex-wrap items-center gap-3">
-                    <Button onClick={() => approve.mutate(d.id)} disabled={approve.isPending || (d.errors?.length ?? 0) > 0}>
+                    <Button onClick={() => approve.mutate(d.id)} disabled={approve.isPending || (d.errors?.length ?? 0) > 0 || missing.length > 0}>
                       <Check aria-hidden="true" strokeWidth={1.75} />
                       {t("approve")}
                     </Button>

@@ -1027,7 +1027,7 @@
       "reject": "Refuser",
       "approved": "Approuvée et publiée",
       "rejected": "Refusée",
-      "approveHint": "L’approbation crée l’étude, ses liens outils et pays et ses pools énergétiques, et recalcule les compteurs. Corrigez d’abord les erreurs listées ci-dessus.",
+      "approveHint": "L’approbation crée l’étude, ses liens outils et pays et ses pools énergétiques, et recalcule les compteurs. Corrigez d’abord les erreurs et renseignez les champs requis listés ci-dessus.",
       "approveToolHint": "L’approbation crée ou met à jour le profil de l’outil.",
       "approveCorrectionHint": "L’approbation enregistre la décision ; appliquez la modification elle-même via les points d’édition ou le classeur.",
       "reviewed": "Relue le {d}",
@@ -1045,7 +1045,30 @@
       "errors": "À corriger avant l’approbation",
       "message": "Message du contributeur",
       "decision": "Décision",
-      "noteLabel": "Note de relecture"
+      "noteLabel": "Note de relecture",
+      "missing": "À renseigner avant l’approbation",
+      "missingText": "Une étude n’est publiée qu’avec ses outils, ses pays et son périmètre : sans eux, elle est invisible sur la carte, les pages des outils et les filtres de périmètre.",
+      "completeness": "{filled, number} champs renseignés sur {total, number} ; les champs vides sont publiés comme « non évalués ».",
+      "discoveryHint": "Cette fiche vient de la découverte : titre, auteurs, DOI et résumé seulement. Renseignez l’essentiel ci-dessous pour un ajout rapide, ou passez par Krinea pour l’extraction complète (page Découverte : exporter les candidats pertinents en RIS, extraire dans Krinea, importer l’export sur la page Imports).",
+      "essentials": "Compléter l’essentiel",
+      "f": {
+        "tools": "Outils (séparés par des virgules)",
+        "countries": "Pays (noms ou codes ISO, séparés par des virgules)",
+        "level": "Périmètre",
+        "scale": "Échelle"
+      },
+      "unset": "Non renseigné",
+      "level": {
+        "full": "Système énergétique complet",
+        "light": "Ciblée"
+      },
+      "scale": {
+        "national": "Nationale",
+        "subnational": "Infranationale",
+        "regional": "Régionale",
+        "continental": "Continentale",
+        "global": "Mondiale"
+      }
     },
     "discovery": {
       "title": "Découverte",

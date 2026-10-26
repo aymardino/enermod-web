@@ -1027,7 +1027,7 @@
       "reject": "Reject",
       "approved": "Approved and published",
       "rejected": "Rejected",
-      "approveHint": "Approving creates the study, its tool and country links and its power pools, and recomputes the counters. Fix the errors listed above first.",
+      "approveHint": "Approving creates the study, its tool and country links and its power pools, and recomputes the counters. Fix the errors and fill the required fields listed above first.",
       "approveToolHint": "Approving creates or updates the tool profile.",
       "approveCorrectionHint": "Approving records the decision; apply the change itself through the edit endpoints or the workbook.",
       "reviewed": "Reviewed {d}",
@@ -1045,7 +1045,30 @@
       "errors": "To fix before approval",
       "message": "Message from the contributor",
       "decision": "Decision",
-      "noteLabel": "Review note"
+      "noteLabel": "Review note",
+      "missing": "Required before approval",
+      "missingText": "A study is published only with its tools, its countries and its scope: without them it is invisible on the map, the tool pages and the scope filters.",
+      "completeness": "{filled, number} of {total, number} fields filled; the empty ones are published as \"not assessed\".",
+      "discoveryHint": "This record comes from discovery: title, authors, DOI and abstract only. Fill in the essentials below for a quick addition, or run it through Krinea for the full extraction (Discovery page: export the relevant candidates as RIS, extract in Krinea, import the export on the Imports page).",
+      "essentials": "Complete the essentials",
+      "f": {
+        "tools": "Tools (comma separated)",
+        "countries": "Countries (names or ISO codes, comma separated)",
+        "level": "Scope",
+        "scale": "Scale"
+      },
+      "unset": "Not set",
+      "level": {
+        "full": "Whole energy-system",
+        "light": "Focused"
+      },
+      "scale": {
+        "national": "National",
+        "subnational": "Sub-national",
+        "regional": "Regional",
+        "continental": "Continental",
+        "global": "Global"
+      }
     },
     "discovery": {
       "title": "Discovery",

@@ -48,7 +48,8 @@ Sign in with an e-mail listed in `ADMIN_EMAILS` to reach the curation area at `/
   they change as curators add studies.
 - **Contributions.** Visitors propose studies, corrections and tools; curators verify, edit and
   approve; approved studies enter the inventory with their source marked.
-- **Discovery.** The review's OpenAlex search strategy re-runs on demand or weekly, matches
+- **Discovery.** The review's OpenAlex search strategy re-runs on demand or weekly (a free
+  OpenAlex API key is required), matches
   results against the corpus (DOI, title, fuzzy title) and queues candidates; relevant ones go
   to [Krinea](https://krinea.org) as RIS for screening and 51-field extraction, and come back as
   contributions through an import. Survey responses (CSV URL) feed the same queue.

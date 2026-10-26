@@ -76,6 +76,8 @@ services:
         sync: false
       - key: DEEPSEEK_API_KEY
         sync: false
+      - key: OPENALEX_API_KEY      # free key from openalex.org/settings/api-key; discovery fails without it
+        sync: false
       - key: OPENALEX_MAILTO
         sync: false
       - key: GITHUB_TOKEN
@@ -108,6 +110,8 @@ services:
         value: "7"
       - key: METRICS_AUTO
         value: "true"
+      - key: OPENALEX_API_KEY
+        sync: false
       - key: OPENALEX_MAILTO
         sync: false
       - key: GITHUB_TOKEN

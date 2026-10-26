@@ -23,12 +23,12 @@ domain is needed to start.
    from the dashboard once the switch is done.
 3. On `enermod-api`, set the environment variables marked `sync: false` that you need:
    `ADMIN_EMAILS` (your address, to reach `/admin`), an assistant key (`ANTHROPIC_API_KEY`,
-   `GEMINI_API_KEY` or `DEEPSEEK_API_KEY`), `OPENALEX_MAILTO`, and an e-mail provider
+   `GEMINI_API_KEY` or `DEEPSEEK_API_KEY`), `OPENALEX_API_KEY` (see "Discovery" below), and an e-mail provider
    (`EMAIL_PROVIDER=smtp` with the `SMTP_*` variables, or `resend`; see "E-mail and sign-in
    providers" below). Without an e-mail provider the sign-in link and the password recovery
    are unavailable; the password sign-in still works. `GOOGLE_CLIENT_ID` and
    `GOOGLE_CLIENT_SECRET` turn on "Continue with Google".
-4. On the worker, set the same `OPENALEX_MAILTO` and keys; the blueprint turns on the weekly
+4. On the worker, set the same `OPENALEX_API_KEY` and keys; the blueprint turns on the weekly
    discovery run and the monthly metrics refresh.
 5. First start: the API creates the tables and loads `data/enermod.db` (bundled in the image
    at `/app/data`, see `SEED_SQLITE` in `apps/api/Dockerfile`) because the database is empty;
@@ -56,6 +56,18 @@ Variants:
   `enermod-web` by hand to the API's public `https://enermod-api.onrender.com`. Expect cold
   starts of about a minute. The database stays on Supabase's free tier.
 - Other regions: change `region` (Frankfurt was chosen for Africa-to-Europe latency and EU hosting).
+
+## Discovery (OpenAlex)
+
+The discovery pipeline re-runs the review's search on OpenAlex, which meters its API in
+daily credits. Without an API key, OpenAlex refuses cursor paging (HTTP 401 after the first
+page) and the small free budget is shared by every site behind the host's outgoing address,
+so on Render it is spent before the pipeline starts (HTTP 429 "Insufficient budget"). A key is
+free: sign in at https://openalex.org/settings/api-key, copy the key, and set
+`OPENALEX_API_KEY` on **both** `enermod-api` and `enermod-worker`. A full sweep (five queries,
+up to 25 pages of 200 works each) costs well under the free daily allowance. The curation
+page shows a notice while the key is missing, and a failed run states the cause in one
+sentence.
 
 ## E-mail and sign-in providers
 

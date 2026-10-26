@@ -6,6 +6,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session as DBSession
 
 from enermod_api import models, schemas
+from enermod_api.config import get_settings
 from enermod_api.db import get_db
 from enermod_api.deps import RequireRole
 from enermod_api.routers.contributions import contribution_out
@@ -122,7 +123,7 @@ def discovery_runs(db: DBSession = Depends(get_db)):
 @router.get("/discovery/queries")
 def discovery_queries():
     from enermod_api.services.openalex import build_queries
-    return {"queries": build_queries()}
+    return {"queries": build_queries(), "api_key": bool(get_settings().openalex_api_key)}
 
 
 def _candidate_out(c: models.Candidate) -> dict:
@@ -203,7 +204,6 @@ async def import_krinea(file: UploadFile = File(...), db: DBSession = Depends(ge
 async def import_survey(file: UploadFile | None = File(default=None), mapping: str = Form(default=""),
                         db: DBSession = Depends(get_db), user: models.User = Depends(curator)):
     import json
-    from enermod_api.config import get_settings
     st = get_settings()
     if file is None:
         if not st.survey_csv_url:

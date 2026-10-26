@@ -210,6 +210,18 @@ address.
 never set a password and is the sign-in most AISESA members already have. Supabase Auth and
 ORCID (P-02) stay proposed: they would move sessions out of the API for little gain today.
 
+## D-15 · 2026-10-26 · decided · OpenAlex through a free API key
+
+**Decision.** The discovery client sends `OPENALEX_API_KEY` as a bearer header on every
+request (the key never appears in a URL or a log line), waits out short per-second limits,
+and turns OpenAlex's refusals into one-sentence errors on the curation page. `mailto` is kept
+as a courtesy.
+
+**Why.** OpenAlex now meters its API: without a key, cursor paging is refused (401) and the
+free budget is shared by every site behind the same address, which on Render is used up
+before the first page (429). Every discovery run since launch failed for one of those two
+reasons, with the whole query URL as the error message.
+
 ## Proposed (waiting for the owner)
 
 - **P-01** Scopus re-query through an institutional API key, as a second discovery arm.

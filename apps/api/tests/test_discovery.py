@@ -71,3 +71,63 @@ def test_run_discovery_matches_corpus(client, admin):
     assert "queries" in admin.get("/admin/discovery/queries").json()
     r = admin.post("/admin/discovery/run", json={"mode": "nope"})
     assert r.status_code == 400
+
+
+def _transport(handler):
+    return httpx.Client(transport=httpx.MockTransport(handler))
+
+
+def test_api_key_travels_in_the_header_not_the_url():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["auth"] = request.headers.get("authorization")
+        seen["url"] = str(request.url)
+        return httpx.Response(200, json={"meta": {"next_cursor": None}, "results": []})
+
+    oa = OpenAlexClient(mailto="test@example.org", api_key="k-123", client=_transport(handler), pause=0)
+    assert list(oa.search("x", max_pages=1)) == []
+    assert seen["auth"] == "Bearer k-123" and "k-123" not in seen["url"] and "mailto=test%40example.org" in seen["url"]
+
+
+def test_refusals_become_readable_errors_without_the_url(client, admin):
+    import pytest
+
+    from enermod_api.services.openalex import OpenAlexError
+
+    def refuse(status, body, headers=None):
+        return lambda request: httpx.Response(status, json=body, headers=headers or {})
+
+    oa = OpenAlexClient(client=_transport(refuse(401, {"error": "Invalid or missing API key", "message": "API key required"})), pause=0)
+    with pytest.raises(OpenAlexError) as e:
+        list(oa.search("x", max_pages=2))
+    assert "OPENALEX_API_KEY" in str(e.value) and "https://api.openalex.org" not in str(e.value)
+
+    oa = OpenAlexClient(client=_transport(refuse(429, {"error": "Rate limit exceeded", "message": "Insufficient budget"},
+                                                     {"retry-after": "45437", "x-ratelimit-remaining": "0"})), pause=0)
+    with pytest.raises(OpenAlexError) as e:
+        list(oa.search("x", max_pages=2))
+    assert "budget" in str(e.value) and "OPENALEX_API_KEY" in str(e.value) and "13 h" in str(e.value)
+
+    # the run records the readable message
+    db = session_factory()()
+    try:
+        run = run_discovery(db, mode="full", client=oa, max_pages=1)
+    finally:
+        db.close()
+    assert run.status == "failed" and run.error.startswith("OpenAlex: no API key") and "http" not in run.error.split("(keys")[0]
+
+
+def test_a_short_rate_limit_is_waited_out():
+    calls = []
+    waited = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls.append(1)
+        if len(calls) < 3:
+            return httpx.Response(429, json={"error": "Rate limit exceeded"}, headers={"retry-after": "1"})
+        return httpx.Response(200, json=_works())
+
+    oa = OpenAlexClient(api_key="k", client=_transport(handler), pause=0, sleep=waited.append)
+    assert len(list(oa.search("x", max_pages=1))) == 3
+    assert len(calls) == 3 and waited == [1.0, 1.0]

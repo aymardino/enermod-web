@@ -8,6 +8,7 @@ RIS for a Krinea review, or turned directly into a pending contribution.
 from __future__ import annotations
 
 import logging
+import re
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -16,7 +17,7 @@ from enermod_api import models
 from enermod_api.config import get_settings
 from enermod_api.services.biblio import norm_title, similarity, write_ris
 from enermod_api.services.data import Corpus, get_corpus
-from enermod_api.services.openalex import OpenAlexClient, build_queries, default_since, today
+from enermod_api.services.openalex import OpenAlexClient, OpenAlexError, build_queries, default_since, today
 
 log = logging.getLogger("enermod.discovery")
 FUZZY_THRESHOLD = 92.0
@@ -76,7 +77,7 @@ def set_setting(db: Session, key: str, value: dict) -> None:
 def run_discovery(db: Session, mode: str = "since", since: str | None = None,
                   client: OpenAlexClient | None = None, max_pages: int | None = None) -> models.DiscoveryRun:
     s = get_settings()
-    client = client or OpenAlexClient(mailto=s.openalex_mailto)
+    client = client or OpenAlexClient(mailto=s.openalex_mailto, api_key=s.openalex_api_key)
     max_pages = max_pages or s.discovery_max_pages
     if mode == "full":
         from_date = f"{s.discovery_from_year}-01-01"
@@ -120,9 +121,13 @@ def run_discovery(db: Session, mode: str = "since", since: str | None = None,
                     db.commit()
         run.status = "done"
         set_setting(db, SETTING_LAST_RUN, {"date": today(), "run_id": run.id})
+    except OpenAlexError as exc:
+        log.error("discovery stopped: %s", exc)
+        run.status, run.error = "failed", str(exc)[:1000]
     except Exception as exc:                      # noqa: BLE001
         log.exception("discovery failed")
-        run.status, run.error = "failed", f"{type(exc).__name__}: {exc}"[:2000]
+        # the message, never the request URL (an httpx error quotes the whole query)
+        run.status, run.error = "failed", re.sub(r"\s*for url '[^']*'", "", f"{type(exc).__name__}: {exc}")[:1000]
     run.n_fetched, run.n_new, run.n_known = n_fetched, n_new, n_known
     run.finished_at = models.now()
     db.commit()

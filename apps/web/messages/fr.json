@@ -1084,7 +1084,8 @@
       "w4": "Importez l’export d’extraction de Krinea sur la page Imports ; chaque ligne devient une contribution en attente.",
       "runTitle": "Lancer le pipeline",
       "noDate": "s. d.",
-      "pager": "Page {page} sur {pages}"
+      "pager": "Page {page} sur {pages}",
+      "noKey": "Aucune clé API OpenAlex n’est configurée : chaque exécution échouera, OpenAlex l’exige désormais. Obtenez une clé gratuite sur openalex.org/settings/api-key et renseignez OPENALEX_API_KEY sur l’API et le worker."
     },
     "imports": {
       "title": "Imports et suivi des outils",

@@ -87,7 +87,9 @@ class Settings:
         }
         self.chat_per_hour = int(os.environ.get("CHAT_PER_HOUR", "40"))              # per visitor
         self.chat_max_output_tokens = int(os.environ.get("CHAT_MAX_OUTPUT_TOKENS", "4000"))
-        # Discovery (OpenAlex)
+        # Discovery (OpenAlex). The API key is required: without one OpenAlex refuses paging
+        # and the free budget is shared by every site behind the host's address. Keys are free.
+        self.openalex_api_key = os.environ.get("OPENALEX_API_KEY", "").strip()
         self.openalex_mailto = os.environ.get("OPENALEX_MAILTO", "")
         self.discovery_from_year = int(os.environ.get("DISCOVERY_FROM_YEAR", "2000"))
         self.discovery_interval_days = int(os.environ.get("DISCOVERY_INTERVAL_DAYS", "7"))

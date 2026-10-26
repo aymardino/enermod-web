@@ -32,6 +32,8 @@ export default function DiscoveryPage() {
   const [page, setPage] = useState(1);
   const [since, setSince] = useState("");
   const runs = useQuery<Run[]>({ queryKey: ["discovery-runs"], queryFn: () => api.get("/admin/discovery/runs"), refetchInterval: 10_000 });
+  // whether the server holds an OpenAlex API key; without one every run is refused
+  const setup = useQuery<{ queries: string[]; api_key: boolean }>({ queryKey: ["discovery-setup"], queryFn: () => api.get("/admin/discovery/queries"), staleTime: 600_000 });
   const cands = useQuery<{ items: Candidate[]; total: number }>({ queryKey: ["candidates", status, q, page], queryFn: () => api.get(`/admin/discovery/candidates?status=${status}&q=${encodeURIComponent(q)}&page=${page}&page_size=30`) });
   const onError = (e: unknown) => toast.error(e instanceof ApiError ? e.message : c("error"));
   const refresh = () => { qc.invalidateQueries({ queryKey: ["candidates"] }); qc.invalidateQueries({ queryKey: ["discovery-runs"] }); qc.invalidateQueries({ queryKey: ["admin-overview"] }); };
@@ -177,6 +179,9 @@ export default function DiscoveryPage() {
 
         <aside className="min-w-0 space-y-12">
           <Block title={t("runs")}>
+            {setup.data?.api_key === false && (
+              <p role="alert" className="mb-4 border-l-2 border-amber-500 py-0.5 pl-3.5 text-[14px] leading-[1.5] text-ink-2">{t("noKey")}</p>
+            )}
             <ul className="border-b-2 border-t border-rule">
               {runs.data?.length === 0 && <li className="not-assessed py-3 text-[15px]">{t("noRuns")}</li>}
               {runs.data?.slice(0, 10).map((r) => (

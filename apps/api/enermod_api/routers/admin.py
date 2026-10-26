@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, UploadFile
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.orm import Session as DBSession
 
 from enermod_api import models, schemas
@@ -10,7 +10,7 @@ from enermod_api.config import get_settings
 from enermod_api.db import get_db
 from enermod_api.deps import RequireRole
 from enermod_api.routers.contributions import contribution_out
-from enermod_api.services import analytics, contributions, discovery, imports, jobs, metrics
+from enermod_api.services import analytics, contributions, discovery, imports, jobs, metrics, screening
 from enermod_api.services.biblio import clean_doi
 from enermod_api.services.data import get_corpus, invalidate, s
 
@@ -127,23 +127,49 @@ def discovery_queries():
 
 
 def _candidate_out(c: models.Candidate) -> dict:
+    signals_in, _, signals_out = (c.signals or "").partition(" | -")
     return {"id": c.id, "openalex_id": c.openalex_id, "doi": c.doi, "title": c.title, "abstract": c.abstract[:1200],
             "authors": c.authors, "year": c.year, "venue": c.venue, "url": c.url, "oa_url": c.oa_url, "cited_by": c.cited_by,
             "work_type": c.work_type, "language": c.language, "status": c.status, "match_study_id": c.match_study_id,
-            "match_score": c.match_score, "note": c.note, "created_at": c.created_at}
+            "match_score": c.match_score, "note": c.note, "created_at": c.created_at,
+            "relevance": c.relevance, "bucket": screening.bucket_of(c.relevance),
+            "signals_in": [s for s in signals_in.split(", ") if s], "signals_out": [s for s in signals_out.split(", -") if s]}
 
 
 @router.get("/discovery/candidates")
-def candidates(status: str = "new", q: str = "", page: int = 1, page_size: int = 50, db: DBSession = Depends(get_db)):
+def candidates(status: str = "new", q: str = "", page: int = 1, page_size: int = 50, sort: str = "relevance",
+               min_relevance: int | None = None, db: DBSession = Depends(get_db)):
+    """`sort` is relevance (screening score, then year) or recent; `min_relevance` hides the
+    candidates scored under it. `weak` counts the new candidates at or under the "weak" line."""
     query = select(models.Candidate)
     if status and status != "all":
         query = query.where(models.Candidate.status == status)
     if q:
         query = query.where(models.Candidate.title.ilike(f"%{q}%"))
+    base = query
+    if min_relevance is not None:
+        query = query.where(models.Candidate.relevance >= min_relevance)
     total = db.scalar(select(func.count()).select_from(query.subquery())) or 0
-    rows = db.scalars(query.order_by(models.Candidate.year.desc(), models.Candidate.cited_by.desc())
-                      .offset((max(page, 1) - 1) * page_size).limit(min(page_size, 200))).all()
-    return {"items": [_candidate_out(c) for c in rows], "total": total, "page": page}
+    weak = db.scalar(select(func.count()).select_from(
+        base.where(models.Candidate.status == "new", models.Candidate.relevance < screening.POSSIBLE_MIN).subquery())) or 0
+    order = ((models.Candidate.relevance.desc().nulls_last(), models.Candidate.year.desc(), models.Candidate.cited_by.desc())
+             if sort != "recent" else (models.Candidate.year.desc(), models.Candidate.cited_by.desc()))
+    rows = db.scalars(query.order_by(*order).offset((max(page, 1) - 1) * page_size).limit(min(page_size, 200))).all()
+    return {"items": [_candidate_out(c) for c in rows], "total": total, "page": page, "weak": weak,
+            "thresholds": {"possible": screening.POSSIBLE_MIN, "strong": screening.STRONG_MIN}}
+
+
+@router.post("/discovery/candidates/dismiss-weak")
+def dismiss_weak(body: schemas.DismissWeakIn, db: DBSession = Depends(get_db), user: models.User = Depends(curator)):
+    """Sets the new candidates scored at or under `max_relevance` aside as irrelevant, in one go."""
+    return {"count": screening.dismiss_weak(db, body.max_relevance)}
+
+
+@router.post("/discovery/candidates/rescore")
+def rescore(db: DBSession = Depends(get_db), user: models.User = Depends(curator)):
+    db.execute(update(models.Candidate).values(relevance=None))
+    db.commit()
+    return {"count": screening.backfill(db)}
 
 
 @router.patch("/discovery/candidates/{cid}")
@@ -175,8 +201,8 @@ def candidate_to_contribution(cid: int, db: DBSession = Depends(get_db), user: m
 
 
 @router.get("/discovery/export.ris")
-def export_ris(status: str = "relevant", db: DBSession = Depends(get_db)):
-    text = discovery.candidates_ris(db, status)
+def export_ris(status: str = "relevant", min_relevance: int | None = None, db: DBSession = Depends(get_db)):
+    text = discovery.candidates_ris(db, status, min_relevance)
     return Response(text, media_type="application/x-research-info-systems",
                     headers={"Content-Disposition": f'attachment; filename="enermod_candidates_{status}.ris"'})
 

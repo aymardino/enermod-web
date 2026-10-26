@@ -42,7 +42,8 @@
     "contact": "Contact",
     "github": "Source code on GitHub",
     "menu": "Menu",
-    "retry": "Try again"
+    "retry": "Try again",
+    "sort": "Sort"
   },
   "nav": {
     "observatory": "Observatory",
@@ -1079,13 +1080,32 @@
       "fetched": "{f, number} fetched, {n, number} new, {k, number} known",
       "workflowTitle": "Suggested workflow",
       "w1": "Run the pipeline; works already in the corpus are set aside automatically.",
-      "w2": "Screen the new candidates on title and abstract: relevant or irrelevant.",
+      "w2": "Screen the new candidates, best score first: relevant or irrelevant. Set the weak ones aside in one go.",
       "w3": "Export the relevant ones as RIS and import them into a Krinea review for full-text screening and 51-field extraction.",
       "w4": "Import Krinea's extraction export on the Imports page; each row becomes a pending contribution.",
       "runTitle": "Run the pipeline",
       "noDate": "n.d.",
       "pager": "Page {page} of {pages}",
-      "noKey": "No OpenAlex API key is configured, so every run will fail: OpenAlex now requires one. Get a free key at openalex.org/settings/api-key and set OPENALEX_API_KEY on the API and the worker."
+      "noKey": "No OpenAlex API key is configured, so every run will fail: OpenAlex now requires one. Get a free key at openalex.org/settings/api-key and set OPENALEX_API_KEY on the API and the worker.",
+      "relevance": "Screening score",
+      "relevanceHint": "From the review's own screening word lists: named tools and modelling vocabulary count for, off-topic vocabulary counts against. A help for the eye, never a decision.",
+      "bucket": {
+        "strong": "Likely in scope",
+        "possible": "Possible",
+        "weak": "Weak"
+      },
+      "showAll": "All scores",
+      "showPossible": "Possible and likely",
+      "showStrong": "Likely only",
+      "weakHidden": "{n, plural, one {# weak candidate hidden} other {# weak candidates hidden}}",
+      "dismissWeak": "Set the weak ones aside",
+      "dismissWeakConfirm": "Mark {n, plural, one {# candidate} other {# candidates}} scored under the \"possible\" line as irrelevant? They stay in the Irrelevant list and can be brought back one by one.",
+      "dismissed": "{n, plural, one {# candidate set aside} other {# candidates set aside}}.",
+      "sortRelevance": "By score",
+      "sortRecent": "Most recent",
+      "signalsIn": "For",
+      "signalsOut": "Against",
+      "exportNew": "Export the likely ones as RIS"
     },
     "imports": {
       "title": "Imports and tool tracker",

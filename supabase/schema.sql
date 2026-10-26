@@ -254,6 +254,8 @@ CREATE TABLE candidates (
 	status VARCHAR(20) NOT NULL, 
 	match_study_id INTEGER, 
 	match_score FLOAT, 
+	relevance INTEGER, 
+	signals TEXT NOT NULL DEFAULT '', 
 	note TEXT NOT NULL, 
 	created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
 	updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 

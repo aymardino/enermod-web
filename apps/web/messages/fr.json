@@ -42,7 +42,8 @@
     "contact": "Contact",
     "github": "Code source sur GitHub",
     "menu": "Menu",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "sort": "Trier"
   },
   "nav": {
     "observatory": "Observatoire",
@@ -1079,13 +1080,32 @@
       "fetched": "{f, number} récupérés, {n, number} nouveaux, {k, number} connus",
       "workflowTitle": "Flux de travail suggéré",
       "w1": "Lancez le pipeline ; les travaux déjà dans le corpus sont écartés automatiquement.",
-      "w2": "Triez les nouveaux candidats sur titre et résumé : pertinent ou non.",
+      "w2": "Triez les nouveaux candidats, meilleur score en premier : pertinent ou non. Écartez les faibles en une fois.",
       "w3": "Exportez les pertinents en RIS et importez-les dans une revue Krinea pour le tri sur texte intégral et l’extraction en 51 champs.",
       "w4": "Importez l’export d’extraction de Krinea sur la page Imports ; chaque ligne devient une contribution en attente.",
       "runTitle": "Lancer le pipeline",
       "noDate": "s. d.",
       "pager": "Page {page} sur {pages}",
-      "noKey": "Aucune clé API OpenAlex n’est configurée : chaque exécution échouera, OpenAlex l’exige désormais. Obtenez une clé gratuite sur openalex.org/settings/api-key et renseignez OPENALEX_API_KEY sur l’API et le worker."
+      "noKey": "Aucune clé API OpenAlex n’est configurée : chaque exécution échouera, OpenAlex l’exige désormais. Obtenez une clé gratuite sur openalex.org/settings/api-key et renseignez OPENALEX_API_KEY sur l’API et le worker.",
+      "relevance": "Score de tri",
+      "relevanceHint": "Issu des listes de mots-clés du tri de la revue : les outils nommés et le vocabulaire de la modélisation comptent pour, le vocabulaire hors sujet compte contre. Une aide pour l’œil, jamais une décision.",
+      "bucket": {
+        "strong": "Probablement dans le champ",
+        "possible": "Possible",
+        "weak": "Faible"
+      },
+      "showAll": "Tous les scores",
+      "showPossible": "Possibles et probables",
+      "showStrong": "Probables seulement",
+      "weakHidden": "{n, plural, one {# candidat faible masqué} other {# candidats faibles masqués}}",
+      "dismissWeak": "Écarter les faibles",
+      "dismissWeakConfirm": "Marquer comme non pertinents {n, plural, one {# candidat} other {# candidats}} sous la ligne « possible » ? Ils restent dans la liste Non pertinents et peuvent être repris un par un.",
+      "dismissed": "{n, plural, one {# candidat écarté} other {# candidats écartés}}.",
+      "sortRelevance": "Par score",
+      "sortRecent": "Plus récents",
+      "signalsIn": "Pour",
+      "signalsOut": "Contre",
+      "exportNew": "Exporter les probables en RIS"
     },
     "imports": {
       "title": "Imports et suivi des outils",

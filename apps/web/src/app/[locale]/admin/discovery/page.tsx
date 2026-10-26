@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { FieldHint, Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EmptyState, PageHeader, Skeleton } from "@/components/ui/misc";
+import { NativeSelect } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Block } from "@/components/observatory/page-head";
 import { SldStep, SldSteps } from "@/components/marketing/single-line-diagram";
@@ -30,16 +31,28 @@ export default function DiscoveryPage() {
   const [status, setStatus] = useState<(typeof STATUSES)[number]>("new");
   const [q, setQ] = useState("");
   const [page, setPage] = useState(1);
+  // screening score: hide the weak candidates by default, best score first
+  const [minRelevance, setMinRelevance] = useState<"all" | "possible" | "strong">("possible");
+  const [sort, setSort] = useState<"relevance" | "recent">("relevance");
   const [since, setSince] = useState("");
   const runs = useQuery<Run[]>({ queryKey: ["discovery-runs"], queryFn: () => api.get("/admin/discovery/runs"), refetchInterval: 10_000 });
   // whether the server holds an OpenAlex API key; without one every run is refused
   const setup = useQuery<{ queries: string[]; api_key: boolean }>({ queryKey: ["discovery-setup"], queryFn: () => api.get("/admin/discovery/queries"), staleTime: 600_000 });
-  const cands = useQuery<{ items: Candidate[]; total: number }>({ queryKey: ["candidates", status, q, page], queryFn: () => api.get(`/admin/discovery/candidates?status=${status}&q=${encodeURIComponent(q)}&page=${page}&page_size=30`) });
+  type CandidatePage = { items: Candidate[]; total: number; weak: number; thresholds: { possible: number; strong: number } };
+  const cands = useQuery<CandidatePage>({
+    queryKey: ["candidates", status, q, page, minRelevance, sort],
+    queryFn: () => api.get(`/admin/discovery/candidates?status=${status}&q=${encodeURIComponent(q)}&page=${page}&page_size=30&sort=${sort}${minRelevance === "all" ? "" : `&min_relevance=${minRelevance === "strong" ? 5 : 2}`}`),
+  });
   const onError = (e: unknown) => toast.error(e instanceof ApiError ? e.message : c("error"));
   const refresh = () => { qc.invalidateQueries({ queryKey: ["candidates"] }); qc.invalidateQueries({ queryKey: ["discovery-runs"] }); qc.invalidateQueries({ queryKey: ["admin-overview"] }); };
   const run = useMutation({ mutationFn: (mode: "since" | "full") => api.post<Job>("/admin/discovery/run", { mode, since: since || null }), onSuccess: (j) => { toast.success(j.status === "done" ? t("runDone", { n: Number(j.result.new ?? 0) }) : t("runQueued")); refresh(); }, onError });
   const mark = useMutation({ mutationFn: ({ id, s }: { id: number; s: string }) => api.patch(`/admin/discovery/candidates/${id}`, { status: s }), onSuccess: refresh, onError });
   const toContribution = useMutation({ mutationFn: (id: number) => api.post(`/admin/discovery/candidates/${id}/to-contribution`), onSuccess: () => { toast.success(t("sentToContributions")); refresh(); }, onError });
+  const dismissWeak = useMutation({
+    mutationFn: (max: number) => api.post<{ count: number }>("/admin/discovery/candidates/dismiss-weak", { max_relevance: max }),
+    onSuccess: (r) => { toast.success(t("dismissed", { n: r.count })); refresh(); },
+    onError,
+  });
   const pages = cands.data ? Math.max(1, Math.ceil(cands.data.total / 30)) : 1;
 
   return (
@@ -48,12 +61,20 @@ export default function DiscoveryPage() {
         title={t("title")}
         description={t("lede")}
         actions={
-          <Button variant="outline" asChild>
-            <a href={api.url("/admin/discovery/export.ris?status=relevant")}>
-              <Download aria-hidden="true" strokeWidth={1.5} />
-              {t("exportRis")}
-            </a>
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" asChild>
+              <a href={api.url("/admin/discovery/export.ris?status=new&min_relevance=5")}>
+                <Download aria-hidden="true" strokeWidth={1.5} />
+                {t("exportNew")}
+              </a>
+            </Button>
+            <Button variant="outline" asChild>
+              <a href={api.url("/admin/discovery/export.ris?status=relevant")}>
+                <Download aria-hidden="true" strokeWidth={1.5} />
+                {t("exportRis")}
+              </a>
+            </Button>
+          </div>
         }
       />
       <div className="grid gap-x-12 gap-y-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,340px)]">
@@ -89,8 +110,38 @@ export default function DiscoveryPage() {
             </Tabs>
             <Input type="search" placeholder={c("search")} aria-label={c("search")} value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} className="w-64 max-sm:w-full" />
           </div>
+          <div className="mt-4 flex flex-wrap items-end gap-x-4 gap-y-3">
+            <div className="w-56 max-sm:w-full">
+              <Label htmlFor="min-relevance">{t("relevance")}</Label>
+              <NativeSelect id="min-relevance" value={minRelevance} onChange={(e) => { setMinRelevance(e.target.value as typeof minRelevance); setPage(1); }}>
+                <option value="possible">{t("showPossible")}</option>
+                <option value="strong">{t("showStrong")}</option>
+                <option value="all">{t("showAll")}</option>
+              </NativeSelect>
+            </div>
+            <div className="w-40 max-sm:w-full">
+              <Label htmlFor="sort-candidates">{c("sort")}</Label>
+              <NativeSelect id="sort-candidates" value={sort} onChange={(e) => { setSort(e.target.value as typeof sort); setPage(1); }}>
+                <option value="relevance">{t("sortRelevance")}</option>
+                <option value="recent">{t("sortRecent")}</option>
+              </NativeSelect>
+            </div>
+            {status === "new" && (cands.data?.weak ?? 0) > 0 && (
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={dismissWeak.isPending}
+                onClick={() => { if (window.confirm(t("dismissWeakConfirm", { n: cands.data!.weak }))) dismissWeak.mutate((cands.data!.thresholds.possible) - 1); }}
+              >
+                <X aria-hidden="true" strokeWidth={1.75} />
+                {t("dismissWeak")}
+              </Button>
+            )}
+          </div>
+          <FieldHint className="mt-2 max-w-[60em]">{t("relevanceHint")}</FieldHint>
           <p className="mt-4 text-[13px] tabular-nums text-muted-foreground" aria-live="polite">
             {cands.data ? t("count", { n: cands.data.total }) : c("loading")}
+            {cands.data && status === "new" && minRelevance !== "all" && cands.data.weak > 0 && <> · {t("weakHidden", { n: cands.data.weak })}</>}
           </p>
 
           <div className="mt-2">
@@ -103,6 +154,11 @@ export default function DiscoveryPage() {
                     <article className="min-w-0">
                       <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[12.5px] tabular-nums text-muted-foreground">
                         <span className="font-semibold text-foreground">{x.year ?? t("noDate")}</span>
+                        {x.relevance !== null && (
+                          <Tag variant={x.bucket === "strong" ? "solid" : x.bucket === "possible" ? undefined : "warn"} title={`${t("relevance")}: ${x.relevance}`}>
+                            {t(`bucket.${x.bucket}`)} · {x.relevance}
+                          </Tag>
+                        )}
                         {x.work_type && <Tag>{x.work_type}</Tag>}
                         {x.venue && <span className="min-w-0 max-w-full truncate">{x.venue}</span>}
                         <span>· {t("cited", { n: x.cited_by })}</span>
@@ -126,6 +182,12 @@ export default function DiscoveryPage() {
                         )}
                       </h3>
                       {x.authors && <p className="mt-1 line-clamp-2 font-display text-[14.5px] leading-[1.4] text-ink-2">{x.authors}</p>}
+                      {(x.signals_in.length > 0 || x.signals_out.length > 0) && (
+                        <p className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[12.5px] leading-[1.4]">
+                          {x.signals_in.length > 0 && <span className="text-brand-800"><span className="font-semibold">{t("signalsIn")}</span> {x.signals_in.join(", ")}</span>}
+                          {x.signals_out.length > 0 && <span className="text-coral-700"><span className="font-semibold">{t("signalsOut")}</span> {x.signals_out.join(", ")}</span>}
+                        </p>
+                      )}
                       {x.abstract && (
                         <details className="mt-2 text-sm">
                           <summary className="link inline-flex min-h-6 cursor-pointer items-center text-[13px]">{t("abstract")}</summary>

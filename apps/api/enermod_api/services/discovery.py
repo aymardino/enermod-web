@@ -17,6 +17,7 @@ from enermod_api import models
 from enermod_api.config import get_settings
 from enermod_api.services.biblio import norm_title, similarity, write_ris
 from enermod_api.services.data import Corpus, get_corpus
+from enermod_api.services import screening
 from enermod_api.services.openalex import OpenAlexClient, OpenAlexError, build_queries, default_since, today
 
 log = logging.getLogger("enermod.discovery")
@@ -112,6 +113,7 @@ def run_discovery(db: Session, mode: str = "since", since: str | None = None,
                 for k in ("doi", "title", "abstract", "authors", "year", "venue", "url", "oa_url", "cited_by", "language"):
                     setattr(cand, k, work.get(k) if work.get(k) is not None else getattr(cand, k))
                 cand.work_type = work.get("type") or cand.work_type
+                screening.apply(cand)
                 if sid and cand.status in ("new", "known"):
                     cand.status, cand.match_study_id, cand.match_score = "known", sid, score
                     cand.note = f"already in the corpus ({reason})"
@@ -134,9 +136,11 @@ def run_discovery(db: Session, mode: str = "since", since: str | None = None,
     return run
 
 
-def candidates_ris(db: Session, status: str = "relevant") -> str:
-    rows = db.scalars(select(models.Candidate).where(models.Candidate.status == status)
-                      .order_by(models.Candidate.year.desc())).all()
+def candidates_ris(db: Session, status: str = "relevant", min_relevance: int | None = None) -> str:
+    q = select(models.Candidate).where(models.Candidate.status == status)
+    if min_relevance is not None:
+        q = q.where(models.Candidate.relevance >= min_relevance)
+    rows = db.scalars(q.order_by(models.Candidate.relevance.desc().nulls_last(), models.Candidate.year.desc())).all()
     return write_ris([{"title": c.title, "authors": c.authors, "year": c.year, "doi": c.doi, "url": c.url or c.oa_url,
                        "abstract": c.abstract, "venue": c.venue, "type": c.work_type, "openalex_id": c.openalex_id}
                       for c in rows])

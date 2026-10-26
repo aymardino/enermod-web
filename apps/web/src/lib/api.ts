@@ -121,7 +121,7 @@ export type Contribution = {
   target_tool_name: string; match_study_id: number | null; match_note: string; title: string; payload?: Record<string, unknown>; message?: string; submitter_name?: string;
   submitter_email?: string; submitter_org?: string; review_note?: string; errors?: string[];
 };
-export type Candidate = { id: number; openalex_id: string; doi: string; title: string; abstract: string; authors: string; year: number | null; venue: string; url: string; oa_url: string; cited_by: number; work_type: string; status: string; match_study_id: number | null; match_score: number | null; note: string; created_at: string };
+export type Candidate = { id: number; openalex_id: string; doi: string; title: string; abstract: string; authors: string; year: number | null; venue: string; url: string; oa_url: string; cited_by: number; work_type: string; status: string; match_study_id: number | null; match_score: number | null; note: string; created_at: string; relevance: number | null; bucket: "strong" | "possible" | "weak"; signals_in: string[]; signals_out: string[] };
 export type Job = { id: string; kind: string; status: string; payload: Record<string, unknown>; result: Record<string, unknown>; error: string; created_at: string; finished_at: string | null };
 export type AdminOverview = {
   pending_contributions: number; new_candidates: number; relevant_candidates: number; users: number; last_metrics_at: string | null;

@@ -222,6 +222,24 @@ free budget is shared by every site behind the same address, which on Render is 
 before the first page (429). Every discovery run since launch failed for one of those two
 reasons, with the whole query URL as the error message.
 
+## D-16 · 2026-10-26 · decided · Screening score on discovery candidates; additive migrations
+
+**Decision.** The discovery query stays the review's protocol (Appendix C, recall first). Each
+candidate gets a screening score computed from the review's own Rayyan word lists (Appendix
+C.4): a named instrument counts 4, modelling vocabulary 2, weak words 1 (capped), off-topic
+vocabulary and non-African geography count against; acronyms that are plain words (TIMES,
+MESSAGE, LEAP…) match in capitals only. The curation page ranks by score, hides the weak
+candidates by default, shows the words behind each score, and sets the weak ones aside in one
+click (reversible). On the corpus itself, 98 % of the 1,053 studies score "possible" or above
+from title, objective and result alone. `create_all` now also adds columns the models declare
+and the database lacks (`ensure_columns`), which is how `candidates.relevance` and `signals`
+reached the live database.
+
+**Why.** The first sweep stored 5,863 candidates, most of them off topic: the search is built
+for recall and OpenAlex matches acronyms case-insensitively ("times", "message", "leap"), so
+the review's manual screening step has to be reproduced somewhere. The lists are the review's,
+so the aid stays within the documented protocol; it assists, it never decides.
+
 ## Proposed (waiting for the owner)
 
 - **P-01** Scopus re-query through an institutional API key, as a second discovery arm.

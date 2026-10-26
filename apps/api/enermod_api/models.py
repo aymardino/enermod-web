@@ -289,6 +289,9 @@ class Candidate(Base):
     status: Mapped[str] = mapped_column(String(20), default="new", index=True)       # new | relevant | irrelevant | imported | known
     match_study_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
     match_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # screening aid (services/screening.py): score on title and abstract, and the words behind it
+    relevance: Mapped[int | None] = mapped_column(Integer, nullable=True, index=True)
+    signals: Mapped[str] = mapped_column(Text, default="")
     note: Mapped[str] = mapped_column(Text, default="")
     created_at: Mapped[dt.datetime] = mapped_column(DateTime, default=now)
     updated_at: Mapped[dt.datetime] = mapped_column(DateTime, default=now, onupdate=now)

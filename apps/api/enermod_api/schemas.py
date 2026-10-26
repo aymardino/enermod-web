@@ -139,6 +139,10 @@ class CandidateUpdate(BaseModel):
         return v
 
 
+class DismissWeakIn(BaseModel):
+    max_relevance: int = Field(default=1, ge=-50, le=50)       # new candidates scored at or under this are set aside
+
+
 class DiscoveryRunIn(BaseModel):
     mode: str = "since"                                   # since | full
     since: str | None = None                              # YYYY-MM-DD

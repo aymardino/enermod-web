@@ -12,14 +12,21 @@ from enermod_api.config import get_settings
 from enermod_api.db import create_all
 from enermod_api.routers import admin, auth, chat, contributions, events, public, recommend
 from enermod_api.seed import seed_if_empty
+from enermod_api.services import screening
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    create_all()           # idempotent; migrations can take over once the schema stabilises
+    create_all()           # idempotent, adds missing columns; migrations can take over once the schema stabilises
     seed_if_empty()        # loads data/enermod.db the first time an empty database is used
+    try:
+        from enermod_api.db import session_factory
+        with session_factory()() as db:
+            screening.backfill(db)   # scores the candidates found before the screening aid existed
+    except Exception:                # noqa: BLE001
+        logging.getLogger("enermod").exception("screening backfill failed")
     yield
 
 

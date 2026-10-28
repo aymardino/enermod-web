@@ -1,0 +1,14 @@
+{
+  "title": "EnerMod Africa: the African Energy Modelling Observatory",
+  "upload_type": "software",
+  "creators": [
+    {"name": "Plakoo, Kodjovi Aymard", "affiliation": "MINES Paris-PSL (CMA, The Transition Institute 1.5), for AISESA Cluster 1"}
+  ],
+  "description": "An open observatory of energy modelling studies applied to African countries, the tools they use and the institutions that lead them. It started from a PRISMA 2020 systematic review (1,053 studies, 101 tools, 54 countries) and is kept up to date through community contributions, an automated literature search and curator review. Code GPL-3.0; data exports CC BY 4.0. Site: https://enermod.africa",
+  "license": "GPL-3.0",
+  "keywords": ["energy modelling", "Africa", "systematic review", "energy planning", "observatory", "AISESA"],
+  "related_identifiers": [
+    {"identifier": "https://enermod.africa", "relation": "isSupplementTo", "resource_type": "other", "scheme": "url"}
+  ],
+  "access_right": "open"
+}

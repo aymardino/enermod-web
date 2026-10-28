@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use EnerMod Africa (the observatory, its code or its data), please cite it as below."
+title: "EnerMod Africa: the African Energy Modelling Observatory"
+type: software
+authors:
+  - family-names: Plakoo
+    given-names: Kodjovi Aymard
+    affiliation: "MINES Paris-PSL (Centre de Mathématiques Appliquées, The Transition Institute 1.5), for AISESA Cluster 1"
+repository-code: "https://github.com/aymardino/enermod-web"
+url: "https://enermod.africa"
+license: GPL-3.0
+keywords:
+  - energy modelling
+  - Africa
+  - systematic review
+  - energy planning
+  - observatory
+abstract: "An open observatory of energy modelling studies applied to African countries, the tools they use and the institutions that lead them. It started from a PRISMA 2020 systematic review (1,053 studies, 101 tools, 54 countries) and is kept up to date through community contributions, an automated literature search and curator review. Data exports are CC BY 4.0."
+references:
+  - type: thesis
+    title: "Who models Africa's energy future? A systematic review of energy modelling studies and tools applied to African countries, and the EnerMod Africa Observatory"
+    authors:
+      - family-names: Plakoo
+        given-names: Kodjovi Aymard
+    institution:
+      name: "MINES Paris-PSL"
+    year: 2026
+    notes: "Master thesis (OSE), for AISESA Cluster 1"

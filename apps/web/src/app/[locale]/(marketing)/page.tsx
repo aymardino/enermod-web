@@ -10,7 +10,7 @@ import { PartnerLogos } from "@/components/brand/logo";
 import { HeroStats, HomeOrigin, HomeTrend, LatestEntries } from "@/components/observatory/home-live";
 import { SECTION_PHOTO } from "@/components/observatory/page-head";
 import { PHOTOS, photoAlt, photoCredit } from "@/data/photos";
-import { AISESA_URL, REPO_URL, SITE_URL, TTI_URL, localePath } from "@/lib/site";
+import { AISESA_URL, DOI, REPO_URL, SITE_URL, TTI_URL, localePath } from "@/lib/site";
 
 const WRAP = "mx-auto w-full max-w-[1800px] px-6 lg:px-12 max-md:px-4";
 

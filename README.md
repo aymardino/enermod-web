@@ -1,5 +1,7 @@
 # EnerMod Africa: the African Energy Modelling Observatory
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23749376.svg)](https://doi.org/10.5281/zenodo.23749376)
+
 EnerMod Africa is an open observatory of energy modelling studies applied to African countries,
 the tools they use and the institutions that lead them. Its initial step was a PRISMA 2020
 systematic review (searches run on 5 May 2026: 1,053 studies, 101 tools); since then the
@@ -67,6 +69,14 @@ Sign in with an e-mail listed in `ADMIN_EMAILS` to reach the curation area at `/
 cd apps/api && python -m pytest -q      # the API suite: thesis figures, API, auth, contributions, discovery (mocked), imports, chat (stubbed), metrics
 cd apps/web && pnpm lint && pnpm build
 ```
+
+## How to cite
+
+Plakoo, K. A. (2026). *EnerMod Africa: the African Energy Modelling Observatory* (v1.0.0). Zenodo.
+https://doi.org/10.5281/zenodo.23749376. The thesis behind it: Plakoo, K. A. (2026). *Who models Africa's
+energy future? A systematic review of energy modelling studies and tools applied to African
+countries, and the EnerMod Africa Observatory.* Master thesis, MINES Paris-PSL, for AISESA
+Cluster 1. `CITATION.cff` carries the same in machine-readable form.
 
 ## Licence
 

@@ -31,4 +31,4 @@ The mission was carried out by Kodjovi Aymard Plakoo (MINES Paris-PSL, OSE Maste
 
 > Plakoo, K. A. (2026). *Who models Africa's energy future? A systematic review of energy modelling studies and tools applied to African countries, and the EnerMod Africa Observatory.* Master thesis, MINES Paris-PSL, for AISESA Cluster 1.
 
-Data exports carry a CC BY 4.0 licence; the code is GPL-3.0 (observatory) and available on [GitHub](https://github.com/aymardino/enermod-web). The original Streamlit edition remains in the [Enermod_Africa](https://github.com/aymardino/Enermod_Africa) repository.
+The platform and its data are archived on Zenodo under the DOI [10.5281/zenodo.23749376](https://doi.org/10.5281/zenodo.23749376); cite it for the observatory itself, and the thesis for the review. Data exports carry a CC BY 4.0 licence; the code is GPL-3.0 (observatory) and available on [GitHub](https://github.com/aymardino/enermod-web). The original Streamlit edition remains in the [Enermod_Africa](https://github.com/aymardino/Enermod_Africa) repository.

@@ -6,6 +6,11 @@ authors:
   - family-names: Plakoo
     given-names: Kodjovi Aymard
     affiliation: "MINES Paris-PSL (Centre de Mathématiques Appliquées, The Transition Institute 1.5), for AISESA Cluster 1"
+doi: 10.5281/zenodo.23749376
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23749376
+    description: "Zenodo archive of the repository (all versions)"
 repository-code: "https://github.com/aymardino/enermod-web"
 url: "https://enermod.africa"
 license: GPL-3.0

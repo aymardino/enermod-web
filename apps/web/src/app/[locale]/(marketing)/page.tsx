@@ -27,6 +27,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     inLanguage: locale,
     url: SITE_URL + localePath(locale, ""),
     license: "https://creativecommons.org/licenses/by/4.0/",
+    identifier: `https://doi.org/${DOI}`,
     publisher: { "@type": "Organization", name: "AISESA", url: AISESA_URL },
     creator: [
       { "@type": "Organization", name: "AISESA", url: AISESA_URL },

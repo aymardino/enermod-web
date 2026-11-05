@@ -29,6 +29,14 @@ The mission was carried out by Kodjovi Aymard Plakoo (MINES Paris-PSL, OSE Maste
 
 ## How to cite
 
-> Plakoo, K. A. (2026). *Who models Africa's energy future? A systematic review of energy modelling studies and tools applied to African countries, and the EnerMod Africa Observatory.* Master thesis, MINES Paris-PSL, for AISESA Cluster 1.
+To cite the observatory, its data or its code:
 
-The platform and its data are archived on Zenodo under the DOI [10.5281/zenodo.23749376](https://doi.org/10.5281/zenodo.23749376); cite it for the observatory itself, and the thesis for the review. Data exports carry a CC BY 4.0 licence; the code is GPL-3.0 (observatory) and available on [GitHub](https://github.com/aymardino/enermod-web). The original Streamlit edition remains in the [Enermod_Africa](https://github.com/aymardino/Enermod_Africa) repository.
+> Plakoo, K. A., & Maïzi, N. (2026). *EnerMod Africa: the African Energy Modelling Observatory* [Software and data]. Zenodo. [https://doi.org/10.5281/zenodo.23749375](https://doi.org/10.5281/zenodo.23749375)
+
+This DOI covers every archived version and always leads to the latest one. Release 1.0.0 of 29 October 2026 also has its own DOI, [10.5281/zenodo.23749376](https://doi.org/10.5281/zenodo.23749376), for citing that exact state.
+
+To cite the systematic review behind it:
+
+> Plakoo, K. A. (2026). *Mapping energy modeling tools and analytical capacities across African countries: A systematic review and digital platform* [Professional thesis, Post-Graduate Master in Energy Systems Optimization (OSE)]. MINES Paris-PSL.
+
+Data exports carry a CC BY 4.0 licence; the code is GPL-3.0 and available on [GitHub](https://github.com/aymardino/enermod-web). The platform's first edition, a Streamlit application published on this domain in 2026, is kept in a separate repository.

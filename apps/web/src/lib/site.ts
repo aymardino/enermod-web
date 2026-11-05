@@ -1,10 +1,10 @@
 /** Public address of the site, for canonical URLs, the sitemap and social cards. */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://enermod.africa").replace(/\/+$/, "");
 export const REPO_URL = "https://github.com/aymardino/enermod-web";
-export const LEGACY_REPO_URL = "https://github.com/aymardino/Enermod_Africa";
 export const KRINEA_URL = "https://krinea.org";
 export const AISESA_URL = "https://aisesa.org";
-export const DOI = "10.5281/zenodo.23749376";                       // Zenodo archive of the platform, all versions
+/** Zenodo concept DOI: covers every archived version and always resolves to the latest one. */
+export const DOI = "10.5281/zenodo.23749375";
 export const TTI_URL = "https://the-transition-institute.minesparis.psl.eu/";
 export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "";
 /** Public routes (path without locale prefix), for the sitemap. */

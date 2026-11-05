@@ -5,12 +5,20 @@ type: software
 authors:
   - family-names: Plakoo
     given-names: Kodjovi Aymard
-    affiliation: "MINES Paris-PSL (Centre de Mathématiques Appliquées, The Transition Institute 1.5), for AISESA Cluster 1"
-doi: 10.5281/zenodo.23749376
+    affiliation: "MINES Paris-PSL (CMA, The Transition Institute 1.5), for AISESA Cluster 1"
+    orcid: "https://orcid.org/0009-0001-9500-6290"
+  - family-names: Maïzi
+    given-names: Nadia
+    affiliation: "Centre de Mathématiques Appliquées - CMA"
+    orcid: "https://orcid.org/0000-0001-5003-5103"
+doi: 10.5281/zenodo.23749375
 identifiers:
   - type: doi
+    value: 10.5281/zenodo.23749375
+    description: "Zenodo archive, all versions (resolves to the latest)"
+  - type: doi
     value: 10.5281/zenodo.23749376
-    description: "Zenodo archive of the repository (all versions)"
+    description: "Zenodo archive of release v1.0.0 (2026-10-29)"
 repository-code: "https://github.com/aymardino/enermod-web"
 url: "https://enermod.africa"
 license: GPL-3.0
@@ -23,11 +31,13 @@ keywords:
 abstract: "An open observatory of energy modelling studies applied to African countries, the tools they use and the institutions that lead them. It started from a PRISMA 2020 systematic review (1,053 studies, 101 tools, 54 countries) and is kept up to date through community contributions, an automated literature search and curator review. Data exports are CC BY 4.0."
 references:
   - type: thesis
-    title: "Who models Africa's energy future? A systematic review of energy modelling studies and tools applied to African countries, and the EnerMod Africa Observatory"
+    title: "Mapping energy modeling tools and analytical capacities across African countries: A systematic review and digital platform"
     authors:
       - family-names: Plakoo
         given-names: Kodjovi Aymard
+        orcid: "https://orcid.org/0009-0001-9500-6290"
     institution:
       name: "MINES Paris-PSL"
     year: 2026
-    notes: "Master thesis (OSE), for AISESA Cluster 1"
+    thesis-type: "Professional thesis, Post-Graduate Master in Energy Systems Optimization (OSE)"
+    notes: "For AISESA Cluster 1, Activity 1"

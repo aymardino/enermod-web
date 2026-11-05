@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { EnermodWordmark, PartnerLogos } from "@/components/brand/logo";
 import { LanguageSwitch } from "@/components/marketing/language-switch";
-import { KRINEA_URL, LEGACY_REPO_URL, REPO_URL } from "@/lib/site";
+import { DOI, KRINEA_URL, REPO_URL } from "@/lib/site";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +19,6 @@ const GROUPS: { key: "explore" | "project" | "data"; links: FooterLink[] }[] = [
   { key: "project", links: [
     { key: "about", href: "/about" }, { key: "methodology", href: "/methodology" }, { key: "research", href: "/research" },
     { key: "contribute", href: "/contribute" }, { key: "contact", href: "/contact" }, { key: "github", href: REPO_URL, external: true },
-    { key: "legacy", href: LEGACY_REPO_URL, external: true },
   ] },
   { key: "data", links: [
     { key: "footer.downloadStudies", href: api.url("/export/studies.csv"), external: true },
@@ -27,6 +27,35 @@ const GROUPS: { key: "explore" | "project" | "data"; links: FooterLink[] }[] = [
     { key: "footer.privacy", href: "/privacy" }, { key: "footer.legalNotice", href: "/legal" },
   ] },
 ];
+
+/** How to cite the observatory: the Zenodo reference with its DOI, and a button that copies it. */
+function CiteBlock() {
+  const t = useTranslations("nav.footer");
+  const [copied, setCopied] = useState(false);
+  const url = `https://doi.org/${DOI}`;
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(`${t("citation")} ${url}`);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2500);
+    } catch {
+      /* clipboard unavailable (insecure context, permissions): the reference stays selectable */
+    }
+  };
+  return (
+    <div className="mt-6 max-w-[52em] border-l-2 border-white/30 pl-4">
+      <h2 className="text-[15px] font-bold text-white">{t("cite")}</h2>
+      <p className="mt-1.5 text-[14.5px] leading-[1.6] text-white/85">
+        {t("citation")}{" "}
+        <a href={url} target="_blank" rel="noreferrer" className="[overflow-wrap:anywhere] text-white underline decoration-white/50 underline-offset-3 hover:decoration-white">{url}</a>
+      </p>
+      <button type="button" onClick={copy} className="mt-2.5 inline-flex h-9 items-center rounded-md border border-white/40 px-3.5 text-[14px] font-medium text-white hover:border-white hover:bg-white/10">
+        {copied ? t("copied") : t("copy")}
+      </button>
+      <span className="sr-only" aria-live="polite">{copied ? t("copied") : ""}</span>
+    </div>
+  );
+}
 
 const linkClass = "block py-1 text-[15px] leading-[1.5] text-white/75 no-underline hover:text-white hover:underline hover:underline-offset-3";
 
@@ -75,6 +104,7 @@ export function SiteFooter({ wide = false }: { wide?: boolean }) {
         <div className={cn(wrap, "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-10 gap-y-6 pb-24 pt-10 max-lg:grid-cols-1 max-md:pt-8")}>
           <div className="min-w-0">
             <p className="max-w-[44em] text-[16px] leading-[1.55] text-white">{t("footer.institutions")}</p>
+            <CiteBlock />
             <p className="mt-4 text-[13.5px] leading-[1.6] text-white/60">
               {t("footer.copyright", { year })} · {t("footer.licence")}
               <br />

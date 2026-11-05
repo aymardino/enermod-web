@@ -54,7 +54,6 @@
     "contact": "Contact",
     "admin": "Curation",
     "github": "Code source sur GitHub",
-    "legacy": "Édition Streamlit (2026)",
     "menu": "Menu",
     "language": "Langue",
     "obs": {
@@ -79,7 +78,11 @@
       "institutions": "Une activité du Cluster 1 d’AISESA. La revue initiale et la première version de la plateforme ont été réalisées au Centre de Mathématiques Appliquées de MINES Paris-PSL (The Transition Institute 1.5).",
       "copyright": "© {year} EnerMod Africa · AISESA",
       "licence": "Données CC BY 4.0 · Code GPL-3.0 · Diagramme PRISMA 2020 CC BY 4.0",
-      "colophon": "Cartes Natural Earth 1:110m, projection azimutale équivalente de Lambert."
+      "colophon": "Cartes Natural Earth 1:110m, projection azimutale équivalente de Lambert.",
+      "cite": "Citer EnerMod Africa",
+      "citation": "Plakoo, K. A. et Maïzi, N. (2026). EnerMod Africa: the African Energy Modelling Observatory [logiciel et données]. Zenodo.",
+      "copy": "Copier la référence",
+      "copied": "Référence copiée"
     },
     "skip": "Aller au contenu",
     "utilities": "Utilitaires",

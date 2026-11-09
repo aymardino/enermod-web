@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import threading
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -27,6 +28,9 @@ async def lifespan(app: FastAPI):
             screening.backfill(db)   # scores the candidates found before the screening aid existed
     except Exception:                # noqa: BLE001
         logging.getLogger("enermod").exception("screening backfill failed")
+    if get_settings().embedded_worker:   # one service instead of API + worker (render.yaml)
+        from enermod_api.services.jobs import run_embedded_worker
+        threading.Thread(target=run_embedded_worker, name="enermod-worker", daemon=True).start()
     yield
 
 

@@ -1,26 +1,28 @@
 # Deployment
 
-Three containers (API, worker, web) and one PostgreSQL database. Any Docker host works; the
+Two containers (API, web) and one PostgreSQL database; the job queue runs in the API on Render
+(`EMBEDDED_WORKER=1`) or in a third container elsewhere. Any Docker host works; the
 notes below cover Render first, then docker compose, then a generic host.
 
 ## Render (blueprint)
 
-`render.yaml` at the repository root describes three services: the API (Docker, health check
-on `/health`), the worker (same image, `python -m enermod_api.worker`) and the web app (Docker).
+`render.yaml` at the repository root describes two services: the API (Docker, health check
+on `/health`), which also runs the job queue in a thread (`EMBEDDED_WORKER=1`), and the web
+app (Docker).
 The database is Supabase (`docs/supabase.md`); Render asks for its connection string. Browsers
 only reach the web app; it proxies `/api/*` to the API over Render's private network, so no
 domain is needed to start.
 
 1. Push the repository to GitHub (done) and connect Render to it.
 2. In the Render dashboard: **New → Blueprint**, pick `aymardino/enermod-web`, branch `main`.
-   Render reads `render.yaml`, creates `enermod-api`, `enermod-worker` and `enermod-web`, and
+   Render reads `render.yaml`, creates `enermod-api` and `enermod-web`, and
    asks for `DATABASE_URL`: paste the Supabase connection string (Connect → URI → *Session
-   pooler*, port 5432) for the API and again for the worker. The API's `SECRET_KEY` is
+   pooler*, port 5432) for the API. The API's `SECRET_KEY` is
    generated; the web app receives `API_URL` and `PROXY_KEY` from the API service.
    **Already deployed?** Open `enermod-api` → **Environment**, edit `DATABASE_URL`, paste the
-   Supabase string, **Save changes** (Render redeploys), then do the same on `enermod-worker`.
-   A database created by an earlier version of the blueprint (`enermod-db`) can be deleted
-   from the dashboard once the switch is done.
+   Supabase string, **Save changes** (Render redeploys). A database (`enermod-db`) or a worker
+   service (`enermod-worker`) created by an earlier version of the blueprint can be deleted from
+   the dashboard once the switch is done: each costs about $7 a month.
 3. On `enermod-api`, set the environment variables marked `sync: false` that you need:
    `ADMIN_EMAILS` (your address, to reach `/admin`), an assistant key (`ANTHROPIC_API_KEY`,
    `GEMINI_API_KEY` or `DEEPSEEK_API_KEY`), `OPENALEX_API_KEY` (see "Discovery" below), and an e-mail provider
@@ -28,8 +30,8 @@ domain is needed to start.
    providers" below). Without an e-mail provider the sign-in link and the password recovery
    are unavailable; the password sign-in still works. `GOOGLE_CLIENT_ID` and
    `GOOGLE_CLIENT_SECRET` turn on "Continue with Google".
-4. On the worker, set the same `OPENALEX_API_KEY` and keys; the blueprint turns on the weekly
-   discovery run and the monthly metrics refresh.
+4. The blueprint turns on the weekly discovery run and the monthly metrics refresh, run by the
+   API's job queue with the keys set in step 3 (`OPENALEX_API_KEY`, `GITHUB_TOKEN`).
 5. First start: the API creates the tables and loads `data/enermod.db` (bundled in the image
    at `/app/data`, see `SEED_SQLITE` in `apps/api/Dockerfile`) because the database is empty;
    the API log shows `seeded from /app/data/enermod.db`. A minute later the site is live at
@@ -52,7 +54,7 @@ Variants:
   `fromDatabase: { name: enermod-db, property: connectionString }`; the comment at the top
   of `render.yaml` has the exact lines.
 - **Free tier for a test**: `plan: free` on `enermod-web` and `enermod-api`, `INLINE_JOBS=1` on
-  the API, delete the worker. Free instances cannot use the private network: set `API_URL` on
+  the API. Free instances cannot use the private network: set `API_URL` on
   `enermod-web` by hand to the API's public `https://enermod-api.onrender.com`. Expect cold
   starts of about a minute. The database stays on Supabase's free tier.
 - Other regions: change `region` (Frankfurt was chosen for Africa-to-Europe latency and EU hosting).
@@ -64,7 +66,7 @@ daily credits. Without an API key, OpenAlex refuses cursor paging (HTTP 401 afte
 page) and the small free budget is shared by every site behind the host's outgoing address,
 so on Render it is spent before the pipeline starts (HTTP 429 "Insufficient budget"). A key is
 free: sign in at https://openalex.org/settings/api-key, copy the key, and set
-`OPENALEX_API_KEY` on **both** `enermod-api` and `enermod-worker`. A full sweep (five queries,
+`OPENALEX_API_KEY` on `enermod-api` (and on the worker, where one runs). A full sweep (five queries,
 up to 25 pages of 200 works each) costs well under the free daily allowance. The curation
 page shows a notice while the key is missing, and a failed run states the cause in one
 sentence.
@@ -137,7 +139,8 @@ is reached through the web app's `/api` proxy. Set `BASE_URL=https://your.domain
 ## Fly, Railway, a VPS
 
 - Build the API image with context = repository root and `apps/api/Dockerfile`; run the same
-  image a second time with the command `python -m enermod_api.worker` for the worker.
+  image a second time with the command `python -m enermod_api.worker` for the worker, or set
+  `EMBEDDED_WORKER=1` on the API instead.
 - Build the web image with `apps/web/Dockerfile`; set `API_URL` to the API's internal address
   (or its public https address) and `PROXY_KEY` to the API's `SECRET_KEY`.
 - Database: Supabase (`docs/supabase.md`) or the platform's managed PostgreSQL.

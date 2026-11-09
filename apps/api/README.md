@@ -12,7 +12,7 @@ python -m pytest -q                          # the full suite, SQLite, no networ
 python -m enermod_api.seed --reset           # reload data/enermod.db (or --workbook data/Models_Africa_v2.xlsm)
 python -m enermod_api.manage promote you@example.org admin
 python -m enermod_api.manage discover --since 2026-05-05
-python -m enermod_api.worker                 # runs queued jobs and the periodic ones
+python -m enermod_api.worker                 # runs queued jobs and the periodic ones (or EMBEDDED_WORKER=1 on the API)
 ```
 
 The data is loaded automatically from `data/enermod.db` the first time an empty database is

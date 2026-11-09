@@ -106,6 +106,8 @@ class Settings:
         except json.JSONDecodeError:
             self.survey_field_map = {}
         self.inline_jobs = _bool(os.environ.get("INLINE_JOBS"), self.env != "production")
+        # Run the job loop in a thread of the API process instead of a separate worker service
+        self.embedded_worker = _bool(os.environ.get("EMBEDDED_WORKER"), False)
         self.contributions_per_hour = int(os.environ.get("CONTRIBUTIONS_PER_HOUR", "10"))
         self.analytics_salt = os.environ.get("ANALYTICS_SALT", self.secret_key)
 

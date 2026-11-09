@@ -1,5 +1,6 @@
 """Database-backed job queue: discovery runs, metrics refreshes, survey syncs. Jobs run in
-the worker process; in development and tests they run inline."""
+the worker process, or in a thread of the API with EMBEDDED_WORKER=1; in development and tests
+they run inline."""
 from __future__ import annotations
 
 import datetime as dt
@@ -7,7 +8,7 @@ import logging
 import time
 import traceback
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from enermod_api import models
@@ -113,6 +114,18 @@ def schedule_periodic(db: Session) -> None:
     db.commit()
 
 
+def claim_next(db: Session) -> str | None:
+    """Mark the oldest queued job as running and return its id. The conditional update makes the
+    claim atomic, so two loops (a worker and an embedded one during a switch) never run the same job."""
+    job_id = db.scalar(select(models.Job.id).where(models.Job.status == "queued").order_by(models.Job.created_at).limit(1))
+    if job_id is None:
+        return None
+    claimed = db.execute(update(models.Job).where(models.Job.id == job_id, models.Job.status == "queued")
+                         .values(status="running")).rowcount
+    db.commit()
+    return job_id if claimed == 1 else None
+
+
 def worker_loop(poll_seconds: float = 10.0) -> None:
     """`python -m enermod_api.worker`: picks queued jobs one at a time and schedules the periodic ones."""
     log.info("worker started")
@@ -123,14 +136,21 @@ def worker_loop(poll_seconds: float = 10.0) -> None:
             if time.time() - last_schedule > 600:
                 schedule_periodic(db)
                 last_schedule = time.time()
-            job = db.scalar(select(models.Job).where(models.Job.status == "queued").order_by(models.Job.created_at).limit(1))
-            job_id = job.id if job else None
-            if job:
-                job.status = "running"
-                db.commit()
+            job_id = claim_next(db)
         finally:
             db.close()
         if job_id:
             run_job(job_id)
         else:
             time.sleep(poll_seconds)
+
+
+def run_embedded_worker() -> None:
+    """EMBEDDED_WORKER=1: the job loop in a daemon thread of the API, restarted if it ever fails
+    (a separate worker process would be restarted by its host instead)."""
+    while True:
+        try:
+            worker_loop()
+        except Exception:
+            log.exception("embedded worker stopped; restarting in 60 s")
+            time.sleep(60)

@@ -48,9 +48,8 @@ cd apps/api && uvicorn enermod_api.main:app --port 8000
   `depends_on: db` lines in `docker-compose.yml` can then be removed.
 - **Render**: `render.yaml` already expects Supabase and asks for `DATABASE_URL` when the
   Blueprint is created. On a deployment that already exists: `enermod-api` → **Environment** →
-  `DATABASE_URL` → Edit → paste → **Save changes**; Render redeploys the service. Repeat on
-  `enermod-worker`. Nothing is stored in the repository (`docs/deploy.md`).
-- The worker takes the same `DATABASE_URL` and `SECRET_KEY` as the API.
+  `DATABASE_URL` → Edit → paste → **Save changes**; Render redeploys the service. Nothing is stored in the repository (`docs/deploy.md`).
+- A separate worker (docker compose) takes the same `DATABASE_URL` and `SECRET_KEY` as the API.
 
 **First start.** The API creates the 18 tables (`Base.metadata.create_all`) and, because the
 `studies` table is empty, loads `data/enermod.db`: 1,053 studies, 101 tools, 54 countries and
@@ -60,7 +59,7 @@ sequences with the seeded ids so that studies approved later get fresh ids. Chec
 
 Prefer creating the tables yourself? Run `supabase/schema.sql` in the SQL editor first (same
 18 tables, generated from the models); the API then only seeds. `SEED_ON_STARTUP=false` turns
-the automatic seed off (set on the worker in `render.yaml`, which never seeds).
+the automatic seed off (set it on a separate worker, which never needs to seed).
 
 ## 4. What moves and what does not
 

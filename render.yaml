@@ -1,9 +1,9 @@
-# Render blueprint for the EnerMod Africa hub: API, worker and web app, with Supabase as the
-# database (docs/supabase.md). Dashboard: New -> Blueprint -> this repository -> branch main.
+# Render blueprint for the EnerMod Africa hub: API and web app, with Supabase as the database
+# (docs/supabase.md). Dashboard: New -> Blueprint -> this repository -> branch main.
 #
 # DATABASE_URL is asked for when the Blueprint is created (sync: false): paste the Supabase
-# connection string (Connect -> URI -> "Session pooler", port 5432) on BOTH enermod-api and
-# enermod-worker. The first start of the API creates the tables and loads the 1,053 studies.
+# connection string (Connect -> URI -> "Session pooler", port 5432) on enermod-api. The first
+# start of the API creates the tables and loads the 1,053 studies.
 #
 # Browsers only talk to `enermod-web`, which proxies `/api/*` to the API over Render's private
 # network, so the deployment works on the default *.onrender.com address with no domain.
@@ -11,16 +11,21 @@
 # `enermod-api` to that https URL and CANONICAL_HOST on `enermod-web` to its host. `fromService` values are filled in when the Blueprint syncs;
 # if a service failed to build during the first sync, run "Manual sync" once everything is green.
 #
+# Two paid services, not three: the API runs the job queue (discovery, metrics, survey sync) in a
+# thread (EMBEDDED_WORKER=1). An `enermod-worker` service created by an earlier version of this
+# file is no longer needed: delete it in the dashboard (Settings -> Delete service).
+#
 # Render PostgreSQL instead of Supabase: add
 #   databases:
 #     - { name: enermod-db, plan: basic-256mb, databaseName: enermod, user: enermod, region: frankfurt }
-# and replace the two DATABASE_URL entries by
+# and replace the DATABASE_URL entry by
 #   - key: DATABASE_URL
 #     fromDatabase: { name: enermod-db, property: connectionString }
 #
-# Cheaper test setup: `plan: free` on enermod-web and enermod-api, INLINE_JOBS=1 on the API and
-# no worker. Free instances cannot use the private network, so then set API_URL on enermod-web
-# by hand to the API's public https URL, and expect cold starts of about a minute.
+# Cheaper test setup: `plan: free` on enermod-web and enermod-api (a free instance sleeps after
+# 15 minutes without traffic, and the job queue with it). Free instances cannot use the private
+# network, so then set API_URL on enermod-web by hand to the API's public https URL, and expect
+# cold starts of about a minute.
 services:
   - type: web
     name: enermod-api
@@ -41,6 +46,14 @@ services:
         value: "true"
       - key: INLINE_JOBS
         value: "0"
+      - key: EMBEDDED_WORKER       # the job queue runs in the API: no separate worker service
+        value: "1"
+      - key: DISCOVERY_AUTO
+        value: "true"
+      - key: DISCOVERY_INTERVAL_DAYS
+        value: "7"
+      - key: METRICS_AUTO
+        value: "true"
       # Set in the dashboard, never overwritten by a sync:
       - key: ADMIN_EMAILS
         sync: false
@@ -85,46 +98,6 @@ services:
       - key: SURVEY_CSV_URL
         sync: false
       - key: SURVEY_FIELD_MAP
-        sync: false
-
-  - type: worker
-    name: enermod-worker
-    runtime: docker
-    dockerfilePath: apps/api/Dockerfile
-    dockerContext: .
-    dockerCommand: python -m enermod_api.worker
-    plan: starter
-    region: frankfurt
-    envVars:
-      - key: ENERMOD_ENV
-        value: production
-      - key: DATABASE_URL          # Supabase connection string, pasted in the dashboard
-        sync: false
-      - key: SECRET_KEY
-        fromService: { type: web, name: enermod-api, envVarKey: SECRET_KEY }
-      - key: SEED_ON_STARTUP
-        value: "false"
-      - key: DISCOVERY_AUTO
-        value: "true"
-      - key: DISCOVERY_INTERVAL_DAYS
-        value: "7"
-      - key: METRICS_AUTO
-        value: "true"
-      - key: OPENALEX_API_KEY
-        sync: false
-      - key: OPENALEX_MAILTO
-        sync: false
-      - key: GITHUB_TOKEN
-        sync: false
-      - key: SURVEY_CSV_URL
-        sync: false
-      - key: SURVEY_FIELD_MAP
-        sync: false
-      - key: ANTHROPIC_API_KEY
-        sync: false
-      - key: GEMINI_API_KEY
-        sync: false
-      - key: DEEPSEEK_API_KEY
         sync: false
 
   - type: web
